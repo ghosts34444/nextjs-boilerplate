@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Galaxy — Гайды по LoliLand</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1a1a2e;
+            color: #e0e0ff;
+            font-family: 'Exo 2', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Анимация звёзд */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) translateX(-100px);
+                opacity: 0;
+            }
+        }
+
+        /* Градиент сверху */
+        .top-gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to bottom, rgba(15,12,41,0.95), transparent);
+            z-index: 3;
+        }
+
+        .container {
+            z-index: 2;
+            max-width: 900px;
+            padding: 60px 20px 30px;
+            text-align: center;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #d8b4f8;
+            text-shadow: 0 0 20px rgba(216, 180, 248, 0.6);
+        }
+
+        p.subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+            color: #a5b4fc;
+            line-height: 1.5;
+        }
+
+        .guides {
+            margin: 30px 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            margin: 0;
+            padding: 12px 20px;
+            background: linear-gradient(45deg, #8b5cf6, #6366f1);
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
+        }
+
+        /* Блок авторов */
+        .author-box {
+            z-index: 2;
+            margin-top: 40px;
+            width: 90%;
+            max-width: 800px;
+            background: #000000;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 20px;
+            color: #a0a0c0;
+            font-size: 0.9rem;
+            text-align: left;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .author-box h3 {
+            color: #d8b4f8;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .author-box p {
+            margin: 8px 0;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        .author-box strong {
+            color: #a5b4fc;
+        }
+
+        .author-box a {
+            color: #8b5cf6;
+            text-decoration: none;
+        }
+
+        .author-box a:hover {
+            text-decoration: underline;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            p.subtitle {
+                font-size: 1rem;
+            }
+
+            .container {
+                padding: 40px 15px 20px;
+            }
+
+            .btn {
+                font-size: 0.9rem;
+                padding: 10px 16px;
+            }
+
+            .author-box {
+                padding: 15px;
+                font-size: 0.85rem;
+            }
+
+            .author-box h3 {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            p.subtitle {
+                font-size: 0.9rem;
+            }
+
+            .btn {
+                font-size: 0.85rem;
+                padding: 8px 12px;
+            }
+
+            .author-box {
+                padding: 12px;
+                font-size: 0.8rem;
+            }
+
+            .author-box h3 {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Градиент сверху -->
+    <div class="top-gradient"></div>
+
+    <!-- Звёзды -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Контент -->
+    <div class="container">
+        <h1>Dark Galaxy</h1>
+        <p class="subtitle">Гайды по модам, энергосистемам и мультиблокам.<br>Без воды. Только суть.</p>
+
+        <div class="guides">
+            <a href="https://sites.google.com/view/darkgalaxylolilandguides/1" class="btn" target="_blank">🔧 Гайд 1: Основы</a>
+            <a href="https://sites.google.com/view/darkgalaxylolilandguides/2" class="btn" target="_blank">⚡ Энергия</a>
+            <a href="https://sites.google.com/view/darkgalaxylolilandguides/3" class="btn" target="_blank">🏗️ Мультиблоки</a>
+            <a href="https://sites.google.com/view/darkgalaxylolilandguides/4" class="btn" target="_blank">🚀 Galacticraft</a>
+            <a href="https://sites.google.com/view/darkgalaxylolilandguides/5" class="btn" target="_blank">⚙️ Моды</a>
+            <a href="https://sites.google.com/view/darkgalaxylolilandguides/6" class="btn" target="_blank">🌌 Продвинутые</a>
+        </div>
+    </div>
+
+    <!-- Блок авторов -->
+    <div class="author-box">
+        <h3>Авторы проекта</h3>
+        <p><strong>📖 Основные гайды:</strong> Младший Модератор NoVartix</p>
+        <p><strong>🚀 Гайд Galacticraft:</strong> Старший Модератор MrkGrshTraklar</p>
+        <p><strong>🎨 Дизайн сайта:</strong> Старший Модератор</p>
+    </div>
+
+    <script>
+        const stars = document.getElementById('stars');
+        const count = 120;
+
+        for (let i = 0; i < count; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+
+            const size = Math.random() * 2 + 1;
+            const duration = Math.random() * 4 + 3;
+            const delay = Math.random() * 5;
+            const startX = Math.random() * 100;
+            const startY = -20;
+
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.left = `${startX}vw`;
+            star.style.top = `${startY}px`;
+            star.style.opacity = Math.random() * 0.5 + 0.3;
+            star.style.animationDuration = `${duration}s`;
+            star.style.animationDelay = `${delay}s`;
+
+            stars.appendChild(star);
+        }
+    </script>
+
+</body>
+</html>
