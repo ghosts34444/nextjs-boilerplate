@@ -33,7 +33,7 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 1;
+            z-index: 10; /* ↑ выше всех элементов */
         }
 
         .star {
@@ -109,13 +109,13 @@
             z-index: 3;
         }
 
-        /* Градиент снизу — СМЕЩЁН ВЫШЕ */
+        /* Градиент снизу — СМЕЩЁН К ФУТЕРУ */
         .bottom-gradient {
             position: absolute;
-            bottom: 220px; /* ← смещён вверх, чтобы не перекрывать футер */
+            bottom: 0; /* ← теперь начинается от самого низа */
             left: 0;
             width: 100%;
-            height: 200px;
+            height: 150px; /* уменьшил высоту, чтобы не перекрывать кнопку */
             background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0));
             z-index: 2;
         }
@@ -123,7 +123,7 @@
         .container {
             z-index: 2;
             max-width: 900px;
-            padding: 80px 20px 60px; /* чуть больше отступа снизу */
+            padding: 80px 20px 60px;
             text-align: center;
             width: 100%;
         }
@@ -152,8 +152,9 @@
             line-height: 1.5;
         }
 
-        .guides {
-            margin: 40px auto 40px;
+        /* Блок с кнопками — размещён чуть ниже середины */
+        .guides-container {
+            margin: 80px auto 40px; /* ↑ больше отступа сверху */
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
@@ -180,12 +181,22 @@
             box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
         }
 
-        /* Футер — ПОДНЯТ К ГРАДИЕНТУ */
+        /* Новая кнопка "Новое" */
+        .btn-new {
+            background: linear-gradient(45deg, #10b981, #059669);
+            box-shadow: 0 5px 20px rgba(16, 185, 128, 0.4);
+        }
+
+        .btn-new:hover {
+            box-shadow: 0 8px 25px rgba(16, 185, 128, 0.6);
+        }
+
+        /* Футер — прижат к низу */
         .footer {
             z-index: 2;
             width: 100%;
-            background: transparent; /* фон убран, чтобы не конфликтовал с градиентом */
-            padding: 20px 0 40px; /* отступ снизу увеличен */
+            background: transparent;
+            padding: 20px 0 40px;
             color: #a0a0c0;
             font-size: 0.9rem;
             text-align: center;
@@ -193,7 +204,7 @@
             margin-top: auto;
         }
 
-        /* Модальное окно для создателей */
+        /* Модальное окно */
         #credits-modal {
             position: fixed;
             top: 0;
@@ -238,10 +249,6 @@
             font-size: 1rem;
         }
 
-        #credits-content strong {
-            color: #a5b4fc;
-        }
-
         #close-credits {
             margin-top: 20px;
             padding: 8px 20px;
@@ -269,16 +276,18 @@
             p.subtitle { font-size: 1rem; }
             .container { padding: 60px 15px 50px; }
             .btn { font-size: 0.9rem; padding: 10px 16px; }
+            .guides-container { margin: 60px auto 40px; }
             .footer { font-size: 0.85rem; padding: 15px 0 30px; }
-            .bottom-gradient { bottom: 180px; height: 150px; }
+            .bottom-gradient { height: 120px; }
         }
 
         @media (max-width: 480px) {
             h1 { font-size: 1.8rem; }
             p.subtitle { font-size: 0.9rem; }
             .btn { font-size: 0.85rem; padding: 8px 12px; }
+            .guides-container { margin: 50px auto 40px; }
             .footer { font-size: 0.8rem; padding: 10px 0 25px; }
-            .bottom-gradient { bottom: 150px; height: 120px; }
+            .bottom-gradient { height: 100px; }
         }
     </style>
 </head>
@@ -307,7 +316,13 @@
 
         <p class="subtitle">Кнопки не работают, кроме списка душ и о варпах</p>
 
-        <div class="guides">
+        <!-- Новая кнопка "Новое" -->
+        <div style="margin-bottom: 20px;">
+            <a href="#" class="btn btn-new">Новое</a>
+        </div>
+
+        <!-- Кнопки гайдов — чуть ниже середины -->
+        <div class="guides-container">
             <a href="#" class="btn" target="_blank">LoliEnergistics</a>
             <a href="#" class="btn" target="_blank">LoliMagically</a>
             <a href="#" class="btn" target="_blank">LoliUtility</a>
@@ -346,6 +361,32 @@
     </div>
 
     <script>
+        // Анимация звёзд — исправлено!
+        const stars = document.getElementById('stars');
+        const count = 40;
+
+        for (let i = 0; i < count; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.innerHTML = '★';
+
+            const size = Math.random() * 0.6 + 0.4;
+            const duration = Math.random() * 15 + 10;
+            const delay = Math.random() * 10;
+            const startX = Math.random() * 100;
+            const startY = -30;
+
+            star.style.fontSize = `${size}em`;
+            star.style.left = `${startX}vw`;
+            star.style.top = `${startY}px`;
+            star.style.opacity = Math.random() * 0.3 + 0.5;
+            star.style.animationDuration = `${duration}s`;
+            star.style.animationDelay = `${delay}s`;
+
+            stars.appendChild(star);
+        }
+
+        // Модальное окно
         const modal = document.getElementById('credits-modal');
         const creditsContent = document.getElementById('credits-content');
         const openBtn = document.getElementById('toggle-credits');
@@ -355,7 +396,7 @@
             modal.style.display = 'flex';
             setTimeout(() => {
                 modal.style.opacity = '1';
-                modal.style.pointerEvents = 'auto';
+                modal.style.pointer-events = 'auto';
                 creditsContent.style.transform = 'translateY(0)';
             }, 10);
         }
@@ -365,7 +406,7 @@
             creditsContent.style.transform = 'translateY(20px)';
             setTimeout(() => {
                 modal.style.display = 'none';
-                modal.style.pointerEvents = 'none';
+                modal.style.pointer-events = 'none';
             }, 300);
         }
 
@@ -374,26 +415,6 @@
         modal.addEventListener('click', (e) => {
             if (e.target === modal) closeModal();
         });
-
-        // Анимация звёзд
-        const stars = document.getElementById('stars');
-        const count = 40;
-        for (let i = 0; i < count; i++) {
-            const star = document.createElement('div');
-            star.classList.add('star');
-            star.innerHTML = '★';
-            const size = Math.random() * 0.6 + 0.4;
-            const duration = Math.random() * 15 + 10;
-            const delay = Math.random() * 10;
-            const startX = Math.random() * 100;
-            star.style.fontSize = `${size}em`;
-            star.style.left = `${startX}vw`;
-            star.style.top = `-30px`;
-            star.style.opacity = Math.random() * 0.3 + 0.5;
-            star.style.animationDuration = `${duration}s`;
-            star.style.animationDelay = `${delay}s`;
-            stars.appendChild(star);
-        }
     </script>
 </body>
 </html>
