@@ -330,40 +330,31 @@
         </div>
     </div>
 
-    <!-- Футер -->
-    <div class="footer">
-        <h3>Создатели сайта</h3>
+<!-- Футер -->
+<div class="footer">
+    <button id="toggle-credits" class="btn" style="font-size: 0.9rem; padding: 8px 16px; margin: 0 auto;">
+        Показать создателей
+    </button>
+    <div id="credits" style="display: none; margin-top: 15px; color: #a0a0c0; font-size: 0.95rem; line-height: 1.5;">
         <p><strong>Гайдер:</strong> Младший Модератор NoVartix</p>
         <p><strong>Гайдер:</strong> Старший Модератор MrkGrshTraklar</p>
         <p><strong>Дизайн сайта:</strong> Старший Модератор ghosts34444|Qwen</p>
         <p><strong>Главный в разработке сайта:</strong> Главный администратор Raynor</p>
     </div>
+</div>
 
-    <script>
-        const stars = document.getElementById('stars');
-        const count = 40;
-
-        for (let i = 0; i < count; i++) {
-            const star = document.createElement('div');
-            star.classList.add('star');
-            star.innerHTML = '★';
-
-            const size = Math.random() * 0.6 + 0.4;
-            const duration = Math.random() * 15 + 10;
-            const delay = Math.random() * 10;
-            const startX = Math.random() * 100;
-            const startY = -30;
-
-            star.style.fontSize = `${size}em`;
-            star.style.left = `${startX}vw`;
-            star.style.top = `${startY}px`;
-            star.style.opacity = Math.random() * 0.3 + 0.5;
-            star.style.animationDuration = `${duration}s`;
-            star.style.animationDelay = `${delay}s`;
-
-            stars.appendChild(star);
+<script>
+    document.getElementById('toggle-credits').addEventListener('click', function() {
+        const credits = document.getElementById('credits');
+        if (credits.style.display === 'none') {
+            credits.style.display = 'block';
+            this.textContent = 'Скрыть создателей';
+        } else {
+            credits.style.display = 'none';
+            this.textContent = 'Показать создателей';
         }
-    </script>
+    });
+</script>
 
 </body>
 </html>
