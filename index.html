@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Galaxy — Гайды по серверу</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1a1a2e;
+            color: #e0e0ff;
+            font-family: 'Exo 2', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Анимация звёзд */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .star {
+            position: absolute;
+            color: white;
+            font-size: 1.2em;
+            opacity: 0.9;
+            animation: fall linear infinite;
+            line-height: 1;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+            transform-origin: center;
+        }
+
+        .star::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid rgba(255, 255, 255, 0.5);
+            transform: translate(-50%, -50%) rotate(-45deg);
+            animation: trail linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-20px) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            5% {
+                opacity: 0.9;
+            }
+            95% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(100vh) translateX(-50px) rotate(-45deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes trail {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) rotate(-45deg) scale(0);
+            }
+            10% {
+                opacity: 0.7;
+                transform: translate(-50%, -50%) rotate(-45deg) scale(1);
+            }
+            90% {
+                opacity: 0.7;
+                transform: translate(-50%, -50%) rotate(-45deg) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) rotate(-45deg) scale(0);
+            }
+        }
+
+        /* Градиент сверху */
+        .top-gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to bottom, rgba(15,12,41,0.95), transparent);
+            z-index: 3;
+        }
+
+        /* Градиент снизу — прижат к футеру */
+        .bottom-gradient {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0));
+            z-index: 2;
+        }
+
+        .container {
+            z-index: 2;
+            max-width: 900px;
+            padding: 80px 20px 60px;
+            text-align: center;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #d8b4f8;
+            text-shadow: 0 0 20px rgba(216, 180, 248, 0.6);
+        }
+
+        p.subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+            color: #a5b4fc;
+            line-height: 1.5;
+        }
+
+        /* Блок с кнопками */
+        .guides-container {
+            margin: 80px auto 40px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            max-width: 800px;
+        }
+
+        /* Основные кнопки — космические */
+.btn {
+    display: inline-block;
+    margin: 0;
+    padding: 12px 20px;
+    background: linear-gradient(45deg, #7e22ce, #4f46e5);
+    color: #f0f0ff;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(126, 34, 206, 0.4);
+    position: relative;
+    overflow: hidden;
+    font-family: 'Exo 2', sans-serif;
+}
+
+.btn::before {
+    content: "✦";
+    margin-right: 8px;
+    color: #e0cfff;
+    text-shadow: 0 0 8px rgba(224, 192, 255, 0.6);
+    font-size: 1.1em;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 24px rgba(126, 34, 206, 0.7), 0 0 12px rgba(165, 180, 252, 0.4);
+    background: linear-gradient(45deg, #8b3dcc, #5a52f0);
+}
+        /* Кнопка "Новое" — редкий артефакт */
+.btn-new {
+    background: linear-gradient(45deg, #fbbf24, #f59e0b);
+    color: #1e1b4b;
+    font-weight: 700;
+    box-shadow: 0 4px 16px rgba(251, 191, 36, 0.4);
+}
+
+.btn-new::before {
+    content: "✧";
+    color: #fef9c3;
+    text-shadow: 0 0 10px rgba(254, 249, 195, 0.8);
+}
+
+.btn-new:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 24px rgba(251, 191, 36, 0.7), 0 0 12px rgba(254, 249, 195, 0.5);
+    background: linear-gradient(45deg, #fcd34d, #fbbf24);
+}
+
+        .footer {
+            z-index: 2;
+            width: 100%;
+            background: transparent;
+            padding: 20px 0 40px;
+            color: #a0a0c0;
+            font-size: 0.9rem;
+            text-align: center;
+            position: relative;
+            margin-top: auto;
+        }
+
+        /* Модальное окно */
+        #credits-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        #credits-content {
+            background: #1a1a2e;
+            color: #e0e0ff;
+            padding: 25px;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            border: 1px solid #8b5cf6;
+            font-family: 'Exo 2', sans-serif;
+            text-align: center;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        #credits-content h3 {
+            color: #d8b4f8;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        #credits-content p {
+            margin: 8px 0;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        #close-credits {
+            margin-top: 20px;
+            padding: 8px 20px;
+            background: linear-gradient(45deg, #8b5cf6, #6366f1);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        #close-credits:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            p.subtitle { font-size: 1rem; }
+            .container { padding: 60px 15px 50px; }
+            .btn { font-size: 0.9rem; padding: 10px 16px; }
+            .guides-container { margin: 60px auto 40px; }
+            .footer { font-size: 0.85rem; padding: 15px 0 30px; }
+            .bottom-gradient { height: 120px; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 1.8rem; }
+            p.subtitle { font-size: 0.9rem; }
+            .btn { font-size: 0.85rem; padding: 8px 12px; }
+            .guides-container { margin: 50px auto 40px; }
+            .footer { font-size: 0.8rem; padding: 10px 0 25px; }
+            .bottom-gradient { height: 100px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-gradient"></div>
+    <div class="stars" id="stars"></div>
+    <div class="bottom-gradient"></div>
+
+    <div class="container">
+        <h1>Dark ✨ Galaxy</h1>
+        <p class="subtitle">Кнопки не работают, кроме списка душ и о варпах</p>
+
+        <!-- Кнопка "Новое" -->
+        <div style="margin-bottom: 20px;">
+            <a href="#" class="btn btn-new">Новое</a>
+        </div>
+
+        <!-- Гайды -->
+        <div class="guides-container">
+            <a href="#" class="btn" target="_blank">LoliEnergistics</a>
+            <a href="#" class="btn" target="_blank">LoliMagically</a>
+            <a href="#" class="btn" target="_blank">LoliUtility</a>
+            <a href="#" class="btn" target="_blank">LoliTechnologies|Applied Energistics 2</a>
+            <a href="#" class="btn" target="_blank">LoliForestry|Forestry</a>
+            <a href="#" class="btn" target="_blank">LoliDimensions|DragonMight|Draconic Evolution</a>
+            <a href="#" class="btn" target="_blank">Thaumcraft</a>
+            <a href="#" class="btn" target="_blank">Botania</a>
+            <a href="#" class="btn" target="_blank">Blood Magic</a>
+            <a href="#" class="btn" target="_blank">Thermal Expansion|Ender IO</a>
+            <a href="#" class="btn" target="_blank">Galacticraft</a>
+            <a href="#" class="btn" target="_blank">Ic2|MineFactory</a>
+            <a href="#" class="btn" target="_blank">TConstruct</a>
+            <a href="https://docs.google.com/spreadsheets/d/1QYsVJJyw4Ai12URzfotRfXYkRsPnHgwfbuKG5Pa9kAE/edit?gid=1575775918#gid=1575775918" class="btn" target="_blank">Информация о варпах</a>
+            <a href="https://docs.google.com/spreadsheets/d/1QC7ucMeEJdXzvOPOoiM33oMWj_J6-C7E/edit?gid=851695745#gid=851695745" class="btn" target="_blank">Список дропа душ</a>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <div class="footer">
+        <button id="toggle-credits" class="btn" style="font-size: 0.9rem; padding: 8px 16px; margin: 0 auto;">
+            Показать создателей
+        </button>
+    </div>
+
+    <!-- Модальное окно -->
+    <div id="credits-modal">
+        <div id="credits-content">
+            <h3>Создатели сайта</h3>
+            <p><strong>Гайдер:</strong> Младший Модератор NoVartix</p>
+            <p><strong>Гайдер:</strong> Старший Модератор MrkGrshTraklar</p>
+            <p><strong>Дизайн сайта:</strong> Старший Модератор ghosts34444|Qwen</p>
+            <p><strong>Главный в разработке сайта:</strong> Главный администратор Raynor</p>
+            <button id="close-credits">&#x2715; Закрыть</button>
+        </div>
+    </div>
+
+    <script>
+        // Звёзды
+        const stars = document.getElementById('stars');
+        const count = 40;
+        for (let i = 0; i < count; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.innerHTML = '★';
+            const size = Math.random() * 0.6 + 0.4;
+            const duration = Math.random() * 15 + 10;
+            const delay = Math.random() * 10;
+            const startX = Math.random() * 100;
+            star.style.fontSize = `${size}em`;
+            star.style.left = `${startX}vw`;
+            star.style.top = `-30px`;
+            star.style.opacity = Math.random() * 0.3 + 0.5;
+            star.style.animationDuration = `${duration}s`;
+            star.style.animationDelay = `${delay}s`;
+            stars.appendChild(star);
+        }
+
+        // Модальное окно
+        const modal = document.getElementById('credits-modal');
+        const creditsContent = document.getElementById('credits-content');
+        const openBtn = document.getElementById('toggle-credits');
+        const closeBtn = document.getElementById('close-credits');
+
+        function openModal() {
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.style.opacity = '1';
+                modal.style.pointerEvents = 'auto';
+                creditsContent.style.transform = 'translateY(0)';
+            }, 10);
+        }
+
+        function closeModal() {
+            modal.style.opacity = '0';
+            creditsContent.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.style.pointerEvents = 'none';
+            }, 300);
+        }
+
+        openBtn.addEventListener('click', openModal);
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+    </script>
+</body>
+</html>
