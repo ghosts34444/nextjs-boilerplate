@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dark Galaxy — Гайды по серверу</title>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Подключение Model Viewer -->
+    <script src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -46,7 +48,6 @@
             transform-origin: center;
         }
 
-        /* Шлейф для звезды */
         .star::before {
             content: '';
             position: absolute;
@@ -123,15 +124,24 @@
         .container {
             z-index: 2;
             max-width: 900px;
-            padding: 80px 20px 30px; /* Увеличил верхний отступ — кнопки спущены */
+            padding: 80px 20px 30px;
             text-align: center;
             width: 100%;
+        }
+
+        /* Новый стиль для заголовка с моделью */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
         }
 
         h1 {
             font-size: 3rem;
             font-weight: 700;
-            margin-bottom: 10px;
+            margin-bottom: 0;
             color: #d8b4f8;
             text-shadow: 0 0 20px rgba(216, 180, 248, 0.6);
         }
@@ -145,7 +155,7 @@
         }
 
         .guides {
-            margin: 60px auto 40px; /* Сдвинул кнопки ниже */
+            margin: 40px auto 40px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
@@ -214,6 +224,11 @@
 
         /* Адаптивность */
         @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
             h1 {
                 font-size: 2.2rem;
             }
@@ -277,7 +292,19 @@
 
     <!-- Контент -->
     <div class="container">
-        <h1>Dark ✨ Galaxy</h1>
+        <div class="header">
+            <h1>Dark ✨ Galaxy</h1>
+            <model-viewer
+                src="synthesizer.glb"
+                alt="Синтезатор магических слитков"
+                ar
+                camera-controls
+                auto-rotate
+                shadow-intensity="1"
+                style="width: 120px; height: 120px; background: transparent;">
+            </model-viewer>
+        </div>
+
         <p class="subtitle">Кнопки не работают, кроме списка душ и о варпах</p>
 
         <div class="guides">
@@ -314,15 +341,15 @@
 
     <script>
         const stars = document.getElementById('stars');
-        const count = 40; // Уменьшил количество для реалистичности
+        const count = 40;
 
         for (let i = 0; i < count; i++) {
             const star = document.createElement('div');
             star.classList.add('star');
             star.innerHTML = '★';
 
-            const size = Math.random() * 0.6 + 0.4; // Меньше размер
-            const duration = Math.random() * 15 + 10; // Замедлил
+            const size = Math.random() * 0.6 + 0.4;
+            const duration = Math.random() * 15 + 10;
             const delay = Math.random() * 10;
             const startX = Math.random() * 100;
             const startY = -30;
@@ -330,7 +357,7 @@
             star.style.fontSize = `${size}em`;
             star.style.left = `${startX}vw`;
             star.style.top = `${startY}px`;
-            star.style.opacity = Math.random() * 0.3 + 0.5; // Уменьшил прозрачность
+            star.style.opacity = Math.random() * 0.3 + 0.5;
             star.style.animationDuration = `${duration}s`;
             star.style.animationDelay = `${delay}s`;
 
