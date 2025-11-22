@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dark Galaxy — Гайды по серверу</title>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <!-- Подключение Model Viewer -->
     <script src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <style>
         * {
@@ -26,7 +25,7 @@
             position: relative;
         }
 
-        /* Анимация звёзд (метеоров) */
+        /* Анимация звёзд */
         .stars {
             position: absolute;
             top: 0;
@@ -110,26 +109,25 @@
             z-index: 3;
         }
 
-        /* Плавный переход к футеру */
+        /* Градиент снизу — СМЕЩЁН ВЫШЕ */
         .bottom-gradient {
-           position: absolute;
-           bottom: 250px; 
-           left: 0;
-           width: 100%;
-           height: 200px;
-           background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0));
+            position: absolute;
+            bottom: 220px; /* ← смещён вверх, чтобы не перекрывать футер */
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0));
             z-index: 2;
         }
 
         .container {
             z-index: 2;
             max-width: 900px;
-            padding: 80px 20px 30px;
+            padding: 80px 20px 60px; /* чуть больше отступа снизу */
             text-align: center;
             width: 100%;
         }
 
-        /* Новый стиль для заголовка с моделью */
         .header {
             display: flex;
             align-items: center;
@@ -182,45 +180,83 @@
             box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
         }
 
-        /* Футер */
+        /* Футер — ПОДНЯТ К ГРАДИЕНТУ */
         .footer {
-    z-index: 2;
-    width: 100%;
-    background: #000000;
-    padding: 25px 0;
-    color: #a0a0c0;
-    font-size: 0.9rem;
-    text-align: center;
-    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.6);
-    position: relative;
-    margin-top: auto;
-    margin-bottom: 20px;
-}
+            z-index: 2;
+            width: 100%;
+            background: transparent; /* фон убран, чтобы не конфликтовал с градиентом */
+            padding: 20px 0 40px; /* отступ снизу увеличен */
+            color: #a0a0c0;
+            font-size: 0.9rem;
+            text-align: center;
+            position: relative;
+            margin-top: auto;
+        }
 
-        .footer h3 {
+        /* Модальное окно для создателей */
+        #credits-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        #credits-content {
+            background: #1a1a2e;
+            color: #e0e0ff;
+            padding: 25px;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            border: 1px solid #8b5cf6;
+            font-family: 'Exo 2', sans-serif;
+            text-align: center;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        #credits-content h3 {
             color: #d8b4f8;
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
         }
 
-        .footer p {
+        #credits-content p {
             margin: 8px 0;
-            line-height: 1.5;
-            font-size: 0.95rem;
+            line-height: 1.6;
+            font-size: 1rem;
         }
 
-        .footer strong {
+        #credits-content strong {
             color: #a5b4fc;
         }
 
-        .footer a {
-            color: #8b5cf6;
-            text-decoration: none;
+        #close-credits {
+            margin-top: 20px;
+            padding: 8px 20px;
+            background: linear-gradient(45deg, #8b5cf6, #6366f1);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .footer a:hover {
-            text-decoration: underline;
+        #close-credits:hover {
+            transform: scale(1.05);
         }
 
         /* Адаптивность */
@@ -229,85 +265,44 @@
                 flex-direction: column;
                 gap: 10px;
             }
-
-            h1 {
-                font-size: 2.2rem;
-            }
-
-            p.subtitle {
-                font-size: 1rem;
-            }
-
-            .container {
-                padding: 60px 15px 20px;
-            }
-
-            .btn {
-                font-size: 0.9rem;
-                padding: 10px 16px;
-            }
-
-            .footer {
-                font-size: 0.85rem;
-            }
-
-            .footer h3 {
-                font-size: 1.1rem;
-            }
+            h1 { font-size: 2.2rem; }
+            p.subtitle { font-size: 1rem; }
+            .container { padding: 60px 15px 50px; }
+            .btn { font-size: 0.9rem; padding: 10px 16px; }
+            .footer { font-size: 0.85rem; padding: 15px 0 30px; }
+            .bottom-gradient { bottom: 180px; height: 150px; }
         }
 
         @media (max-width: 480px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            p.subtitle {
-                font-size: 0.9rem;
-            }
-
-            .btn {
-                font-size: 0.85rem;
-                padding: 8px 12px;
-            }
-
-            .footer {
-                font-size: 0.8rem;
-            }
-
-            .footer h3 {
-                font-size: 1rem;
-            }
+            h1 { font-size: 1.8rem; }
+            p.subtitle { font-size: 0.9rem; }
+            .btn { font-size: 0.85rem; padding: 8px 12px; }
+            .footer { font-size: 0.8rem; padding: 10px 0 25px; }
+            .bottom-gradient { bottom: 150px; height: 120px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Градиент сверху -->
     <div class="top-gradient"></div>
-
-    <!-- Звёзды -->
     <div class="stars" id="stars"></div>
-
-    <!-- Градиент снизу перед футером -->
     <div class="bottom-gradient"></div>
 
-    <!-- Контент -->
     <div class="container">
         <div class="header">
             <h1>Dark ✨ Galaxy</h1>
-<model-viewer 
-  src="models/ender_dragon_summon_catalyst.glb"
-  environment-image="neutral"
-  ar
-  camera-controls
-  auto-rotate
-  style="width: 120px; height: 120px; background: transparent;"
-  loading="eager">
-  <div slot="progress-bar" style="display:none"></div>
-  <!-- Резервное изображение на случай ошибки -->
-  <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' fill='%231a1a2e'/%3E%3Ctext x='60' y='65' font-family='Exo 2' font-size='12' fill='%238b5cf6' text-anchor='middle'%3E?%3C/text%3E%3C/svg%3E" 
-       slot="poster">
-</model-viewer>
+            <model-viewer 
+                src="models/ender_dragon_summon_catalyst.glb"
+                environment-image="neutral"
+                ar
+                camera-controls
+                auto-rotate
+                style="width: 120px; height: 120px; background: transparent;"
+                loading="eager">
+                <div slot="progress-bar" style="display:none"></div>
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' fill='%231a1a2e'/%3E%3Ctext x='60' y='65' font-family='Exo 2' font-size='12' fill='%238b5cf6' text-anchor='middle'%3E?%3C/text%3E%3C/svg%3E" 
+                     slot="poster">
+            </model-viewer>
         </div>
 
         <p class="subtitle">Кнопки не работают, кроме списка душ и о варпах</p>
@@ -331,94 +326,74 @@
         </div>
     </div>
 
-<!-- Модальное окно с создателями -->
-<div id="credits-modal" style="
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(4px);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-">
-    <div style="
-        background: #1a1a2e;
-        color: #e0e0ff;
-        padding: 25px;
-        border-radius: 16px;
-        max-width: 500px;
-        width: 90%;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-        border: 1px solid #8b5cf6;
-        font-family: 'Exo 2', sans-serif;
-        text-align: center;
-        transform: translateY(20px);
-        transition: transform 0.3s ease;
-    " id="credits-content">
-        <h3 style="color: #d8b4f8; margin-bottom: 15px; font-size: 1.4rem;">Создатели сайта</h3>
-        <p style="margin: 8px 0; line-height: 1.6; font-size: 1rem;"><strong>Гайдер:</strong> Младший Модератор NoVartix</p>
-        <p style="margin: 8px 0; line-height: 1.6; font-size: 1rem;"><strong>Гайдер:</strong> Старший Модератор MrkGrshTraklar</p>
-        <p style="margin: 8px 0; line-height: 1.6; font-size: 1rem;"><strong>Дизайн сайта:</strong> Старший Модератор ghosts34444|Qwen</p>
-        <p style="margin: 8px 0; line-height: 1.6; font-size: 1rem;"><strong>Главный в разработке сайта:</strong> Главный администратор Raynor</p>
-        <button id="close-credits" style="
-            margin-top: 20px;
-            padding: 8px 20px;
-            background: linear-gradient(45deg, #8b5cf6, #6366f1);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-family: 'Exo 2', sans-serif;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        ">&#x2715; Закрыть</button>
+    <!-- Футер с кнопкой -->
+    <div class="footer">
+        <button id="toggle-credits" class="btn" style="font-size: 0.9rem; padding: 8px 16px; margin: 0 auto;">
+            Показать создателей
+        </button>
     </div>
-</div>
 
-<!-- Кнопка внизу страницы -->
-<div class="footer">
-    <button id="toggle-credits" class="btn" style="font-size: 0.9rem; padding: 8px 16px; margin: 0 auto;">
-        Показать создателей
-    </button>
-</div>
+    <!-- Модальное окно -->
+    <div id="credits-modal">
+        <div id="credits-content">
+            <h3>Создатели сайта</h3>
+            <p><strong>Гайдер:</strong> Младший Модератор NoVartix</p>
+            <p><strong>Гайдер:</strong> Старший Модератор MrkGrshTraklar</p>
+            <p><strong>Дизайн сайта:</strong> Старший Модератор ghosts34444|Qwen</p>
+            <p><strong>Главный в разработке сайта:</strong> Главный администратор Raynor</p>
+            <button id="close-credits">&#x2715; Закрыть</button>
+        </div>
+    </div>
 
-<script>
-    const modal = document.getElementById('credits-modal');
-    const creditsContent = document.getElementById('credits-content');
-    const openBtn = document.getElementById('toggle-credits');
-    const closeBtn = document.getElementById('close-credits');
+    <script>
+        const modal = document.getElementById('credits-modal');
+        const creditsContent = document.getElementById('credits-content');
+        const openBtn = document.getElementById('toggle-credits');
+        const closeBtn = document.getElementById('close-credits');
 
-    function openModal() {
-        modal.style.display = 'flex';
-        setTimeout(() => {
-            modal.style.opacity = '1';
-            modal.style.pointerEvents = 'auto';
-            creditsContent.style.transform = 'translateY(0)';
-        }, 10);
-    }
+        function openModal() {
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.style.opacity = '1';
+                modal.style.pointerEvents = 'auto';
+                creditsContent.style.transform = 'translateY(0)';
+            }, 10);
+        }
 
-    function closeModal() {
-        modal.style.opacity = '0';
-        creditsContent.style.transform = 'translateY(20px)';
-        setTimeout(() => {
-            modal.style.display = 'none';
-            modal.style.pointerEvents = 'none';
-        }, 300);
-    }
+        function closeModal() {
+            modal.style.opacity = '0';
+            creditsContent.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.style.pointerEvents = 'none';
+            }, 300);
+        }
 
-    openBtn.addEventListener('click', openModal);
-    closeBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-    });
-</script>
+        openBtn.addEventListener('click', openModal);
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
 
+        // Анимация звёзд
+        const stars = document.getElementById('stars');
+        const count = 40;
+        for (let i = 0; i < count; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.innerHTML = '★';
+            const size = Math.random() * 0.6 + 0.4;
+            const duration = Math.random() * 15 + 10;
+            const delay = Math.random() * 10;
+            const startX = Math.random() * 100;
+            star.style.fontSize = `${size}em`;
+            star.style.left = `${startX}vw`;
+            star.style.top = `-30px`;
+            star.style.opacity = Math.random() * 0.3 + 0.5;
+            star.style.animationDuration = `${duration}s`;
+            star.style.animationDelay = `${delay}s`;
+            stars.appendChild(star);
+        }
+    </script>
 </body>
 </html>
