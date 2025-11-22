@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dark Galaxy — Гайды по серверу</title>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -298,14 +299,21 @@
     <div class="stars" id="stars"></div>
     <div class="bottom-gradient"></div>
 
-    <div class="container">
-        <h1>Dark ✨ Galaxy</h1>
-        <p class="subtitle">Кнопки не работают, кроме списка душ и о варпах</p>
-
-        <!-- Кнопка "Новое" (опционально) -->
-        <div style="margin-bottom: 20px;">
-            <a href="#" class="btn btn-new">Новое</a>
-        </div>
+    <div class="header">
+    <h1>Dark ✨ Galaxy</h1>
+    <model-viewer 
+        src="models/ender_dragon_summon_catalyst.glb"
+        environment-image="neutral"
+        ar
+        camera-controls
+        auto-rotate
+        style="width: 120px; height: 120px; background: transparent;"
+        loading="eager">
+        <div slot="progress-bar" style="display:none"></div>
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' fill='%231a1a2e'/%3E%3Ctext x='60' y='65' font-family='Exo 2' font-size='12' fill='%238b5cf6' text-anchor='middle'%3E?%3C/text%3E%3C/svg%3E" 
+             slot="poster">
+    </model-viewer>
+</div>
 
         <div class="guides-container">
             <a href="#" class="btn" target="_blank">LoliEnergistics</a>
