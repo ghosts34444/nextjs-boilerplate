@@ -24,7 +24,7 @@
             position: relative;
         }
 
-        /* Анимация звёзд */
+        /* Анимация звёзд (метеоров) */
         .stars {
             position: absolute;
             top: 0;
@@ -32,7 +32,7 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 10;
+            z-index: 1;
         }
 
         .star {
@@ -46,6 +46,7 @@
             transform-origin: center;
         }
 
+        /* Шлейф для звезды */
         .star::before {
             content: '';
             position: absolute;
@@ -108,13 +109,13 @@
             z-index: 3;
         }
 
-        /* Градиент снизу — прижат к футеру */
+        /* Плавный переход к футеру */
         .bottom-gradient {
             position: absolute;
-            bottom: 0;
+            bottom: 150px;
             left: 0;
             width: 100%;
-            height: 150px;
+            height: 200px;
             background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0));
             z-index: 2;
         }
@@ -122,7 +123,7 @@
         .container {
             z-index: 2;
             max-width: 900px;
-            padding: 80px 20px 60px;
+            padding: 80px 20px 30px; /* Увеличил верхний отступ — кнопки спущены */
             text-align: center;
             width: 100%;
         }
@@ -130,7 +131,7 @@
         h1 {
             font-size: 3rem;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             color: #d8b4f8;
             text-shadow: 0 0 20px rgba(216, 180, 248, 0.6);
         }
@@ -143,9 +144,8 @@
             line-height: 1.5;
         }
 
-        /* Блок с кнопками */
-        .guides-container {
-            margin: 80px auto 40px;
+        .guides {
+            margin: 60px auto 40px; /* Сдвинул кнопки ниже */
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
@@ -172,213 +172,162 @@
             box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
         }
 
-        .btn-new {
-            background: linear-gradient(45deg, #10b981, #059669);
-            box-shadow: 0 5px 20px rgba(16, 185, 128, 0.4);
-        }
-
-        .btn-new:hover {
-            box-shadow: 0 8px 25px rgba(16, 185, 128, 0.6);
-        }
-
+        /* Футер */
         .footer {
             z-index: 2;
             width: 100%;
-            background: transparent;
-            padding: 20px 0 40px;
+            background: #000000;
+            padding: 25px 0;
             color: #a0a0c0;
             font-size: 0.9rem;
             text-align: center;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.6);
             position: relative;
             margin-top: auto;
         }
 
-        /* Модальное окно */
-        #credits-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(4px);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        #credits-content {
-            background: #1a1a2e;
-            color: #e0e0ff;
-            padding: 25px;
-            border-radius: 16px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-            border: 1px solid #8b5cf6;
-            font-family: 'Exo 2', sans-serif;
-            text-align: center;
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
-        }
-
-        #credits-content h3 {
+        .footer h3 {
             color: #d8b4f8;
-            margin-bottom: 15px;
-            font-size: 1.4rem;
-        }
-
-        #credits-content p {
-            margin: 8px 0;
-            line-height: 1.6;
-            font-size: 1rem;
-        }
-
-        #close-credits {
-            margin-top: 20px;
-            padding: 8px 20px;
-            background: linear-gradient(45deg, #8b5cf6, #6366f1);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-family: 'Exo 2', sans-serif;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
             font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        #close-credits:hover {
-            transform: scale(1.05);
+        .footer p {
+            margin: 8px 0;
+            line-height: 1.5;
+            font-size: 0.95rem;
         }
 
+        .footer strong {
+            color: #a5b4fc;
+        }
+
+        .footer a {
+            color: #8b5cf6;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Адаптивность */
         @media (max-width: 768px) {
-            h1 { font-size: 2.2rem; }
-            p.subtitle { font-size: 1rem; }
-            .container { padding: 60px 15px 50px; }
-            .btn { font-size: 0.9rem; padding: 10px 16px; }
-            .guides-container { margin: 60px auto 40px; }
-            .footer { font-size: 0.85rem; padding: 15px 0 30px; }
-            .bottom-gradient { height: 120px; }
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            p.subtitle {
+                font-size: 1rem;
+            }
+
+            .container {
+                padding: 60px 15px 20px;
+            }
+
+            .btn {
+                font-size: 0.9rem;
+                padding: 10px 16px;
+            }
+
+            .footer {
+                font-size: 0.85rem;
+            }
+
+            .footer h3 {
+                font-size: 1.1rem;
+            }
         }
 
         @media (max-width: 480px) {
-            h1 { font-size: 1.8rem; }
-            p.subtitle { font-size: 0.9rem; }
-            .btn { font-size: 0.85rem; padding: 8px 12px; }
-            .guides-container { margin: 50px auto 40px; }
-            .footer { font-size: 0.8rem; padding: 10px 0 25px; }
-            .bottom-gradient { height: 100px; }
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            p.subtitle {
+                font-size: 0.9rem;
+            }
+
+            .btn {
+                font-size: 0.85rem;
+                padding: 8px 12px;
+            }
+
+            .footer {
+                font-size: 0.8rem;
+            }
+
+            .footer h3 {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
 
+    <!-- Градиент сверху -->
     <div class="top-gradient"></div>
+
+    <!-- Звёзды -->
     <div class="stars" id="stars"></div>
+
+    <!-- Градиент снизу перед футером -->
     <div class="bottom-gradient"></div>
 
+    <!-- Контент -->
     <div class="container">
         <h1>Dark ✨ Galaxy</h1>
-        <p class="subtitle">Кнопки не работают, кроме списка душ и о варпах хуй хуй хуй хуй</p>
+        <p class="subtitle">Гайды по существующим модам.</p>
 
-        <!-- Кнопка "Новое" -->
-        <div style="margin-bottom: 20px;">
-            <a href="#" class="btn btn-new">Новое</a>
-        </div>
-
-        <!-- Гайды -->
-        <div class="guides-container">
-            <a href="#" class="btn" target="_blank">LoliEnergistics</a>
-            <a href="#" class="btn" target="_blank">LoliMagically</a>
-            <a href="#" class="btn" target="_blank">LoliUtility</a>
-            <a href="#" class="btn" target="_blank">LoliTechnologies|Applied Energistics 2</a>
-            <a href="#" class="btn" target="_blank">LoliForestry|Forestry</a>
-            <a href="#" class="btn" target="_blank">LoliDimensions|DragonMight|Draconic Evolution</a>
-            <a href="#" class="btn" target="_blank">Thaumcraft</a>
-            <a href="#" class="btn" target="_blank">Botania</a>
-            <a href="#" class="btn" target="_blank">Blood Magic</a>
-            <a href="#" class="btn" target="_blank">Thermal Expansion|Ender IO</a>
-            <a href="#" class="btn" target="_blank">Galacticraft</a>
-            <a href="#" class="btn" target="_blank">Ic2|MineFactory</a>
-            <a href="#" class="btn" target="_blank">TConstruct</a>
-            <a href="https://docs.google.com/spreadsheets/d/1QYsVJJyw4Ai12URzfotRfXYkRsPnHgwfbuKG5Pa9kAE/edit?gid=1575775918#gid=1575775918" class="btn" target="_blank">Информация о варпах</a>
+        <div class="guides">
+            <a href="https://sites.google.com/view/darkgalaxylolilandguides/1" class="btn" target="_blank">LoliMagically</a>
+            <a href="https://sites.google.com/view/darkgalaxylolilandguides/2" class="btn" target="_blank">LoliTechnologies</a>
+            <a href="https://sites.google.com/view/darkgalaxylolilandguides/3" class="btn" target="_blank">LoliDragonMight</a>
+            <a href="https://sites.google.com/view/darkgalaxylolilandguides/4" class="btn" target="_blank">Galacticraft</a>
+            <a href="https://sites.google.com/view/darkgalaxylolilandguides/5" class="btn" target="_blank">LoliDimensions</a>
+            <a href="https://sites.google.com/view/darkgalaxylolilandguides/6" class="btn" target="_blank">LoliForestry</a>
+            <a href="https://sites.google.com/view/darkgalaxylolilandguides/6" class="btn" target="_blank">LoliEnergistics</a>
+            <a href="https://sites.google.com/view/darkgalaxylolilandguides/6" class="btn" target="_blank">LoliUtility</a>
             <a href="https://docs.google.com/spreadsheets/d/1QC7ucMeEJdXzvOPOoiM33oMWj_J6-C7E/edit?gid=851695745#gid=851695745" class="btn" target="_blank">Список дропа душ</a>
+            <a href="https://sites.google.com/view/darkgalaxylolilandguides/6" class="btn" target="_blank">Мультиструктуры</a>
         </div>
     </div>
 
     <!-- Футер -->
     <div class="footer">
-        <button id="toggle-credits" class="btn" style="font-size: 0.9rem; padding: 8px 16px; margin: 0 auto;">
-            Показать создателей
-        </button>
-    </div>
-
-    <!-- Модальное окно -->
-    <div id="credits-modal">
-        <div id="credits-content">
-            <h3>Создатели сайта</h3>
-            <p><strong>Гайдер:</strong> Младший Модератор NoVartix</p>
-            <p><strong>Гайдер:</strong> Старший Модератор MrkGrshTraklar</p>
-            <p><strong>Дизайн сайта:</strong> Старший Модератор ghosts34444|Qwen</p>
-            <p><strong>Главный в разработке сайта:</strong> Главный администратор Raynor</p>
-            <button id="close-credits">&#x2715; Закрыть</button>
-        </div>
+        <h3>Создатели сайта</h3>
+        <p><strong>Гайдер:</strong> Младший Модератор NoVartix</p>
+        <p><strong>Гайдер:</strong> Старший Модератор MrkGrshTraklar</p>
+        <p><strong>Дизайн сайта:</strong> Старший Модератор ghosts34444|Qwen</p>
+        <p><strong>Главный в разработке сайта:</strong> Главный администратор Raynor</p>
     </div>
 
     <script>
-        // Звёзды
         const stars = document.getElementById('stars');
-        const count = 40;
+        const count = 40; // Уменьшил количество для реалистичности
+
         for (let i = 0; i < count; i++) {
             const star = document.createElement('div');
             star.classList.add('star');
             star.innerHTML = '★';
-            const size = Math.random() * 0.6 + 0.4;
-            const duration = Math.random() * 15 + 10;
+
+            const size = Math.random() * 0.6 + 0.4; // Меньше размер
+            const duration = Math.random() * 15 + 10; // Замедлил
             const delay = Math.random() * 10;
             const startX = Math.random() * 100;
+            const startY = -30;
+
             star.style.fontSize = `${size}em`;
             star.style.left = `${startX}vw`;
-            star.style.top = `-30px`;
-            star.style.opacity = Math.random() * 0.3 + 0.5;
+            star.style.top = `${startY}px`;
+            star.style.opacity = Math.random() * 0.3 + 0.5; // Уменьшил прозрачность
             star.style.animationDuration = `${duration}s`;
             star.style.animationDelay = `${delay}s`;
+
             stars.appendChild(star);
         }
-
-        // Модальное окно
-        const modal = document.getElementById('credits-modal');
-        const creditsContent = document.getElementById('credits-content');
-        const openBtn = document.getElementById('toggle-credits');
-        const closeBtn = document.getElementById('close-credits');
-
-        function openModal() {
-            modal.style.display = 'flex';
-            setTimeout(() => {
-                modal.style.opacity = '1';
-                modal.style.pointerEvents = 'auto';
-                creditsContent.style.transform = 'translateY(0)';
-            }, 10);
-        }
-
-        function closeModal() {
-            modal.style.opacity = '0';
-            creditsContent.style.transform = 'translateY(20px)';
-            setTimeout(() => {
-                modal.style.display = 'none';
-                modal.style.pointerEvents = 'none';
-            }, 300);
-        }
-
-        openBtn.addEventListener('click', openModal);
-        closeBtn.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
-        });
     </script>
+
 </body>
 </html>
