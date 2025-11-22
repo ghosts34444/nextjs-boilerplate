@@ -308,22 +308,27 @@
 
     <!-- Контент обёрнут в .container -->
     <div class="container">
-        <div class="header">
-            <h1>Dark ✨ Galaxy</h1>
-            <!-- Исправлен URL: https:// (два слеша!) -->
-            <model-viewer 
-                src="models/ender_dragon_summon_catalyst.glb"
-                environment-image="neutral"
-                ar
-                camera-controls
-                auto-rotate
-                style="width: 120px; height: 120px; background: transparent;"
-                loading="eager">
-                <div slot="progress-bar" style="display:none"></div>
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' fill='%231a1a2e'/%3E%3Ctext x='60' y='65' font-family='Exo 2' font-size='12' fill='%238b5cf6' text-anchor='middle'%3E?%3C/text%3E%3C/svg%3E" 
-                     slot="poster">
-            </model-viewer>
-        </div>
+  <div class="header">
+    <h1>Dark ✨ Galaxy</h1>
+  </div>
+
+  <!-- Модель теперь под заголовком -->
+  <model-viewer 
+    src="models/helio.glb"
+    environment-image="neutral"
+    ar
+    camera-controls
+    auto-rotate
+    style="width: 120px; height: 120px; background: transparent; margin: 0 auto 20px;">
+    <div slot="progress-bar" style="display:none"></div>
+    <img src="image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' fill='%231a1a2e'/%3E%3Ctext x='60' y='65' font-family='Exo 2' font-size='12' fill='%238b5cf6' text-anchor='middle'%3E?%3C/text%3E%3C/svg%3E" 
+         slot="poster">
+    <style="margin: 0 auto 20px;"
+  </model-viewer>
+
+  <p class="subtitle">Кнопки не работают, кроме списка душ и о варпах</p>
+  <!-- остальной контент -->
+</div>
 
         <p class="subtitle">Кнопки не работают, кроме списка душ и о варпах</p>
 
