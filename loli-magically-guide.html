@@ -20,8 +20,8 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
-            padding: 20px;
+            align-items: flex-start;
+            padding: 30px 20px 20px;
             position: relative;
             overflow-x: hidden;
         }
@@ -99,6 +99,28 @@
             }
         }
 
+        /* Кнопка меню */
+        .menu-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: linear-gradient(45deg, #8b5cf6, #6366f1);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 600;
+            box-shadow: 0 5px 20px rgba(139, 92, 246, 0.4);
+            font-size: 0.95rem;
+        }
+
+        .menu-btn:hover {
+            transform: scale(1.05);
+        }
+
         /* Боковое меню */
         .sidebar {
             position: fixed;
@@ -113,10 +135,7 @@
             padding: 30px 20px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
         }
-
-        .sidebar.open {
-            left: 0;
-        }
+        .sidebar.open { left: 0; }
 
         .sidebar-header {
             display: flex;
@@ -126,30 +145,12 @@
             padding-bottom: 15px;
             border-bottom: 1px solid #8b5cf6;
         }
-
-        .sidebar-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #d8b4f8;
-        }
-
+        .sidebar-title { font-size: 1.2rem; font-weight: 600; color: #d8b4f8; }
         .sidebar-close {
-            background: none;
-            border: none;
-            color: #a5b4fc;
-            font-size: 1.5rem;
-            cursor: pointer;
-            margin-left: auto;
+            background: none; border: none; color: #a5b4fc; font-size: 1.5rem; cursor: pointer; margin-left: auto;
         }
-
-        .sidebar-menu {
-            list-style: none;
-        }
-
-        .sidebar-menu li {
-            margin-bottom: 10px;
-        }
-
+        .sidebar-menu { list-style: none; }
+        .sidebar-menu li { margin-bottom: 10px; }
         .sidebar-menu a {
             display: block;
             padding: 10px 15px;
@@ -158,126 +159,92 @@
             border-radius: 8px;
             transition: background 0.2s;
         }
-
         .sidebar-menu a:hover,
         .sidebar-menu a.active {
             background: linear-gradient(45deg, #8b5cf6, #6366f1);
             color: white;
         }
 
-        /* Кнопка меню */
-        .menu-btn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            background: linear-gradient(45deg, #8b5cf6, #6366f1);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-family: 'Exo 2', sans-serif;
-            font-weight: 600;
-            box-shadow: 0 5px 20px rgba(139, 92, 246, 0.4);
-            transition: all 0.3s ease;
+        /* Контейнер с заголовком и гайдом */
+        .page-container {
+            max-width: 1000px;
+            width: 100%;
+            z-index: 2;
         }
 
-        .menu-btn:hover {
-            transform: scale(1.05);
+        /* Заголовок как на главной */
+        .mod-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .mod-header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #d8b4f8;
+            text-shadow: 0 0 20px rgba(216, 180, 248, 0.6);
         }
 
-        /* Основной блок гайда — по центру */
+        /* Основной блок гайда — уменьшенный */
         .guide-container {
             background: #1a1a2e;
-            color: #e0e0ff;
-            border-radius: 16px;
-            max-width: 1000px;
-            width: 90%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
             border: 1px solid #8b5cf6;
-            overflow: hidden;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
             display: flex;
             gap: 20px;
-            padding: 30px;
-            position: relative;
-            z-index: 2; /* ↑ выше звёзд */
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         @media (max-width: 768px) {
             .guide-container {
                 flex-direction: column;
-                padding: 20px;
+                padding: 15px;
             }
         }
 
-        /* Название мода сверху */
-        .mod-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #8b5cf6;
-            width: 100%;
-        }
-
-        .mod-logo {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            background: #8b5cf6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: white;
-            font-size: 1.5rem;
-        }
-
-        h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #d8b4f8;
-            margin: 0;
-            text-shadow: 0 0 10px rgba(216, 180, 248, 0.5);
-        }
-
-        /* Левая колонка — модель */
         .model-column {
-            flex: 0 0 300px;
+            flex: 0 0 240px;
             display: flex;
             justify-content: center;
             align-items: center;
             background: #16162a;
             border-radius: 12px;
-            padding: 20px;
+            padding: 15px;
         }
-
         model-viewer {
-            width: 260px;
-            height: 260px;
+            width: 220px;
+            height: 220px;
             background: transparent;
             display: block;
         }
 
-        /* Правая колонка — текст */
         .text-column {
             flex: 1;
-            padding: 0 20px;
+            padding: 0 15px;
+            font-size: 0.95rem;
         }
 
-        h2 {
-            font-size: 1.4rem;
+        .section {
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            font-size: 1.3rem;
             font-weight: 600;
             color: #a5b4fc;
-            margin: 25px 0 10px;
+            margin-bottom: 10px;
         }
-
-        p {
-            margin-bottom: 15px;
-            line-height: 1.6;
-            font-size: 1rem;
+        .section p {
+            margin-bottom: 12px;
+            line-height: 1.55;
+        }
+        .section ul {
+            padding-left: 20px;
+            margin-bottom: 12px;
+        }
+        .section li {
+            margin-bottom: 6px;
         }
 
         .btn {
@@ -293,7 +260,6 @@
             transition: all 0.3s ease;
             box-shadow: 0 5px 20px rgba(139, 92, 246, 0.4);
         }
-
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
@@ -302,10 +268,7 @@
 </head>
 <body>
 
-    <!-- Звёзды -->
     <div class="stars" id="stars"></div>
-
-    <!-- Кнопка меню -->
     <button class="menu-btn" id="menu-btn">☰ Меню</button>
 
     <!-- Боковое меню -->
@@ -316,7 +279,7 @@
         </div>
         <ul class="sidebar-menu">
             <li><a href="index.html">Главная</a></li>
-            <!-- Удалена кнопка LoliMagically — Синтезатор -->
+            <li><a href="loli-magically-guide.html" class="active">LoliMagically</a></li>
             <li><a href="#">LoliEnergistics</a></li>
             <li><a href="#">LoliUtility</a></li>
             <li><a href="#">Applied Energistics 2</a></li>
@@ -329,55 +292,69 @@
             <li><a href="#">Galacticraft</a></li>
             <li><a href="#">Ic2|MineFactory</a></li>
             <li><a href="#">TConstruct</a></li>
-            <li><a href="#">Информация о варпах</a></li>
-            <li><a href="#">Список дропа душ</a></li>
+            <li><a href="https://docs.google.com/spreadsheets/d/1QYsVJJyw4Ai12URzfotRfXYkRsPnHgwfbuKG5Pa9kAE/edit?gid=1575775918#gid=1575775918" target="_blank">Информация о варпах</a></li>
+            <li><a href="https://docs.google.com/spreadsheets/d/1QC7ucMeEJdXzvOPOoiM33oMWj_J6-C7E/edit?gid=851695745#gid=851695745" target="_blank">Список дропа душ</a></li>
         </ul>
     </div>
 
-    <!-- Основной блок гайда — по центру -->
-    <div class="guide-container">
-        <!-- Название мода сверху -->
+    <div class="page-container">
+        <!-- Заголовок как на главной -->
         <div class="mod-header">
-            <!-- PNG-логотип (замените на реальный файл) -->
-            <img src="images/loli-magically.png" alt="LoliMagically" class="mod-logo">
-            <h1>Синтезатор магических слитков</h1>
+            <h1>LoliMagically</h1>
         </div>
 
-        <!-- Левая колонка — модель -->
-        <div class="model-column">
-            <model-viewer 
-                src="models/synthesizer.glb"
-                environment-image="neutral"
-                ar
-                camera-controls
-                auto-rotate
-                style="width: 260px; height: 260px; background: transparent;">
-                <div slot="progress-bar" style="display:none"></div>
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Crect width='260' height='260' fill='%231a1a2e'/%3E%3Ctext x='130' y='135' font-family='Exo 2' font-size='16' fill='%238b5cf6' text-anchor='middle'%3E?%3C/text%3E%3C/svg%3E" 
-                     slot="poster">
-            </model-viewer>
-        </div>
+        <!-- Гайд -->
+        <div class="guide-container">
+            <div class="model-column">
+                <model-viewer 
+                    src="models/synthesizer.glb"
+                    environment-image="neutral"
+                    ar
+                    camera-controls
+                    auto-rotate
+                    style="width: 220px; height: 220px; background: transparent;">
+                    <div slot="progress-bar" style="display:none"></div>
+                    <img src="image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Crect width='220' height='220' fill='%231a1a2e'/%3E%3Ctext x='110' y='115' font-family='Exo 2' font-size='14' fill='%238b5cf6' text-anchor='middle'%3E?%3C/text%3E%3C/svg%3E" 
+                         slot="poster">
+                </model-viewer>
+            </div>
 
-        <!-- Правая колонка — текст -->
-        <div class="text-column">
-            <p>Это устройство позволяет создавать <strong>магические слитки</strong> из обычных руд и ингредиентов. Идеально подходит для автоматизации производства.</p>
+            <div class="text-column">
+                <div class="section">
+                    <h2>Синтезатор магических слитков</h2>
+                    <p>Это устройство позволяет создавать <strong>магические слитки</strong> из обычных руд и ингредиентов. Идеально подходит для автоматизации производства.</p>
+                </div>
 
-            <h2>Как работает автоматическая версия:</h2>
-            <p>Автоматический синтезатор может быть подключён к системе трубопроводов (например, с помощью Ender IO или Applied Energistics). Он будет:</p>
-            <ul>
-                <li>Принимать сырьё через входной слот</li>
-                <li>Выдавать готовый слиток в выходной слот</li>
-                <li>Работать без участия игрока</li>
-            </ul>
+                <div class="section">
+                    <h2>Как работает автоматическая версия</h2>
+                    <p>Автоматический синтезатор можно подключить к системам автотранспорта (например, Ender IO или AE2). Он будет:</p>
+                    <ul>
+                        <li>Принимать сырьё через входной слот</li>
+                        <li>Выдавать готовый слиток в выходной слот</li>
+                        <li>Работать без участия игрока</li>
+                    </ul>
+                </div>
 
-            <p>Подключите его к энергетической сети — и забудьте о ручном производстве!</p>
+                <div class="section">
+                    <h2>Подключение</h2>
+                    <p>Подключите синтезатор к энергетической сети (например, через LoliEnergistics или Redstone Flux). Устройство начнёт работать автоматически при наличии энергии и реагентов.</p>
+                </div>
 
-            <a href="#" class="btn">Посмотреть все рецепты</a>
+                <div class="section">
+                    <h2>Совместимость</h2>
+                    <p>Синтезатор поддерживает большинство типов руд и слитков, включая:</p>
+                    <ul>
+                        <li>Железо, золото, медь</li>
+                        <li>Алмаз, изумруд</li>
+                        <li>Магические кристаллы</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        // Анимация звёзд
+        // Звёзды
         const stars = document.getElementById('stars');
         const count = 40;
         for (let i = 0; i < count; i++) {
@@ -410,7 +387,6 @@
             sidebar.classList.remove('open');
         });
 
-        // Закрыть меню при клике вне его
         document.addEventListener('click', (e) => {
             if (!sidebar.contains(e.target) && e.target !== menuBtn) {
                 sidebar.classList.remove('open');
