@@ -165,7 +165,7 @@
             color: white;
         }
 
-        /* Контейнер с заголовком и гайдом */
+        /* Контейнер страницы */
         .page-container {
             max-width: 1000px;
             width: 100%;
@@ -184,7 +184,7 @@
             text-shadow: 0 0 20px rgba(216, 180, 248, 0.6);
         }
 
-        /* Основной блок гайда — уменьшенный */
+        /* Основной блок гайда */
         .guide-container {
             background: #1a1a2e;
             border: 1px solid #8b5cf6;
@@ -213,6 +213,7 @@
             border-radius: 12px;
             padding: 15px;
         }
+
         model-viewer {
             width: 220px;
             height: 220px;
@@ -229,40 +230,26 @@
         .section {
             margin-bottom: 20px;
         }
+
         .section h2 {
             font-size: 1.3rem;
             font-weight: 600;
             color: #a5b4fc;
             margin-bottom: 10px;
         }
+
         .section p {
             margin-bottom: 12px;
             line-height: 1.55;
         }
+
         .section ul {
             padding-left: 20px;
             margin-bottom: 12px;
         }
+
         .section li {
             margin-bottom: 6px;
-        }
-
-        .btn {
-            display: inline-block;
-            margin: 10px 0;
-            padding: 8px 16px;
-            background: linear-gradient(45deg, #8b5cf6, #6366f1);
-            color: white;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(139, 92, 246, 0.4);
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
         }
     </style>
 </head>
@@ -303,21 +290,21 @@
             <h1>LoliMagically</h1>
         </div>
 
-        <!-- Гайд -->
+        <!-- Гайд с 3D-моделью -->
         <div class="guide-container">
             <div class="model-column">
                 <model-viewer 
                     src="models/alchemical_synthesizer.glb"
-                     auto-play
-            environment-image="neutral"
-            ar
-            camera-controls
-            style="width: 220px; height: 220px; background: transparent;">
-            <div slot="progress-bar" style="display:none"></div>
-            <img src="image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Crect width='220' height='220' fill='%231a1a2e'/%3E%3Ctext x='110' y='115' font-family='Exo 2' font-size='14' fill='%238b5cf6' text-anchor='middle'%3E?%3C/text%3E%3C/svg%3E" 
-                 slot="poster">
-        </model-viewer>
-    </div>
+                    environment-image="neutral"
+                    ar
+                    camera-controls
+                    style="width: 220px; height: 220px; background: transparent;">
+                    <div slot="progress-bar" style="display:none"></div>
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Crect width='220' height='220' fill='%231a1a2e'/%3E%3Ctext x='110' y='115' font-family='Exo 2' font-size='14' fill='%238b5cf6' text-anchor='middle'%3E?%3C/text%3E%3C/svg%3E" 
+                         slot="poster">
+                </model-viewer>
+            </div>
+
             <div class="text-column">
                 <div class="section">
                     <h2>Синтезатор магических слитков</h2>
@@ -353,7 +340,7 @@
     </div>
 
     <script>
-        // Звёзды
+        // Анимация звёзд
         const stars = document.getElementById('stars');
         const count = 40;
         for (let i = 0; i < count; i++) {
@@ -373,7 +360,7 @@
             stars.appendChild(star);
         }
 
-        // Меню
+        // Боковое меню
         const menuBtn = document.getElementById('menu-btn');
         const sidebar = document.getElementById('sidebar');
         const closeBtn = document.getElementById('close-sidebar');
