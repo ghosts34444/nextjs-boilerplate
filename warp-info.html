@@ -475,11 +475,11 @@
     <!-- Боковое меню -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <span class="sidebar-title">Гайды</span>
+            <span class="sidebar-title">DarkGalaxy</span>
             <button class="sidebar-close" id="close-sidebar">×</button>
         </div>
         <ul class="sidebar-menu">
-            <li><a href="index.html" class="active">Главная</a></li>
+            <li><a href="index.html">Главная</a></li>
             <li><a href="loli-magically-guide.html">LoliMagically</a></li>
             <li><a href="#">LoliEnergistics</a></li>
             <li><a href="#">LoliUtility</a></li>
@@ -1408,17 +1408,39 @@
             setTimeout(() => document.getElementById('mod-table').style.display = 'none', 300);
         }
 
-        // Модальное окно создателя
-        document.querySelector('.creator-section .btn').addEventListener('click', () => showModal('credits-modal'));
-        document.getElementById('close-credits').addEventListener('click', () => closeModal('credits-modal'));
-        document.getElementById('credits-modal').addEventListener('click', (e) => {
-            if (e.target.id === 'credits-modal') closeModal('credits-modal');
-        });
+        // Модальное окно создателя таблицы
+document.querySelector('.creator-section .btn').addEventListener('click', () => {
+    const modal = document.getElementById('credits-modal');
+    modal.style.display = 'flex';
+    setTimeout(() => {
+        modal.style.opacity = '1';
+        modal.style.pointerEvents = 'auto';
+    }, 10);
+});
+
+document.getElementById('credits-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'credits-modal') {
+        const modal = document.getElementById('credits-modal');
+        modal.style.opacity = '0';
+        setTimeout(() => {
+            modal.style.display = 'none';
+            modal.style.pointerEvents = 'none';
+        }, 300);
+    }
+});
     </script>
 
     <!-- Кнопка создателя таблицы внизу -->
-    <div class="creator-section">
-        <button id="toggle-credits" class="btn">Создатель таблицы</button>
+<div class="creator-section">
+<div id="credits-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Создатель таблицы</h3>
+        </div>
+        <div class="modal-body">
+            <p><strong>Старший Администратор Xan241</strong></p>
+        </div>
     </div>
+</div>
 </body>
 </html>
