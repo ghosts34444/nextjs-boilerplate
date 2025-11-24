@@ -11,7 +11,6 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             background: #1a1a2e;
             color: #e0e0ff;
@@ -20,12 +19,10 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 30px 20px 100px;
+            padding: 50px 20px 100px; /* ↑ сдвинули контент вниз, кроме меню */
             position: relative;
             overflow-x: hidden;
         }
-
-        /* Градиент снизу */
         .bottom-gradient {
             position: absolute;
             bottom: 0;
@@ -35,8 +32,6 @@
             background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0));
             z-index: 2;
         }
-
-        /* Звёзды */
         .stars {
             position: absolute;
             top: 0;
@@ -46,7 +41,6 @@
             pointer-events: none;
             z-index: 1;
         }
-
         .star {
             position: absolute;
             color: white;
@@ -57,7 +51,6 @@
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
             transform-origin: center;
         }
-
         .star::before {
             content: '';
             position: absolute;
@@ -72,14 +65,12 @@
             animation: trail linear infinite;
             opacity: 0;
         }
-
         @keyframes fall {
             0% { transform: translateY(-20px) translateX(0) rotate(0deg); opacity: 0; }
             5% { opacity: 0.9; }
             95% { opacity: 0.9; }
             100% { transform: translateY(100vh) translateX(-50px) rotate(-45deg); opacity: 0; }
         }
-
         @keyframes trail {
             0% { opacity: 0; transform: translate(-50%, -50%) rotate(-45deg) scale(0); }
             10% { opacity: 0.7; transform: translate(-50%, -50%) rotate(-45deg) scale(1); }
@@ -87,13 +78,12 @@
             100% { opacity: 0; transform: translate(-50%, -50%) rotate(-45deg) scale(0); }
         }
 
-        /* Кнопка меню */
         .menu-btn {
             position: fixed;
             top: 20px;
             left: 20px;
             z-index: 1000;
-            background: linear-gradient(45deg, #8b5cf6, #6366f1);
+            background: #8b5cf6; /* убран градиент */
             color: white;
             border: none;
             border-radius: 50px;
@@ -105,11 +95,6 @@
             box-shadow: 0 5px 20px rgba(139, 92, 246, 0.4);
         }
 
-        .menu-btn:hover {
-            transform: scale(1.05);
-        }
-
-        /* Боковое меню */
         .sidebar {
             position: fixed;
             left: -300px;
@@ -123,7 +108,6 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
         }
         .sidebar.open { left: 0; }
-
         .sidebar-header {
             display: flex;
             align-items: center;
@@ -142,16 +126,14 @@
             font-size: 1.5rem;
             cursor: pointer;
             margin-left: auto;
+            display: none; /* убран крестик */
         }
-
         .sidebar-menu {
             list-style: none;
             padding: 15px 20px;
             max-height: calc(100vh - 100px);
             overflow-y: auto;
         }
-
-        .sidebar-menu li { margin-bottom: 8px; }
         .sidebar-menu a {
             display: block;
             padding: 9px 14px;
@@ -163,7 +145,7 @@
         }
         .sidebar-menu a:hover,
         .sidebar-menu a.active {
-            background: linear-gradient(45deg, #8b5cf6, #6366f1);
+            background: #8b5cf6; /* убран градиент */
             color: white;
         }
 
@@ -173,12 +155,10 @@
             z-index: 2;
             position: relative;
         }
-
         .header {
             text-align: center;
             margin-bottom: 25px;
         }
-
         h1 {
             font-size: 2.8rem;
             font-weight: 700;
@@ -186,7 +166,6 @@
             text-shadow: 0 0 20px rgba(216, 180, 248, 0.6);
         }
 
-        /* Правила — без магнита */
         .rules {
             background: #16162a;
             border: 1px solid #8b5cf6;
@@ -195,28 +174,23 @@
             margin-bottom: 25px;
             font-size: 0.95rem;
         }
-
         .rules h2 {
             color: #d8b4f8;
             margin-bottom: 15px;
             text-align: center;
         }
-
         .rules ul {
             padding-left: 20px;
         }
-
         .rules li {
             margin-bottom: 8px;
         }
 
-        /* Поиск */
         .search-box {
             margin: 0 auto 25px;
             text-align: center;
             max-width: 500px;
         }
-
         #search-input {
             width: 100%;
             padding: 12px 20px;
@@ -227,18 +201,16 @@
             font-family: 'Exo 2', sans-serif;
             font-size: 1rem;
         }
-
         #search-input::placeholder {
             color: #8b5cf6;
         }
 
-        /* Кнопка отделов */
         .mods-btn {
             display: block;
             width: 240px;
             margin: 0 auto 30px;
             padding: 12px 20px;
-            background: linear-gradient(45deg, #7e22ce, #4f46e5);
+            background: #7e22ce; /* убран градиент */
             color: white;
             text-decoration: none;
             border-radius: 50px;
@@ -248,13 +220,11 @@
             transition: all 0.2s;
             cursor: pointer;
         }
-
         .mods-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(126, 34, 206, 0.5);
         }
 
-        /* Таблица отдела — с плавным появлением */
         .mod-table {
             background: #16162a;
             border: 1px solid #8b5cf6;
@@ -267,77 +237,46 @@
             transform: translateY(20px);
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
-
         .mod-table.visible {
             display: block;
             opacity: 1;
             transform: translateY(0);
         }
-
         .mod-table h3 {
             color: #d8b4f8;
             margin-bottom: 15px;
             text-align: center;
         }
-
-        table {
+        .mod-table table {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.9rem;
             max-height: 300px;
             overflow-y: auto;
             display: block;
+            border: 1px solid #8b5cf6;
+            border-radius: 8px;
         }
-        
-.mod-table table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.9rem;
-    max-height: 300px;
-    overflow-y: auto;
-    display: block;
-    border: 1px solid #8b5cf6;
-    border-radius: 8px;
-}
-
-.mod-table table thead {
-    position: sticky;
-    top: 0;
-    background: #1a1a2e;
-    z-index: 1;
-}
-
-.mod-table table th,
-.mod-table table td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #8b5cf6;
-}
-
-.mod-table table th {
-    background: #1a1a2e;
-    font-weight: 600;
-}
-
-.mod-table table tbody tr:nth-child(even) {
-    background: #16162a;
-}
-
-        th, td {
+        .mod-table table thead {
+            position: sticky;
+            top: 0;
+            background: #1a1a2e;
+            z-index: 1;
+        }
+        .mod-table table th,
+        .mod-table table td {
             padding: 10px;
             text-align: left;
-            border: 1px solid #8b5cf6;
+            border-bottom: 1px solid #8b5cf6;
         }
-
-        th {
+        .mod-table table th {
             background: #1a1a2e;
+            font-weight: 600;
+        }
+        .mod-table table tbody tr:nth-child(even) {
+            background: #16162a;
         }
 
-        tr:nth-child(even) {
-            background: #1a1a2e;
-        }
-
-        /* Результаты поиска */
         .search-results {
             background: #16162a;
             border: 1px solid #8b5cf6;
@@ -346,14 +285,12 @@
             margin-bottom: 25px;
             display: none;
         }
-
         .search-results h3 {
             color: #d8b4f8;
             margin-bottom: 15px;
             text-align: center;
         }
 
-        /* Кнопка создателя внизу */
         .creator-section {
             text-align: center;
             position: fixed;
@@ -362,11 +299,10 @@
             right: 0;
             z-index: 3;
         }
-
         .btn {
             display: inline-block;
             padding: 10px 20px;
-            background: linear-gradient(45deg, #8b5cf6, #6366f1);
+            background: #8b5cf6; /* убран градиент */
             color: white;
             text-decoration: none;
             font-weight: 600;
@@ -375,14 +311,13 @@
             box-shadow: 0 5px 20px rgba(139, 92, 246, 0.4);
             font-size: 0.95rem;
         }
-
         .btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
         }
 
-        /* Модальные окна */
-        .modal {
+        /* МОДАЛЬНОЕ ОКНО ВЫБОРА ОТДЕЛА — без крестика, без закрытия кликом снаружи */
+        #mods-modal {
             position: fixed;
             top: 0;
             left: 0;
@@ -397,8 +332,11 @@
             pointer-events: none;
             transition: opacity 0.3s ease;
         }
-
-        .modal-content {
+        #mods-modal.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+        #mods-modal .modal-content {
             background: #1a1a2e;
             color: #e0e0ff;
             border-radius: 16px;
@@ -410,8 +348,7 @@
             display: flex;
             flex-direction: column;
         }
-
-        .modal-header {
+        #mods-modal .modal-header {
             padding: 20px;
             border-bottom: 1px solid #8b5cf6;
             text-align: center;
@@ -420,18 +357,16 @@
             top: 0;
             z-index: 10;
         }
-
-        .modal-header h3 {
-            color: #d8b4f8;
-            margin: 0;
-        }
-
-        .modal-body {
+        #mods-modal .modal-body {
             padding: 0 20px 20px;
             overflow-y: auto;
             flex: 1;
+            /* Скрываем скролл */
+            scrollbar-width: none;
         }
-
+        #mods-modal .modal-body::-webkit-scrollbar {
+            display: none;
+        }
         .mod-option {
             display: flex;
             align-items: center;
@@ -443,70 +378,75 @@
             margin-bottom: 8px;
             background: #16162a;
             transition: background 0.2s;
+            cursor: pointer;
         }
-
+        .mod-option:hover {
+            background: #8b5cf6;
+        }
         .mod-icon {
             width: 24px;
             height: 24px;
             border-radius: 4px;
+            object-fit: cover;
+            flex-shrink: 0;
             background: #8b5cf6;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
             font-size: 0.7rem;
-            flex-shrink: 0;
-            object-fit: cover;
+            color: white;
         }
 
-        .mod-option:hover {
-            background: linear-gradient(45deg, #8b5cf6, #6366f1);
+        /* МОДАЛЬНОЕ ОКНО СОЗДАТЕЛЯ */
+        #credits-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
-
-        /* Стили для скролла в темном окне */
-        .modal-body::-webkit-scrollbar {
-            width: 8px;
+        #credits-modal.open {
+            opacity: 1;
+            pointer-events: all;
         }
-
-        .modal-body::-webkit-scrollbar-track {
+        #credits-modal .modal-content {
             background: #1a1a2e;
+            color: #e0e0ff;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            border: 1px solid #8b5cf6;
+            padding: 20px;
         }
 
-        .modal-body::-webkit-scrollbar-thumb {
-            background: #8b5cf6;
-            border-radius: 4px;
-        }
-
-        .modal-body::-webkit-scrollbar-thumb:hover {
-            background: #6366f1;
-        }
-
-        /* Адаптивность */
         @media (max-width: 768px) {
-            body { padding: 20px 15px 80px; }
+            body { padding: 40px 15px 80px; }
             h1 { font-size: 2.2rem; }
             .mods-btn { width: 220px; font-size: 0.95rem; }
-            .menu-btn { padding: 7px 14px; font-size: 0.9rem; }
             .sidebar { width: 260px; }
-            .sidebar-menu { max-height: calc(100vh - 90px); }
         }
-
         @media (max-width: 480px) {
+            body { padding: 35px 10px 70px; }
             h1 { font-size: 1.8rem; }
             .mods-btn { width: 200px; padding: 10px; font-size: 0.9rem; }
-            .sidebar-header { padding: 15px; }
-            .sidebar-menu a { padding: 8px 12px; font-size: 0.88rem; }
-            .modal-content { margin: 10px; }
         }
     </style>
 </head>
 <body>
-
     <div class="stars" id="stars"></div>
     <button class="menu-btn" id="menu-btn">☰ Меню</button>
     <div class="bottom-gradient"></div>
 
-    <!-- Боковое меню -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <span class="sidebar-title">DarkGalaxy</span>
@@ -536,8 +476,6 @@
         <div class="header">
             <h1>Информация о варпах</h1>
         </div>
-
-        <!-- Правила — БЕЗ магнита -->
         <div class="rules">
             <h2>Правила создания варпа</h2>
             <ul>
@@ -547,19 +485,11 @@
                 <li>Варп должен быть безопасным для игроков.</li>
             </ul>
         </div>
-
-        <!-- Поле поиска -->
         <div class="search-box">
             <input type="text" id="search-input" placeholder="Введите название предмета (от 4 букв)">
         </div>
-
-        <!-- Кнопка "Выбрать отдел" -->
         <button class="mods-btn" id="open-mods-modal">Выбрать отдел</button>
-
-        <!-- Результаты поиска -->
         <div class="search-results" id="search-results"></div>
-
-        <!-- Таблица отдела (с плавным появлением) -->
         <div class="mod-table" id="mod-table">
             <h3 id="table-title">Заголовок</h3>
             <table>
@@ -569,44 +499,62 @@
         </div>
     </div>
 
-    <!-- Модальное окно выбора отдела -->
-<div id="mods-modal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Выберите отдел</h3>
+    <!-- Модалка выбора отдела -->
+    <div id="mods-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Выберите отдел</h3>
+            </div>
+            <div class="modal-body" id="mods-list"></div>
         </div>
-        <div class="modal-body" id="mods-list"></div>
     </div>
-</div>
 
-<!-- Модальное окно создателя -->
-<div id="credits-modal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
+    <!-- Модалка создателя -->
+    <div id="credits-modal" class="modal">
+        <div class="modal-content">
             <h3>Создатель таблицы</h3>
-        </div>
-        <div class="modal-body">
             <p><strong>Старший Администратор Xan241</strong></p>
             <button id="close-credits" class="btn" style="margin-top:15px;">Закрыть</button>
         </div>
     </div>
-</div>
 
-    <!-- Модальное окно создателя -->
-    <div id="credits-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Создатель таблицы</h3>
-            </div>
-            <div class="modal-body">
-                <p><strong>Старший администратор Xan241</strong></p>
-                <button id="close-credits">Закрыть</button>
-            </div>
-        </div>
+    <div class="creator-section">
+        <button id="toggle-credits" class="btn">Создатель таблицы</button>
     </div>
 
     <script>
-        // Данные по отделам — В ТОЧНОМ ПОРЯДКЕ, КАК ТЫ УКАЗАЛ
+        // === ЗВЁЗДЫ ===
+        const stars = document.getElementById('stars');
+        const count = 40;
+        for (let i = 0; i < count; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.innerHTML = '★';
+            const size = Math.random() * 0.6 + 0.4;
+            const duration = Math.random() * 15 + 10;
+            const delay = Math.random() * 10;
+            const startX = Math.random() * 100;
+            star.style.fontSize = `${size}em`;
+            star.style.left = `${startX}vw`;
+            star.style.top = `-30px`;
+            star.style.opacity = Math.random() * 0.3 + 0.5;
+            star.style.animationDuration = `${duration}s`;
+            star.style.animationDelay = `${delay}s`;
+            stars.appendChild(star);
+        }
+
+        // === МЕНЮ ===
+        const menuBtn = document.getElementById('menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        menuBtn.addEventListener('click', () => sidebar.classList.add('open'));
+        document.getElementById('close-sidebar').addEventListener('click', () => sidebar.classList.remove('open'));
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && e.target !== menuBtn) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+        // === ДАННЫЕ ОТДЕЛОВ (полные — вставлены из твоего файла) ===
         const departments = {
             vanilla: { name: "Vanilla", items: [
                 { name: "Тростник | 64 шт", price: "6 Железных слитка" },
@@ -1274,160 +1222,82 @@
                 { name: "Остальные руды по типу железа", price: "1 к 6" }
             ]}
         };
-        
-<script>
-    // === Звёзды и меню — без изменений ===
-    const stars = document.getElementById('stars');
-    const count = 40;
-    for (let i = 0; i < count; i++) {
-        const star = document.createElement('div');
-        star.classList.add('star');
-        star.innerHTML = '★';
-        const size = Math.random() * 0.6 + 0.4;
-        const duration = Math.random() * 15 + 10;
-        const delay = Math.random() * 10;
-        const startX = Math.random() * 100;
-        star.style.fontSize = `${size}em`;
-        star.style.left = `${startX}vw`;
-        star.style.top = `-30px`;
-        star.style.opacity = Math.random() * 0.3 + 0.5;
-        star.style.animationDuration = `${duration}s`;
-        star.style.animationDelay = `${delay}s`;
-        stars.appendChild(star);
-    }
 
-    const menuBtn = document.getElementById('menu-btn');
-    const sidebar = document.getElementById('sidebar');
-    const closeBtn = document.getElementById('close-sidebar');
-    menuBtn.addEventListener('click', () => sidebar.classList.add('open'));
-    closeBtn.addEventListener('click', () => sidebar.classList.remove('open'));
-    document.addEventListener('click', (e) => {
-        if (!sidebar.contains(e.target) && e.target !== menuBtn) {
-            sidebar.classList.remove('open');
-        }
-    });
-
-    // === Данные отделов ===
-    const departments = {
-        vanilla: { name: "Vanilla", items: [ /* твои данные */ ] },
-        thaumcraft: { name: "Thaumcraft", items: [ /* твои данные */ ] },
-        // ... остальные отделы (оставь как есть)
-        trade: { name: "Обменник руд", items: [ /* твои данные */ ] }
-    };
-
-    // === Заполняем список отделов в модальном окне ===
-    const modsList = document.getElementById('mods-list');
-    const order = [
-        'vanilla', 'thaumcraft', 'appliedenergistics2', 'thermal', 'blood',
-        'botania', 'minefactory', 'dc', 'avaritia', 'tanker', 'stradania',
-        'ender', 'lolienergistics', 'lolimagically', 'divine', 'galactic', 'trade'
-    ];
-
-    order.forEach(key => {
-        const dept = departments[key];
-        if (!dept) return;
-        const a = document.createElement('a');
-        a.href = '#';
-        a.className = 'mod-option';
-        a.dataset.key = key;
-        a.innerHTML = `<div class="mod-icon">${dept.name.charAt(0)}</div>${dept.name}`;
-        a.addEventListener('click', (e) => {
-            e.preventDefault();
-            showTable(key);
-            document.getElementById('mods-modal').style.display = 'none';
+        // === ЗАПОЛНЕНИЕ МОДАЛКИ ОТДЕЛОВ ===
+        const modsList = document.getElementById('mods-list');
+        const order = [
+            'vanilla', 'thaumcraft', 'appliedenergistics2', 'thermal', 'blood',
+            'botania', 'minefactory', 'dc', 'avaritia', 'tanker', 'stradania',
+            'ender', 'lolienergistics', 'lolimagically', 'divine', 'galactic', 'trade'
+        ];
+        order.forEach(key => {
+            const dept = departments[key];
+            if (!dept) return;
+            const div = document.createElement('div');
+            div.className = 'mod-option';
+            div.dataset.key = key;
+            div.innerHTML = `<img class="mod-icon" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%238b5cf6'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='12'>${dept.name.charAt(0)}</text%3E%3C/svg%3E">${dept.name}`;
+            div.addEventListener('click', () => {
+                showTable(key);
+                document.getElementById('mods-modal').classList.remove('open');
+            });
+            modsList.appendChild(div);
         });
-        modsList.appendChild(a);
-    });
 
-    // === Открытие модального окна отделов ===
-    document.getElementById('open-mods-modal').addEventListener('click', () => {
-        const modal = document.getElementById('mods-modal');
-        modal.style.display = 'flex';
-        setTimeout(() => modal.style.opacity = '1', 10);
-    });
-
-    // === Показ таблицы ===
-    function showTable(deptKey) {
-        const dept = departments[deptKey];
-        document.getElementById('table-title').textContent = dept.name;
-        const tbody = document.getElementById('table-body');
-        tbody.innerHTML = '';
-        dept.items.forEach(item => {
-            const row = tbody.insertRow();
-            row.insertCell(0).textContent = item.name;
-            row.insertCell(1).textContent = item.price;
+        // === ОТКРЫТИЕ МОДАЛКИ ОТДЕЛОВ ===
+        document.getElementById('open-mods-modal').addEventListener('click', () => {
+            document.getElementById('mods-modal').classList.add('open');
         });
-        const table = document.getElementById('mod-table');
-        table.style.display = 'block';
-        setTimeout(() => table.classList.add('visible'), 10);
-        document.getElementById('search-results').style.display = 'none';
-    }
 
-    // === Поиск ===
-    const searchInput = document.getElementById('search-input');
-    searchInput.addEventListener('input', () => {
-        const query = searchInput.value.trim().toLowerCase();
-        if (query.length < 4) {
+        // === ПОКАЗ ТАБЛИЦЫ ===
+        function showTable(deptKey) {
+            const dept = departments[deptKey];
+            document.getElementById('table-title').textContent = dept.name;
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+            dept.items.forEach(item => {
+                const row = tbody.insertRow();
+                row.insertCell(0).textContent = item.name;
+                row.insertCell(1).textContent = item.price;
+            });
+            const table = document.getElementById('mod-table');
+            table.style.display = 'block';
+            setTimeout(() => table.classList.add('visible'), 10);
             document.getElementById('search-results').style.display = 'none';
-            return;
         }
-        const results = {};
-        for (const [key, dept] of Object.entries(departments)) {
-            const matches = dept.items.filter(item => 
-                item.name.toLowerCase().includes(query)
-            );
-            if (matches.length > 0) {
-                results[key] = { name: dept.name, items: matches };
+
+        // === ПОИСК ===
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            const query = e.target.value.trim().toLowerCase();
+            const resultsDiv = document.getElementById('search-results');
+            if (query.length < 4) {
+                resultsDiv.style.display = 'none';
+                return;
             }
-        }
-        const resultsDiv = document.getElementById('search-results');
-        if (Object.keys(results).length === 0) {
-            resultsDiv.innerHTML = '<h3>Ничего не найдено</h3>';
-        } else {
             let html = '';
             order.forEach(key => {
-                if (results[key]) {
-                    const dept = results[key];
+                const dept = departments[key];
+                const matches = dept.items.filter(item => item.name.toLowerCase().includes(query));
+                if (matches.length > 0) {
                     html += `<h3>${dept.name}</h3><table><thead><tr><th>Предмет</th><th>Цена</th></tr></thead><tbody>`;
-                    dept.items.forEach(item => {
+                    matches.forEach(item => {
                         html += `<tr><td>${item.name}</td><td>${item.price}</td></tr>`;
                     });
                     html += `</tbody></table><br>`;
                 }
             });
-            resultsDiv.innerHTML = html;
-        }
-        resultsDiv.style.display = 'block';
-        document.getElementById('mod-table').classList.remove('visible');
-    });
-
-    // === Модальное окно создателя ===
-    document.getElementById('toggle-credits').addEventListener('click', () => {
-        const modal = document.getElementById('credits-modal');
-        modal.style.display = 'flex';
-        setTimeout(() => modal.style.opacity = '1', 10);
-    });
-
-    // Закрытие модальных окон
-    ['mods-modal', 'credits-modal'].forEach(id => {
-        const modal = document.getElementById(id);
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.style.opacity = '0';
-                setTimeout(() => modal.style.display = 'none', 300);
-            }
+            resultsDiv.innerHTML = html || '<h3>Ничего не найдено</h3>';
+            resultsDiv.style.display = 'block';
+            document.getElementById('mod-table').classList.remove('visible');
         });
-    });
 
-    document.getElementById('close-credits').addEventListener('click', () => {
-        const modal = document.getElementById('credits-modal');
-        modal.style.opacity = '0';
-        setTimeout(() => modal.style.display = 'none', 300);
-    });
-</script>
-    <!-- Кнопка создателя таблицы -->
-<div class="creator-section">
-    <button id="toggle-credits" class="btn">Создатель таблицы</button>
-</div>
+        // === КНОПКА СОЗДАТЕЛЯ ===
+        document.getElementById('toggle-credits').addEventListener('click', () => {
+            document.getElementById('credits-modal').classList.add('open');
+        });
+        document.getElementById('close-credits').addEventListener('click', () => {
+            document.getElementById('credits-modal').classList.remove('open');
+        });
+    </script>
 </body>
 </html>
