@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DarkGalaxy - Информация о варпах</title>
+    <title>Dark Galaxy — Информация о варпах</title>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -284,6 +284,9 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 0.9rem;
+            max-height: 300px;
+            overflow-y: auto;
+            display: block;
         }
 
         th, td {
@@ -389,17 +392,6 @@
             margin: 0;
         }
 
-        .modal-header button {
-            position: absolute;
-            right: 20px;
-            top: 20px;
-            background: none;
-            border: none;
-            color: #e0e0ff;
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-
         .modal-body {
             padding: 0 20px 20px;
             overflow-y: auto;
@@ -437,6 +429,24 @@
             background: linear-gradient(45deg, #8b5cf6, #6366f1);
         }
 
+        /* Стили для скролла в темном окне */
+        .modal-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-body::-webkit-scrollbar-track {
+            background: #1a1a2e;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: #8b5cf6;
+            border-radius: 4px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb:hover {
+            background: #6366f1;
+        }
+
         /* Адаптивность */
         @media (max-width: 768px) {
             body { padding: 20px 15px 80px; }
@@ -465,7 +475,7 @@
     <!-- Боковое меню -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <span class="sidebar-title">DarkGalaxy</span>
+            <span class="sidebar-title">Гайды</span>
             <button class="sidebar-close" id="close-sidebar">×</button>
         </div>
         <ul class="sidebar-menu">
@@ -483,7 +493,7 @@
             <li><a href="#">Galacticraft</a></li>
             <li><a href="#">Ic2|MineFactory</a></li>
             <li><a href="#">TConstruct</a></li>
-            <li><a href="warp-info.html" class="active">Информация о варпах</a></li>
+            <li><a href="warp-info.html">Информация о варпах</a></li>
             <li><a href="https://docs.google.com/spreadsheets/d/1QC7ucMeEJdXzvOPOoiM33oMWj_J6-C7E/edit?gid=851695745#gid=851695745" target="_blank">Список дропа душ</a></li>
         </ul>
     </div>
@@ -530,7 +540,6 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Выберите отдел</h3>
-                <button id="close-mods-modal">×</button>
             </div>
             <div class="modal-body" id="mods-list"></div>
         </div>
@@ -541,7 +550,6 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Создатель таблицы</h3>
-                <button id="close-credits">×</button>
             </div>
             <div class="modal-body">
                 <p><strong>Старший администратор Xan241</strong></p>
@@ -1317,7 +1325,6 @@
         }
 
         document.getElementById('open-mods-modal').addEventListener('click', () => showModal('mods-modal'));
-        document.getElementById('close-mods-modal').addEventListener('click', () => closeModal('mods-modal'));
         document.getElementById('mods-modal').addEventListener('click', (e) => {
             if (e.target === document.getElementById('mods-modal')) closeModal('mods-modal');
         });
@@ -1340,10 +1347,10 @@
             document.getElementById('search-results').style.display = 'none';
         }
 
-        // Закрытие таблицы при клике вне
+        // Закрытие таблицы при клике на неё
         document.addEventListener('click', (e) => {
             const table = document.getElementById('mod-table');
-            if (table.classList.contains('visible') && !table.contains(e.target) && !e.target.closest('.mods-btn')) {
+            if (table.classList.contains('visible') && table.contains(e.target)) {
                 table.classList.remove('visible');
                 setTimeout(() => table.style.display = 'none', 300);
             }
