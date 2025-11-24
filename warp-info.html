@@ -570,14 +570,27 @@
     </div>
 
     <!-- Модальное окно выбора отдела -->
-    <div id="mods-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Выберите отдел</h3>
-            </div>
-            <div class="modal-body" id="mods-list"></div>
+<div id="mods-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Выберите отдел</h3>
+        </div>
+        <div class="modal-body" id="mods-list"></div>
+    </div>
+</div>
+
+<!-- Модальное окно создателя -->
+<div id="credits-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Создатель таблицы</h3>
+        </div>
+        <div class="modal-body">
+            <p><strong>Старший Администратор Xan241</strong></p>
+            <button id="close-credits" class="btn" style="margin-top:15px;">Закрыть</button>
         </div>
     </div>
+</div>
 
     <!-- Модальное окно создателя -->
     <div id="credits-modal" class="modal">
@@ -1261,217 +1274,160 @@
                 { name: "Остальные руды по типу железа", price: "1 к 6" }
             ]}
         };
+        
+<script>
+    // === Звёзды и меню — без изменений ===
+    const stars = document.getElementById('stars');
+    const count = 40;
+    for (let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        star.innerHTML = '★';
+        const size = Math.random() * 0.6 + 0.4;
+        const duration = Math.random() * 15 + 10;
+        const delay = Math.random() * 10;
+        const startX = Math.random() * 100;
+        star.style.fontSize = `${size}em`;
+        star.style.left = `${startX}vw`;
+        star.style.top = `-30px`;
+        star.style.opacity = Math.random() * 0.3 + 0.5;
+        star.style.animationDuration = `${duration}s`;
+        star.style.animationDelay = `${delay}s`;
+        stars.appendChild(star);
+    }
 
-        // Звёзды
-        const stars = document.getElementById('stars');
-        const count = 40;
-        for (let i = 0; i < count; i++) {
-            const star = document.createElement('div');
-            star.classList.add('star');
-            star.innerHTML = '★';
-            const size = Math.random() * 0.6 + 0.4;
-            const duration = Math.random() * 15 + 10;
-            const delay = Math.random() * 10;
-            const startX = Math.random() * 100;
-            star.style.fontSize = `${size}em`;
-            star.style.left = `${startX}vw`;
-            star.style.top = `-30px`;
-            star.style.opacity = Math.random() * 0.3 + 0.5;
-            star.style.animationDuration = `${duration}s`;
-            star.style.animationDelay = `${delay}s`;
-            stars.appendChild(star);
+    const menuBtn = document.getElementById('menu-btn');
+    const sidebar = document.getElementById('sidebar');
+    const closeBtn = document.getElementById('close-sidebar');
+    menuBtn.addEventListener('click', () => sidebar.classList.add('open'));
+    closeBtn.addEventListener('click', () => sidebar.classList.remove('open'));
+    document.addEventListener('click', (e) => {
+        if (!sidebar.contains(e.target) && e.target !== menuBtn) {
+            sidebar.classList.remove('open');
         }
+    });
 
-        // Боковое меню
-        const menuBtn = document.getElementById('menu-btn');
-        const sidebar = document.getElementById('sidebar');
-        const closeBtn = document.getElementById('close-sidebar');
-        menuBtn.addEventListener('click', () => sidebar.classList.add('open'));
-        closeBtn.addEventListener('click', () => sidebar.classList.remove('open'));
-        document.addEventListener('click', (e) => {
-            if (!sidebar.contains(e.target) && e.target !== menuBtn) {
-                sidebar.classList.remove('open');
-            }
+    // === Данные отделов ===
+    const departments = {
+        vanilla: { name: "Vanilla", items: [ /* твои данные */ ] },
+        thaumcraft: { name: "Thaumcraft", items: [ /* твои данные */ ] },
+        // ... остальные отделы (оставь как есть)
+        trade: { name: "Обменник руд", items: [ /* твои данные */ ] }
+    };
+
+    // === Заполняем список отделов в модальном окне ===
+    const modsList = document.getElementById('mods-list');
+    const order = [
+        'vanilla', 'thaumcraft', 'appliedenergistics2', 'thermal', 'blood',
+        'botania', 'minefactory', 'dc', 'avaritia', 'tanker', 'stradania',
+        'ender', 'lolienergistics', 'lolimagically', 'divine', 'galactic', 'trade'
+    ];
+
+    order.forEach(key => {
+        const dept = departments[key];
+        if (!dept) return;
+        const a = document.createElement('a');
+        a.href = '#';
+        a.className = 'mod-option';
+        a.dataset.key = key;
+        a.innerHTML = `<div class="mod-icon">${dept.name.charAt(0)}</div>${dept.name}`;
+        a.addEventListener('click', (e) => {
+            e.preventDefault();
+            showTable(key);
+            document.getElementById('mods-modal').style.display = 'none';
         });
+        modsList.appendChild(a);
+    });
 
-        // Заполняем модальное окно отделов В ТОЧНОМ ПОРЯДКЕ
-        const modsList = document.getElementById('mods-list');
-        const order = [
-            'vanilla',
-            'thaumcraft',
-            'appliedenergistics2',
-            'thermal',
-            'blood',
-            'botania',
-            'minefactory',
-            'dc',
-            'avaritia',
-            'tanker',
-            'stradania',
-            'ender',
-            'lolienergistics',
-            'lolimagically',
-            'divine',
-            'galactic',
-            'trade'
-        ];
+    // === Открытие модального окна отделов ===
+    document.getElementById('open-mods-modal').addEventListener('click', () => {
+        const modal = document.getElementById('mods-modal');
+        modal.style.display = 'flex';
+        setTimeout(() => modal.style.opacity = '1', 10);
+    });
 
-        order.forEach(key => {
-            const dept = departments[key];
-            if (!dept) return;
-
-            const div = document.createElement('a');
-            div.href = '#';
-            div.className = 'mod-option';
-            div.dataset.key = key;
-
-            const icon = document.createElement('div');
-            icon.className = 'mod-icon';
-            icon.textContent = dept.name.charAt(0);
-
-            const text = document.createTextNode(dept.name);
-            div.appendChild(icon);
-            div.appendChild(text);
-
-            div.addEventListener('click', (e) => {
-                e.preventDefault();
-                showTable(key);
-                closeModal('mods-modal');
-            });
-            modsList.appendChild(div);
+    // === Показ таблицы ===
+    function showTable(deptKey) {
+        const dept = departments[deptKey];
+        document.getElementById('table-title').textContent = dept.name;
+        const tbody = document.getElementById('table-body');
+        tbody.innerHTML = '';
+        dept.items.forEach(item => {
+            const row = tbody.insertRow();
+            row.insertCell(0).textContent = item.name;
+            row.insertCell(1).textContent = item.price;
         });
+        const table = document.getElementById('mod-table');
+        table.style.display = 'block';
+        setTimeout(() => table.classList.add('visible'), 10);
+        document.getElementById('search-results').style.display = 'none';
+    }
 
-        function showModal(modalId) {
-            const modal = document.getElementById(modalId);
-            modal.style.display = 'flex';
-            setTimeout(() => {
-                modal.style.opacity = '1';
-                modal.style.pointerEvents = 'auto';
-            }, 10);
-        }
-
-        function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            modal.style.opacity = '0';
-            setTimeout(() => {
-                modal.style.display = 'none';
-                modal.style.pointerEvents = 'none';
-            }, 300);
-        }
-
-        document.getElementById('open-mods-modal').addEventListener('click', () => showModal('mods-modal'));
-        document.getElementById('mods-modal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('mods-modal')) closeModal('mods-modal');
-        });
-
-        // Плавное появление таблицы
-        function showTable(deptKey) {
-            const dept = departments[deptKey];
-            document.getElementById('table-title').textContent = dept.name;
-            const tbody = document.getElementById('table-body');
-            tbody.innerHTML = '';
-            dept.items.forEach(item => {
-                const row = tbody.insertRow();
-                row.insertCell(0).textContent = item.name;
-                row.insertCell(1).textContent = item.price;
-            });
-
-            const table = document.getElementById('mod-table');
-            table.style.display = 'block';
-            setTimeout(() => table.classList.add('visible'), 10);
+    // === Поиск ===
+    const searchInput = document.getElementById('search-input');
+    searchInput.addEventListener('input', () => {
+        const query = searchInput.value.trim().toLowerCase();
+        if (query.length < 4) {
             document.getElementById('search-results').style.display = 'none';
+            return;
         }
-
-        // Закрытие таблицы при клике на неё
-        document.addEventListener('click', (e) => {
-            const table = document.getElementById('mod-table');
-            if (table.classList.contains('visible') && table.contains(e.target)) {
-                table.classList.remove('visible');
-                setTimeout(() => table.style.display = 'none', 300);
+        const results = {};
+        for (const [key, dept] of Object.entries(departments)) {
+            const matches = dept.items.filter(item => 
+                item.name.toLowerCase().includes(query)
+            );
+            if (matches.length > 0) {
+                results[key] = { name: dept.name, items: matches };
             }
-        });
-
-        // Автоматический поиск
-        const searchInput = document.getElementById('search-input');
-        let searchTimeout;
-        searchInput.addEventListener('input', () => {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                const query = searchInput.value.trim();
-                if (query.length < 4) {
-                    document.getElementById('search-results').style.display = 'none';
-                    return;
-                }
-                performSearch(query);
-            }, 300);
-        });
-
-        function performSearch(query) {
-            const results = {};
-            for (const [key, dept] of Object.entries(departments)) {
-                const matches = dept.items.filter(item =>
-                    item.name.toLowerCase().includes(query.toLowerCase())
-                );
-                if (matches.length > 0) {
-                    results[key] = { name: dept.name, items: matches };
-                }
-            }
-
-            const resultsDiv = document.getElementById('search-results');
-            if (Object.keys(results).length === 0) {
-                resultsDiv.style.display = 'block';
-                resultsDiv.innerHTML = '<h3>Ничего не найдено</h3>';
-                return;
-            }
-
-            // Сохраняем ПОРЯДОК из `order`
-            const sortedResults = order
-                .filter(key => results[key])
-                .map(key => [key, results[key]]);
-
+        }
+        const resultsDiv = document.getElementById('search-results');
+        if (Object.keys(results).length === 0) {
+            resultsDiv.innerHTML = '<h3>Ничего не найдено</h3>';
+        } else {
             let html = '';
-            for (const [key, dept] of sortedResults) {
-                html += `<h3>${dept.name}</h3><table><thead><tr><th>Предмет</th><th>Цена</th></tr></thead><tbody>`;
-                dept.items.forEach(item => {
-                    html += `<tr><td>${item.name}</td><td>${item.price}</td></tr>`;
-                });
-                html += `</tbody></table><br>`;
-            }
+            order.forEach(key => {
+                if (results[key]) {
+                    const dept = results[key];
+                    html += `<h3>${dept.name}</h3><table><thead><tr><th>Предмет</th><th>Цена</th></tr></thead><tbody>`;
+                    dept.items.forEach(item => {
+                        html += `<tr><td>${item.name}</td><td>${item.price}</td></tr>`;
+                    });
+                    html += `</tbody></table><br>`;
+                }
+            });
             resultsDiv.innerHTML = html;
-            resultsDiv.style.display = 'block';
-            document.getElementById('mod-table').classList.remove('visible');
-            setTimeout(() => document.getElementById('mod-table').style.display = 'none', 300);
         }
+        resultsDiv.style.display = 'block';
+        document.getElementById('mod-table').classList.remove('visible');
+    });
 
-        // Модальное окно создателя таблицы
+    // === Модальное окно создателя ===
+    document.getElementById('toggle-credits').addEventListener('click', () => {
         const modal = document.getElementById('credits-modal');
-        const creditsContent = document.getElementById('credits-content');
-        const openBtn = document.getElementById('toggle-credits');
-        const closeBtn = document.getElementById('close-credits');
+        modal.style.display = 'flex';
+        setTimeout(() => modal.style.opacity = '1', 10);
+    });
 
-        function openModal() {
-            modal.style.display = 'flex';
-            setTimeout(() => {
-                modal.style.opacity = '1';
-                modal.style.pointerEvents = 'auto';
-                creditsContent.style.transform = 'translateY(0)';
-            }, 10);
-        }
-
-        function closeModal() {
-            modal.style.opacity = '0';
-            creditsContent.style.transform = 'translateY(20px)';
-            setTimeout(() => {
-                modal.style.display = 'none';
-                modal.style.pointerEvents = 'none';
-            }, 300);
-        }
-
-        openBtn.addEventListener('click', openModal);
-        closeBtn.addEventListener('click', closeModal);
+    // Закрытие модальных окон
+    ['mods-modal', 'credits-modal'].forEach(id => {
+        const modal = document.getElementById(id);
         modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
+            if (e.target === modal) {
+                modal.style.opacity = '0';
+                setTimeout(() => modal.style.display = 'none', 300);
+            }
         });
-    </script>
+    });
+
+    document.getElementById('close-credits').addEventListener('click', () => {
+        const modal = document.getElementById('credits-modal');
+        modal.style.opacity = '0';
+        setTimeout(() => modal.style.display = 'none', 300);
+    });
+</script>
+    <!-- Кнопка создателя таблицы -->
+<div class="creator-section">
+    <button id="toggle-credits" class="btn">Создатель таблицы</button>
+</div>
 </body>
 </html>
