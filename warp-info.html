@@ -288,6 +288,40 @@
             overflow-y: auto;
             display: block;
         }
+        
+.mod-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    max-height: 300px;
+    overflow-y: auto;
+    display: block;
+    border: 1px solid #8b5cf6;
+    border-radius: 8px;
+}
+
+.mod-table table thead {
+    position: sticky;
+    top: 0;
+    background: #1a1a2e;
+    z-index: 1;
+}
+
+.mod-table table th,
+.mod-table table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #8b5cf6;
+}
+
+.mod-table table th {
+    background: #1a1a2e;
+    font-weight: 600;
+}
+
+.mod-table table tbody tr:nth-child(even) {
+    background: #16162a;
+}
 
         th, td {
             padding: 10px;
@@ -1409,38 +1443,34 @@
         }
 
         // Модальное окно создателя таблицы
-document.querySelector('.creator-section .btn').addEventListener('click', () => {
-    const modal = document.getElementById('credits-modal');
-    modal.style.display = 'flex';
-    setTimeout(() => {
-        modal.style.opacity = '1';
-        modal.style.pointerEvents = 'auto';
-    }, 10);
-});
-
-document.getElementById('credits-modal').addEventListener('click', (e) => {
-    if (e.target.id === 'credits-modal') {
         const modal = document.getElementById('credits-modal');
-        modal.style.opacity = '0';
-        setTimeout(() => {
-            modal.style.display = 'none';
-            modal.style.pointerEvents = 'none';
-        }, 300);
-    }
-});
-    </script>
+        const creditsContent = document.getElementById('credits-content');
+        const openBtn = document.getElementById('toggle-credits');
+        const closeBtn = document.getElementById('close-credits');
 
-    <!-- Кнопка создателя таблицы внизу -->
-<div class="creator-section">
-<div id="credits-modal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Создатель таблицы</h3>
-        </div>
-        <div class="modal-body">
-            <p><strong>Старший Администратор Xan241</strong></p>
-        </div>
-    </div>
-</div>
+        function openModal() {
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.style.opacity = '1';
+                modal.style.pointerEvents = 'auto';
+                creditsContent.style.transform = 'translateY(0)';
+            }, 10);
+        }
+
+        function closeModal() {
+            modal.style.opacity = '0';
+            creditsContent.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.style.pointerEvents = 'none';
+            }, 300);
+        }
+
+        openBtn.addEventListener('click', openModal);
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+    </script>
 </body>
 </html>
