@@ -347,7 +347,6 @@
             <p><strong>Гайдер:</strong> Старший Модератор MrkGrshTraklar</p>
             <p><strong>Дизайн сайта:</strong> Старший Модератор ghosts34444|Qwen</p>
             <p><strong>Главный в разработке сайта:</strong> Главный администратор Raynor</p>
-            <button id="close-credits">&#x2715; Закрыть</button>
         </div>
     </div>
 
@@ -376,7 +375,8 @@
         const modal = document.getElementById('credits-modal');
         const creditsContent = document.getElementById('credits-content');
         const openBtn = document.getElementById('toggle-credits');
-
+        const closeBtn = document.getElementById('close-credits');
+        
         function openModal() {
             modal.style.display = 'flex';
             setTimeout(() => {
