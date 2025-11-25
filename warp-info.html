@@ -23,7 +23,7 @@
             position: relative;
             overflow-x: hidden;
         }
-        /* Градиент снизу */
+        
         .bottom-gradient {
             position: absolute;
             bottom: 0;
@@ -34,7 +34,7 @@
             z-index: 2;
             transition: height 0.3s ease;
         }
-        /* Звёзды */
+        
         .stars {
             position: absolute;
             top: 0;
@@ -80,7 +80,7 @@
             90% { opacity: 0.7; transform: translate(-50%, -50%) rotate(-45deg) scale(1); }
             100% { opacity: 0; transform: translate(-50%, -50%) rotate(-45deg) scale(0); }
         }
-        /* Кнопка меню */
+       
         .menu-btn {
             position: fixed;
             top: 20px;
@@ -100,7 +100,7 @@
         .menu-btn:hover {
             transform: scale(1.05);
         }
-        /* Боковое меню */
+        
         .sidebar {
             position: fixed;
             left: -300px;
@@ -170,7 +170,7 @@
             color: #d8b4f8;
             text-shadow: 0 0 20px rgba(216, 180, 248, 0.6);
         }
-        /* Правила */
+        
         .rules {
             background: #16162a;
             border: 1px solid #8b5cf6;
@@ -190,7 +190,7 @@
         .rules li {
             margin-bottom: 8px;
         }
-        /* Поиск */
+       
         .search-box {
             margin: 0 auto 25px;
             text-align: center;
@@ -209,7 +209,7 @@
         #search-input::placeholder {
             color: #8b5cf6;
         }
-        /* Кнопка отделов */
+        
         .mods-btn {
             display: block;
             width: 240px;
@@ -229,7 +229,7 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(126, 34, 206, 0.5);
         }
-        /* Таблица отдела */
+       
         .mod-table {
             background: #16162a;
             border: 1px solid #8b5cf6;
@@ -252,7 +252,7 @@
             margin-bottom: 15px;
             text-align: center;
         }
-        /* УДАЛЁН СКРОЛЛ */
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -269,7 +269,7 @@
         tr:nth-child(even) {
             background: #1a1a2e;
         }
-        /* Крестик */
+      
         .table-close {
             position: absolute;
             top: 12px;
@@ -287,7 +287,7 @@
             opacity: 1;
             color: #ff6b9d;
         }
-        /* Результаты поиска */
+       
         .search-results {
             background: #16162a;
             border: 1px solid #8b5cf6;
@@ -301,7 +301,7 @@
             margin-bottom: 15px;
             text-align: center;
         }
-        /* Модальное окно выбора отдела (без заголовка) */
+
         .modal {
             position: fixed;
             top: 0;
@@ -402,7 +402,7 @@
             <button class="sidebar-close" id="close-sidebar">×</button>
         </div>
         <ul class="sidebar-menu">
-            <li><a href="index.html" class="active">Главная</a></li>
+            <li><a href="index.html">Главная</a></li>
             <li><a href="loli-magically-guide.html">LoliMagically</a></li>
             <li><a href="#">LoliEnergistics</a></li>
             <li><a href="#">LoliUtility</a></li>
@@ -416,7 +416,7 @@
             <li><a href="#">Galacticraft</a></li>
             <li><a href="#">Ic2|MineFactory</a></li>
             <li><a href="#">TConstruct</a></li>
-            <li><a href="warp-info.html">Информация о варпах</a></li>
+            <li><a href="warp-info.html" class="active">Информация о варпах</a></li>
             <li><a href="https://docs.google.com/spreadsheets/d/1QC7ucMeEJdXzvOPOoiM33oMWj_J6-C7E/edit?gid=851695745#gid=851695745" target="_blank">Список дропа душ</a></li>
         </ul>
     </div>
@@ -427,10 +427,10 @@
         <div class="rules">
             <h2>Правила создания варпа</h2>
             <ul>
-                <li>Варп должен быть одобрен администрацией DarkGalaxy.</li>
-                <li>На варпе должно быть не менее 60 торговых аппаратов.</li>
-                <li>Варп должен выглядеть презентабельно.</li>
-                <li>Варп должен быть безопасным для игроков.</li>
+                <li>Варп должен быть одобрен администрацией DarkGalaxy, для одобрения обратитесь в тикет</li>
+                <li>На варпе должно быть не менее 3 отделов и общие кол-во обменников 100 торговых аппаратов</li>
+                <li>Варп должен выглядеть презентабельно и быть безопасным для игроков</li>
+                <li>Если вы хотите добавить предмет в таблицу, то напишите тикет, указав примерную стоимость за то или иное кол-во предмета</li>
             </ul>
         </div>
         <div class="search-box">
@@ -438,7 +438,7 @@
         </div>
         <button class="mods-btn" id="open-mods-modal">Выбрать отдел</button>
         <div class="search-results" id="search-results"></div>
-        <!-- Таблица с крестиком -->
+        
         <div class="mod-table" id="mod-table">
             <button class="table-close" id="close-table">×</button>
             <h3 id="table-title">Заголовок</h3>
@@ -448,7 +448,7 @@
             </table>
         </div>
     </div>
-    <!-- Модальное окно выбора отдела БЕЗ заголовка -->
+   
     <div id="mods-modal" class="modal">
         <div class="modal-content">
             <div class="modal-body" id="mods-list"></div>
@@ -456,7 +456,7 @@
     </div>
 
     <script>
-        // === ДАННЫЕ ОТДЕЛОВ ===
+        
         const departments = {
             vanilla: { name: "Vanilla", items: [
                 { name: "Тростник | 64 шт", price: "6 Железных слитка" },
@@ -1125,7 +1125,7 @@
             ]}
         };
 
-        // Звёзды
+     
         const stars = document.getElementById('stars');
         const count = 40;
         for (let i = 0; i < count; i++) {
@@ -1145,7 +1145,7 @@
             stars.appendChild(star);
         }
 
-        // Боковое меню
+   
         const menuBtn = document.getElementById('menu-btn');
         const sidebar = document.getElementById('sidebar');
         const closeBtn = document.getElementById('close-sidebar');
@@ -1157,7 +1157,7 @@
             }
         });
 
-        // Модальное окно выбора отдела — БЕЗ ЗАГОЛОВКА
+      
         const modsList = document.getElementById('mods-list');
         const order = [
             'vanilla', 'thaumcraft', 'appliedenergistics2', 'thermal', 'blood',
@@ -1185,7 +1185,7 @@
             modsList.appendChild(div);
         });
 
-        // Модальные окна
+  
         function showModal(modalId) {
             const modal = document.getElementById(modalId);
             modal.style.display = 'flex';
@@ -1207,7 +1207,7 @@
             if (e.target === document.getElementById('mods-modal')) closeModal('mods-modal');
         });
 
-        // === ЛОГИКА ТАБЛИЦ И ГРАДИЕНТА ===
+      
         let lastOpenedDeptKey = null;
 
         function showTable(deptKey) {
@@ -1228,7 +1228,7 @@
             document.getElementById('search-results').style.display = 'none';
             lastOpenedDeptKey = deptKey;
 
-            // Сдвинуть градиент под таблицу
+           
             setTimeout(() => {
                 const tableRect = table.getBoundingClientRect();
                 const tableBottom = tableRect.bottom;
@@ -1253,7 +1253,7 @@
 
         document.getElementById('close-table').addEventListener('click', hideTable);
 
-        // Поиск
+       
         const searchInput = document.getElementById('search-input');
         let searchTimeout;
         searchInput.addEventListener('input', () => {
