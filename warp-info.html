@@ -23,7 +23,6 @@
             position: relative;
             overflow-x: hidden;
         }
-        
         .bottom-gradient {
             position: absolute;
             bottom: 0;
@@ -34,7 +33,6 @@
             z-index: 2;
             transition: height 0.3s ease;
         }
-        
         .stars {
             position: absolute;
             top: 0;
@@ -80,7 +78,6 @@
             90% { opacity: 0.7; transform: translate(-50%, -50%) rotate(-45deg) scale(1); }
             100% { opacity: 0; transform: translate(-50%, -50%) rotate(-45deg) scale(0); }
         }
-       
         .menu-btn {
             position: fixed;
             top: 20px;
@@ -100,7 +97,6 @@
         .menu-btn:hover {
             transform: scale(1.05);
         }
-        
         .sidebar {
             position: fixed;
             left: -300px;
@@ -170,7 +166,6 @@
             color: #d8b4f8;
             text-shadow: 0 0 20px rgba(216, 180, 248, 0.6);
         }
-        
         .rules {
             background: #16162a;
             border: 1px solid #8b5cf6;
@@ -190,15 +185,14 @@
         .rules li {
             margin-bottom: 8px;
         }
-       
-        .search-box {
-            margin: 0 auto 25px;
-            text-align: center;
+        .search-input-wrapper {
+            position: relative;
             max-width: 500px;
+            margin: 0 auto 25px;
         }
         #search-input {
             width: 100%;
-            padding: 12px 20px;
+            padding: 12px 40px 12px 20px;
             border-radius: 50px;
             border: 1px solid #8b5cf6;
             background: #16162a;
@@ -209,7 +203,24 @@
         #search-input::placeholder {
             color: #8b5cf6;
         }
-        
+        #search-clear {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #a5b4fc;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+            display: none;
+        }
+        #search-clear:hover {
+            opacity: 1;
+            color: #ff6b9d;
+        }
         .mods-btn {
             display: block;
             width: 240px;
@@ -229,7 +240,6 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(126, 34, 206, 0.5);
         }
-       
         .mod-table {
             background: #16162a;
             border: 1px solid #8b5cf6;
@@ -252,7 +262,6 @@
             margin-bottom: 15px;
             text-align: center;
         }
-
         table {
             width: 100%;
             border-collapse: collapse;
@@ -269,7 +278,6 @@
         tr:nth-child(even) {
             background: #1a1a2e;
         }
-      
         .table-close {
             position: absolute;
             top: 12px;
@@ -287,7 +295,6 @@
             opacity: 1;
             color: #ff6b9d;
         }
-       
         .search-results {
             background: #16162a;
             border: 1px solid #8b5cf6;
@@ -301,7 +308,6 @@
             margin-bottom: 15px;
             text-align: center;
         }
-
         .modal {
             position: fixed;
             top: 0;
@@ -433,12 +439,13 @@
                 <li>Если вы хотите добавить предмет в таблицу, то напишите тикет, указав примерную стоимость за то или иное кол-во предмета</li>
             </ul>
         </div>
-        <div class="search-box">
-            <input type="text" id="search-input" placeholder="Введите название предмета (от 4 букв)">
-        </div>
+        <!-- Поле поиска с крестиком -->
+<div class="search-input-wrapper">
+    <input type="text" id="search-input" placeholder="Введите название предмета (от 4 букв)">
+    <button class="search-clear" id="search-clear">×</button>
+</div>
         <button class="mods-btn" id="open-mods-modal">Выбрать отдел</button>
         <div class="search-results" id="search-results"></div>
-        
         <div class="mod-table" id="mod-table">
             <button class="table-close" id="close-table">×</button>
             <h3 id="table-title">Заголовок</h3>
@@ -448,7 +455,7 @@
             </table>
         </div>
     </div>
-   
+    <!-- Модальное окно выбора отдела (без заголовка) -->
     <div id="mods-modal" class="modal">
         <div class="modal-content">
             <div class="modal-body" id="mods-list"></div>
@@ -456,7 +463,6 @@
     </div>
 
     <script>
-        
         const departments = {
             vanilla: { name: "Vanilla", items: [
                 { name: "Тростник | 64 шт", price: "6 Железных слитка" },
@@ -812,7 +818,7 @@
                 { name: "Метатель сети | 1 шт", price: "12 Железных слитков" }
             ]},
             dc: { name: "Draconic Evolution", items: [
-                { name: "Драконьевая руда | 1 шт", price: "12 Манулиновых слитков" },
+                { name: "Драконьевая руда | 1 шт", price: "12 Манулиновых слитка" },
                 { name: "Генератор частиц | 1 шт", price: "8 Иридия" },
                 { name: "Наполнитель энергии | 1 шт", price: "24 Иридия" },
                 { name: "Стабилизированный спавнер | 1 шт", price: "48 Иридия" },
@@ -926,8 +932,8 @@
                 { name: "Сосуд для пчелы | 1 шт", price: "16 Алмазов" },
                 { name: "Резервуар для мутагена | 1 шт", price: "12 Иридия" },
                 { name: "Интегральная печатная плата | 1 шт", price: "12 Алмазов" },
-                { name: "Интегральный корпус | 1 шт", price: "12 Алмазных блоков" },
-                { name: "Интегральный процессор | 1 шт", price: "12 Алмазных блоков" },
+                { name: "Интегральный корпус | 1 шт", price: "12 Алмазных блока" },
+                { name: "Интегральный процессор | 1 шт", price: "12 Алмазных блока" },
                 { name: "Ведро протеина | 1 шт", price: "4 Железных слитка" },
                 { name: "Ведро жидкого ДНК | 1 шт", price: "4 Железных слитка" },
                 { name: "Краситель ДНК | 1 шт", price: "4 Железных слитка" },
@@ -999,7 +1005,7 @@
                 { name: "Расширенное глубокое хранилище | 1 шт", price: "8 Пробуждённых дракониевых слитка" },
                 { name: "Двойной молекулярный преоброзователь | 1 шт", price: "16 Пробуждённых дракониевых слитка" },
                 { name: "Лазерный сборочный стол | 1 шт", price: "4 Пробуждённых дракониевых слитка" },
-                { name: "Промышленный генератор булыжника | 1 шт", price: "8 Алмазных блоков" },
+                { name: "Промышленный генератор булыжника | 1 шт", price: "8 Алмазных блока" },
                 { name: "Промышленный молекулярный преоброзователь | 1 шт", price: "12 Пробуждённых дракониевых слитка" },
                 { name: "Молекулярная ферма | 1 шт", price: "25 Железных блоков" },
                 { name: "Живая плоть | 1 шт", price: "5 Иридия" },
@@ -1021,9 +1027,9 @@
                 { name: "Расширенный сингулярный металлоф.механизм | 1 шт", price: "24 Железных блоков" },
                 { name: "Улучшенный Режущий механизм | 1 шт", price: "4 Мифриловых блока" },
                 { name: "Продвинутый солнечный опреснитель | 1 шт", price: "32 Железных блоков" },
-                { name: "Фабрика хладогента | 1 шт", price: "16 Алмазных блоков" },
+                { name: "Фабрика хладогента | 1 шт", price: "16 Алмазных блока" },
                 { name: "Кластерный распаковщик | 1 шт", price: "12 Алмазных блоков" },
-                { name: "Плавильная установка | 1 шт", price: "24 Алмазных блоков" },
+                { name: "Плавильная установка | 1 шт", price: "24 Алмазных блока" },
                 { name: "Улучшенный парогенератор | 1 шт", price: "12 Алмазных блоков" },
                 { name: "Жидкостный затягиватель | 1 шт", price: "6 Железных блоков" },
                 { name: "Гибридное МФЭХ | 1 шт", price: "4 Иридиевых пластин" },
@@ -1125,7 +1131,7 @@
             ]}
         };
 
-     
+        // Инициализация звёзд
         const stars = document.getElementById('stars');
         const count = 40;
         for (let i = 0; i < count; i++) {
@@ -1145,7 +1151,7 @@
             stars.appendChild(star);
         }
 
-   
+        // Боковое меню
         const menuBtn = document.getElementById('menu-btn');
         const sidebar = document.getElementById('sidebar');
         const closeBtn = document.getElementById('close-sidebar');
@@ -1157,7 +1163,7 @@
             }
         });
 
-      
+        // Модальное окно выбора отдела (без заголовка)
         const modsList = document.getElementById('mods-list');
         const order = [
             'vanilla', 'thaumcraft', 'appliedenergistics2', 'thermal', 'blood',
@@ -1185,7 +1191,7 @@
             modsList.appendChild(div);
         });
 
-  
+        // Модальные окна
         function showModal(modalId) {
             const modal = document.getElementById(modalId);
             modal.style.display = 'flex';
@@ -1194,6 +1200,7 @@
                 modal.style.pointerEvents = 'auto';
             }, 10);
         }
+
         function closeModal(modalId) {
             const modal = document.getElementById(modalId);
             modal.style.opacity = '0';
@@ -1202,15 +1209,22 @@
                 modal.style.pointerEvents = 'none';
             }, 300);
         }
+
         document.getElementById('open-mods-modal').addEventListener('click', () => showModal('mods-modal'));
         document.getElementById('mods-modal').addEventListener('click', (e) => {
             if (e.target === document.getElementById('mods-modal')) closeModal('mods-modal');
         });
 
-      
+        // Логика таблиц
         let lastOpenedDeptKey = null;
 
         function showTable(deptKey) {
+            // Очищаем поле поиска
+            const searchInput = document.getElementById('search-input');
+            searchInput.value = '';
+            document.getElementById('search-clear').style.display = 'none';
+            document.getElementById('search-results').style.display = 'none';
+
             const dept = departments[deptKey];
             document.getElementById('table-title').textContent = dept.name;
             const tbody = document.getElementById('table-body');
@@ -1225,10 +1239,9 @@
             table.style.display = 'block';
             setTimeout(() => table.classList.add('visible'), 10);
 
-            document.getElementById('search-results').style.display = 'none';
             lastOpenedDeptKey = deptKey;
 
-           
+            // Сдвигаем градиент под таблицу
             setTimeout(() => {
                 const tableRect = table.getBoundingClientRect();
                 const tableBottom = tableRect.bottom;
@@ -1253,55 +1266,66 @@
 
         document.getElementById('close-table').addEventListener('click', hideTable);
 
-       
-        const searchInput = document.getElementById('search-input');
-        let searchTimeout;
-        searchInput.addEventListener('input', () => {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                const query = searchInput.value.trim();
-                if (query.length < 4) {
-                    document.getElementById('search-results').style.display = 'none';
-                    if (lastOpenedDeptKey) {
-                        showTable(lastOpenedDeptKey);
-                    }
-                    return;
-                }
-                performSearch(query);
-            }, 300);
-        });
+    // === ПОИСК БЕЗ ЗАДЕРЖКИ ===
+    const searchInput = document.getElementById('search-input');
+    const searchClear = document.getElementById('search-clear');
 
-        function performSearch(query) {
-            const results = {};
-            for (const [key, dept] of Object.entries(departments)) {
-                const matches = dept.items.filter(item =>
-                    item.name.toLowerCase().includes(query.toLowerCase())
-                );
-                if (matches.length > 0) {
-                    results[key] = { name: dept.name, items: matches };
-                }
-            }
+    searchInput.addEventListener('input', () => {
+        const query = searchInput.value.trim();
+        searchClear.style.display = query.length > 0 ? 'block' : 'none';
 
-            const resultsDiv = document.getElementById('search-results');
-            if (Object.keys(results).length === 0) {
-                resultsDiv.style.display = 'block';
-                resultsDiv.innerHTML = '<h3>Ничего не найдено</h3>';
-            } else {
-                const sortedResults = order.filter(key => results[key]).map(key => [key, results[key]]);
-                let html = '';
-                for (const [key, dept] of sortedResults) {
-                    html += `<h3>${dept.name}</h3><table><thead><tr><th>Предмет</th><th>Цена</th></tr></thead><tbody>`;
-                    dept.items.forEach(item => {
-                        html += `<tr><td>${item.name}</td><td>${item.price}</td></tr>`;
-                    });
-                    html += `</tbody></table><br>`;
-                }
-                resultsDiv.innerHTML = html;
-                resultsDiv.style.display = 'block';
-            }
-
-            hideTable();
+        if (query.length < 4) {
+            document.getElementById('search-results').style.display = 'none';
+            // НЕ восстанавливаем таблицу автоматически!
+            // Пусть пользователь сам решит: выбрать отдел или продолжить ввод
+            return;
         }
+
+        performSearch(query);
+    });
+
+    searchClear.addEventListener('click', () => {
+        searchInput.value = '';
+        searchClear.style.display = 'none';
+        document.getElementById('search-results').style.display = 'none';
+        // Восстанавливаем последнюю таблицу ТОЛЬКО при клике на крестик
+        if (lastOpenedDeptKey) {
+            showTable(lastOpenedDeptKey);
+        }
+    });
+
+    function performSearch(query) {
+        const results = {};
+        for (const [key, dept] of Object.entries(departments)) {
+            const matches = dept.items.filter(item =>
+                item.name.toLowerCase().includes(query.toLowerCase())
+            );
+            if (matches.length > 0) {
+                results[key] = { name: dept.name, items: matches };
+            }
+        }
+
+        const resultsDiv = document.getElementById('search-results');
+        if (Object.keys(results).length === 0) {
+            resultsDiv.style.display = 'block';
+            resultsDiv.innerHTML = '<h3>Ничего не найдено</h3>';
+        } else {
+            const sortedResults = order.filter(key => results[key]).map(key => [key, results[key]]);
+            let html = '';
+            for (const [key, dept] of sortedResults) {
+                html += `<h3>${dept.name}</h3><table><thead><tr><th>Предмет</th><th>Цена</th></tr></thead><tbody>`;
+                dept.items.forEach(item => {
+                    html += `<tr><td>${item.name}</td><td>${item.price}</td></tr>`;
+                });
+                html += `</tbody></table><br>`;
+            }
+            resultsDiv.innerHTML = html;
+            resultsDiv.style.display = 'block';
+        }
+
+        // Скрываем таблицу при активном поиске
+        hideTable();
+    }
     </script>
 </body>
 </html>
