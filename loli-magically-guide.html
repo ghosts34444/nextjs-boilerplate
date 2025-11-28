@@ -297,16 +297,16 @@
         <div class="guide-container">
             <div class="model-column">
                 <model-viewer 
-                    src="models/alchemical_synthesizer.geo.glb"
-                    environment-image="neutral"
-                    auto-play
-                    ar
-                    camera-controls
-                    style="width: 220px; height: 220px; background: transparent;">
-                    <div slot="progress-bar" style="display:none"></div>
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Crect width='220' height='220' fill='%231a1a2e'/%3E%3Ctext x='110' y='115' font-family='Exo 2' font-size='14' fill='%238b5cf6' text-anchor='middle'%3E?%3C/text%3E%3C/svg%3E" 
-                         slot="poster">
-                </model-viewer>
+    id="myModel"
+    src="models/alchemical_synthesizer.geo.glb"
+    environment-image="neutral"
+    ar
+    camera-controls
+    style="width: 220px; height: 220px; background: transparent;">
+    <div slot="progress-bar" style="display:none"></div>
+    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Crect width='220' height='220' fill='%231a1a2e'/%3E%3Ctext x='110' y='115' font-family='Exo 2' font-size='14' fill='%238b5cf6' text-anchor='middle'%3E?%3C/text%3E%3C/svg%3E" 
+         slot="poster">
+</model-viewer>
             </div>
 
             <div class="text-column">
@@ -382,6 +382,15 @@
                 sidebar.classList.remove('open');
             }
         });
+        // Автоматический запуск анимации после загрузки модели
+document.getElementById('myModel').addEventListener('load', (e) => {
+    const modelViewer = e.target;
+    if (modelViewer.availableAnimations && modelViewer.availableAnimations.length > 0) {
+        // Старт первой анимации
+        modelViewer.animationName = modelViewer.availableAnimations[0];
+        modelViewer.play();
+    }
+});
     </script>
 </body>
 </html>
