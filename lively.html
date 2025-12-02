@@ -55,19 +55,22 @@
     let model = null;
     const loader = new GLTFLoader();
     loader.load(
-      'models/sky_hermit.geo.glb', // ← измените путь, если нужно
-      (gltf) => {
-        model = gltf.scene;
-        model.scale.set(0.5, 0.5, 0.5); // подстройте масштаб под вашу модель
-        model.position.y = -0.5;        // опустите/поднимите, если нужно
-        scene.add(model);
-      },
-      undefined,
-      (error) => {
-        console.error('❌ Ошибка загрузки GLB-модели:', error);
-        document.getElementById('error').style.display = 'block';
-      }
-    );
+  'models/sky_hermit.geo.glb',
+  (gltf) => {
+    model = gltf.scene;
+    model.scale.set(0.5, 0.5, 0.5);
+    model.position.y = -0.5;
+    scene.add(model);
+    document.getElementById('error').style.display = 'none'; // скрыть ошибку
+  },
+  undefined,
+  (error) => {
+    console.error('❌ Ошибка загрузки:', error);
+    const errorDiv = document.getElementById('error');
+    errorDiv.textContent = `Ошибка загрузки модели: ${error.message}`;
+    errorDiv.style.display = 'block';
+  }
+);
 
     // Анимация
     function animate() {
