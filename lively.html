@@ -17,7 +17,7 @@
     document.body.appendChild(renderer.domElement);
 
     const loader = new GLTFLoader();
-    loader.load('model.glb', (gltf) => {
+    loader.load('models/helio.glb', (gltf) => {
       scene.add(gltf.scene);
     });
 
