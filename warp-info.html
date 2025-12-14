@@ -440,6 +440,26 @@
         min-width: 300px;
     }
 }
+/* Убираем обводку у кнопки "Показать создателей" и делаем её стилистически единым целым */
+#toggle-credits {
+    border: none;        /* 🔑 Убирает стандартную рамку */
+    outline: none;       /* Убирает outline при фокусе */
+    background: linear-gradient(45deg, #8b5cf6, #6366f1);
+    color: white;
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 5px 20px rgba(139, 92, 246, 0.4);
+    transition: all 0.3s ease;
+}
+
+#toggle-credits:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
+}
     </style>
 </head>
 <body>
