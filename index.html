@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark Galaxy — Гайды по серверу</title>
+    <title>Dark Galaxy — Главная</title>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -245,7 +245,27 @@
             p.subtitle { font-size: 0.9rem; }
             .btn { font-size: 0.9rem; padding: 8px 12px; }
             .footer { font-size: 0.8rem; padding: 10px 0 25px; }
-        }
+        } 
+        /* Убираем обводку у кнопки "Показать создателей" и делаем её стилистически единым целым */
+#toggle-credits {
+    border: none;        /* 🔑 Убирает стандартную рамку */
+    outline: none;       /* Убирает outline при фокусе */
+    background: linear-gradient(45deg, #8b5cf6, #6366f1);
+    color: white;
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 5px 20px rgba(139, 92, 246, 0.4);
+    transition: all 0.3s ease;
+}
+
+#toggle-credits:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
+}
     </style>
 </head>
 <body>
@@ -295,7 +315,7 @@
         for (let i = 0; i < count; i++) {
             const star = document.createElement('div');
             star.classList.add('star');
-            star.textContent = '★'; // Падающие звёзды — ★
+            star.textContent = '✧'; // Падающие звёзды — ★
             const size = Math.random() * 0.6 + 0.4;
             const duration = Math.random() * 15 + 10;
             const delay = Math.random() * 10;
