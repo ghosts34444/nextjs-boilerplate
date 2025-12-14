@@ -221,25 +221,27 @@
             opacity: 1;
             color: #ff6b9d;
         }
-        .mods-btn {
-            display: block;
-            width: 240px;
-            margin: 0 auto 30px;
-            padding: 12px 20px;
-            background: linear-gradient(45deg, #7e22ce, #4f46e5);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1rem;
-            text-align: center;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-        .mods-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(126, 34, 206, 0.5);
-        }
+.mods-btn {
+    display: block;
+    width: 240px;
+    margin: 0 auto 30px;
+    padding: 12px 20px;
+    background: linear-gradient(45deg, #7e22ce, #4f46e5);
+    color: white;
+    border: none;               /* ← Ключевое исправление */
+    outline: none;              /* ← Ключевое исправление */
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: center;
+    transition: all 0.2s;
+    cursor: pointer;            /* ← Для единообразия */
+    box-shadow: 0 5px 15px rgba(126, 34, 206, 0.5);
+}
+.mods-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(126, 34, 206, 0.7);
+}
         .mod-table {
             background: #16162a;
             border: 1px solid #8b5cf6;
