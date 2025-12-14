@@ -169,6 +169,10 @@
             font-size: 0.9rem;
             text-align: center;
             margin-top: auto;
+            <!-- Кнопка "Создатели" — адаптивная -->
+<div class="creator-section">
+    <button id="toggle-credits" class="btn">Показать создателей</button>
+</div>
         }
 
         #credits-modal {
@@ -266,6 +270,42 @@
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
 }
+        /* Адаптивная кнопка "Создатели" */
+.creator-section {
+    margin: 30px auto;
+    max-width: 320px;
+}
+
+/* На десктопе — оставляем внизу как фиксированную (как было) */
+@media (min-width: 769px) {
+    .creator-section {
+        position: fixed;
+        bottom: 40px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        margin: 0;
+    }
+}
+
+/* На мобильных — просто в потоке, сразу после кнопок */
+@media (max-width: 768px) {
+    .creator-section {
+        position: static;
+        margin-top: 30px;
+        text-align: center;
+    }
+}
+
+/* Стиль кнопки */
+.creator-section .btn {
+    font-size: 0.95rem;
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
     </style>
 </head>
 <body>
@@ -292,7 +332,7 @@
 
     <div class="footer">
         <button id="toggle-credits" class="btn" style="font-size: 0.9rem; padding: 8px 16px;">
-            Создателей
+            Создатели
         </button>
     </div>
 
