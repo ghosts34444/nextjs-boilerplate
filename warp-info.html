@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark Galaxy — Информация о варпах</title>
+    <title>Dark Galaxy - Цены варпов</title>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -396,6 +396,50 @@
             .sidebar-menu a { padding: 8px 12px; font-size: 0.88rem; }
             .modal-content { margin: 10px; }
         }
+        /* === КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ ДЛЯ ВСЕХ ТАБЛИЦ === */
+.mod-table table,
+.search-results table {
+    width: 100%;
+    min-width: 400px;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    margin: 0 auto; /* ЦЕНТРИРОВАНИЕ */
+    overflow-x: auto; /* Горизонтальный скролл */
+}
+
+.mod-table th,
+.mod-table td,
+.search-results th,
+.search-results td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #8b5cf6;
+    word-break: break-word; /* Перенос длинных слов */
+    white-space: normal;
+}
+
+.mod-table th,
+.search-results th {
+    background: #1a1a2e;
+    font-weight: 600;
+}
+
+/* Для мобильных устройств */
+@media (max-width: 768px) {
+    .mod-table table,
+    .search-results table {
+        font-size: 0.85rem;
+        min-width: 350px;
+    }
+}
+
+@media (max-width: 480px) {
+    .mod-table table,
+    .search-results table {
+        font-size: 0.8rem;
+        min-width: 300px;
+    }
+}
     </style>
 </head>
 <body>
