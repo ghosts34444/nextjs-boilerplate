@@ -1281,117 +1281,121 @@
             if (e.target === document.getElementById('mods-modal')) closeModal('mods-modal');
         });
 
-        // Логика таблиц
-        let lastOpenedDeptKey = null;
+// === ЛОГИКА ТАБЛИЦ И ПОИСКА ===
+let lastOpenedDeptKey = null;
+let isTableManuallyClosed = false; // 🔑 Флаг: таблица закрыта вручную
 
-        function showTable(deptKey) {
-            // Очищаем поле поиска
-            const searchInput = document.getElementById('search-input');
-            searchInput.value = '';
-            document.getElementById('search-clear').style.display = 'none';
-            document.getElementById('search-results').style.display = 'none';
-
-            const dept = departments[deptKey];
-            document.getElementById('table-title').textContent = dept.name;
-            const tbody = document.getElementById('table-body');
-            tbody.innerHTML = '';
-            dept.items.forEach(item => {
-                const row = tbody.insertRow();
-                row.insertCell(0).textContent = item.name;
-                row.insertCell(1).textContent = item.price;
-            });
-
-            const table = document.getElementById('mod-table');
-            table.style.display = 'block';
-            setTimeout(() => table.classList.add('visible'), 10);
-
-            lastOpenedDeptKey = deptKey;
-
-            // Сдвигаем градиент под таблицу
-            setTimeout(() => {
-                const tableRect = table.getBoundingClientRect();
-                const tableBottom = tableRect.bottom;
-                const viewportHeight = window.innerHeight;
-                const neededHeight = viewportHeight - tableBottom + 50;
-                const minHeight = 150;
-                const finalHeight = Math.max(minHeight, neededHeight);
-                document.querySelector('.bottom-gradient').style.height = `${finalHeight}px`;
-            }, 310);
-        }
-
-        function hideTable() {
-            const table = document.getElementById('mod-table');
-            if (table.classList.contains('visible')) {
-                table.classList.remove('visible');
-                setTimeout(() => {
-                    table.style.display = 'none';
-                    document.querySelector('.bottom-gradient').style.height = '150px';
-                }, 300);
-            }
-        }
-
-        document.getElementById('close-table').addEventListener('click', hideTable);
-
-    // === ПОИСК БЕЗ ЗАДЕРЖКИ ===
+function showTable(deptKey) {
+    // Очищаем поле поиска
     const searchInput = document.getElementById('search-input');
-    const searchClear = document.getElementById('search-clear');
+    searchInput.value = '';
+    document.getElementById('search-clear').style.display = 'none';
+    document.getElementById('search-results').style.display = 'none';
 
-    searchInput.addEventListener('input', () => {
-        const query = searchInput.value.trim();
-        searchClear.style.display = query.length > 0 ? 'block' : 'none';
-
-        if (query.length < 3) {
-            document.getElementById('search-results').style.display = 'none';
-            // НЕ восстанавливаем таблицу автоматически!
-            // Пусть пользователь сам решит: выбрать отдел или продолжить ввод
-            return;
-        }
-
-        performSearch(query);
+    const dept = departments[deptKey];
+    document.getElementById('table-title').textContent = dept.name;
+    const tbody = document.getElementById('table-body');
+    tbody.innerHTML = '';
+    dept.items.forEach(item => {
+        const row = tbody.insertRow();
+        row.insertCell(0).textContent = item.name;
+        row.insertCell(1).textContent = item.price;
     });
 
-    searchClear.addEventListener('click', () => {
-        searchInput.value = '';
-        searchClear.style.display = 'none';
-        document.getElementById('search-results').style.display = 'none';
-        // Восстанавливаем последнюю таблицу ТОЛЬКО при клике на крестик
-        if (lastOpenedDeptKey) {
-            showTable(lastOpenedDeptKey);
-        }
-    });
+    const table = document.getElementById('mod-table');
+    table.style.display = 'block';
+    setTimeout(() => table.classList.add('visible'), 10);
 
-    function performSearch(query) {
-        const results = {};
-        for (const [key, dept] of Object.entries(departments)) {
-            const matches = dept.items.filter(item =>
-                item.name.toLowerCase().includes(query.toLowerCase())
-            );
-            if (matches.length > 0) {
-                results[key] = { name: dept.name, items: matches };
-            }
-        }
+    // 🔑 Сбрасываем флаг — таблица открыта по выбору отдела
+    isTableManuallyClosed = false;
+    lastOpenedDeptKey = deptKey;
 
-        const resultsDiv = document.getElementById('search-results');
-        if (Object.keys(results).length === 0) {
-            resultsDiv.style.display = 'block';
-            resultsDiv.innerHTML = '<h3>Ничего не найдено</h3>';
-        } else {
-            const sortedResults = order.filter(key => results[key]).map(key => [key, results[key]]);
-            let html = '';
-            for (const [key, dept] of sortedResults) {
-                html += `<h3>${dept.name}</h3><table><thead><tr><th>Предмет</th><th>Цена</th></tr></thead><tbody>`;
-                dept.items.forEach(item => {
-                    html += `<tr><td>${item.name}</td><td>${item.price}</td></tr>`;
-                });
-                html += `</tbody></table><br>`;
-            }
-            resultsDiv.innerHTML = html;
-            resultsDiv.style.display = 'block';
-        }
+    // Сдвигаем градиент под таблицу
+    setTimeout(() => {
+        const tableRect = table.getBoundingClientRect();
+        const tableBottom = tableRect.bottom;
+        const viewportHeight = window.innerHeight;
+        const neededHeight = viewportHeight - tableBottom + 50;
+        const minHeight = 150;
+        const finalHeight = Math.max(minHeight, neededHeight);
+        document.querySelector('.bottom-gradient').style.height = `${finalHeight}px`;
+    }, 310);
+}
 
-        // Скрываем таблицу при активном поиске
-        hideTable();
+function hideTable() {
+    const table = document.getElementById('mod-table');
+    if (table.classList.contains('visible')) {
+        table.classList.remove('visible');
+        setTimeout(() => {
+            table.style.display = 'none';
+            document.querySelector('.bottom-gradient').style.height = '150px';
+        }, 300);
     }
+}
+
+// 🔑 При закрытии таблицы вручную — устанавливаем флаг
+document.getElementById('close-table').addEventListener('click', () => {
+    isTableManuallyClosed = true;
+    hideTable();
+});
+
+// === ПОИСК ===
+const searchInput = document.getElementById('search-input');
+const searchClear = document.getElementById('search-clear');
+
+searchInput.addEventListener('input', () => {
+    const query = searchInput.value.trim();
+    searchClear.style.display = query.length > 0 ? 'block' : 'none';
+
+    if (query.length < 3) {
+        document.getElementById('search-results').style.display = 'none';
+        return;
+    }
+
+    performSearch(query);
+    // Скрываем таблицу при поиске (но НЕ меняем isTableManuallyClosed!)
+    hideTable();
+});
+
+searchClear.addEventListener('click', () => {
+    searchInput.value = '';
+    searchClear.style.display = 'none';
+    document.getElementById('search-results').style.display = 'none';
+
+    // 🔑 Восстанавливаем таблицу ТОЛЬКО если она не была закрыта вручную
+    if (!isTableManuallyClosed && lastOpenedDeptKey) {
+        showTable(lastOpenedDeptKey);
+    }
+});
+
+function performSearch(query) {
+    const results = {};
+    for (const [key, dept] of Object.entries(departments)) {
+        const matches = dept.items.filter(item =>
+            item.name.toLowerCase().includes(query.toLowerCase())
+        );
+        if (matches.length > 0) {
+            results[key] = { name: dept.name, items: matches };
+        }
+    }
+
+    const resultsDiv = document.getElementById('search-results');
+    if (Object.keys(results).length === 0) {
+        resultsDiv.innerHTML = '<h3>Ничего не найдено</h3>';
+    } else {
+        const sortedResults = order.filter(key => results[key]).map(key => [key, results[key]]);
+        let html = '';
+        for (const [key, dept] of sortedResults) {
+            html += `<h3>${dept.name}</h3><table><thead><tr><th>Предмет</th><th>Цена</th></tr></thead><tbody>`;
+            dept.items.forEach(item => {
+                html += `<tr><td>${item.name}</td><td>${item.price}</td></tr>`;
+            });
+            html += `</tbody></table><br>`;
+        }
+        resultsDiv.innerHTML = html;
+    }
+    resultsDiv.style.display = 'block';
+}
     </script>
 </body>
 </html>
