@@ -115,52 +115,47 @@
         <div id="content" style="display: none;"></div>
     </div>
 
-    <script>
-        // UUID MrkGrshTraklar
-        const userId = "0196d4bd-2c0e-710d-8be3-3b6685aed744";
-        const avatarUrl = `https://loliland.ru/apiv2/user/avatar/medium/${userId}.gif`;
-        const profileUrl = `https://loliland.ru/apiv2/user/search?login=MrkGrshTraklar`;
+   <script>
+  const login = "MrkGrshTraklar";
+  const proxyUrl = `/api/loliland-profile?login=${encodeURIComponent(login)}`;
 
-        const loadingEl = document.getElementById('loading');
-        const errorEl = document.getElementById('error');
-        const contentEl = document.getElementById('content');
+  const loadingEl = document.getElementById('loading');
+  const errorEl = document.getElementById('error');
+  const contentEl = document.getElementById('content');
 
-        fetch(profileUrl)
-            .then(response => {
-                if (!response.ok) throw new Error('Не удалось загрузить данные пользователя');
-                return response.json();
-            })
-            .then(data => {
-                if (!data || !data.users || data.users.length === 0) {
-                    throw new Error('Пользователь не найден');
-                }
+  fetch(proxyUrl)
+    .then(response => {
+      if (!response.ok) throw new Error('Пользователь не найден или ошибка сервера');
+      return response.json();
+    })
+    .then(data => {
+      const displayName = data.displayName;
+      const userId = data.userId;
+      const role = data.role;
+      const avatarUrl = `https://loliland.ru/apiv2/user/avatar/medium/${userId}.gif`;
+      const description = "Автор и составитель официальных гайдов сервера Dark Galaxy. Отвечает за достоверность и полноту информации для игроков.";
 
-                const user = data.users[0];
-                const displayName = user.displayName || "MrkGrshTraklar";
-                const role = "Старший Модератор";
-                const description = "Автор и составитель официальных гайдов сервера Dark Galaxy. Отвечает за достоверность и полноту информации для игроков.";
+      const card = `
+        <div class="member-card">
+          <img class="member-avatar" src="${avatarUrl}" alt="${displayName}"
+               onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+          <div class="member-info">
+            <div class="member-name">${displayName}</div>
+            <span class="member-role" style="background:#e74c3c">${role}</span>
+            <div class="member-description">${description}</div>
+          </div>
+        </div>
+      `;
 
-                const card = `
-                    <div class="member-card">
-                        <img class="member-avatar" src="${avatarUrl}" alt="${displayName}"
-                            onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
-                        <div class="member-info">
-                            <div class="member-name">${displayName}</div>
-                            <span class="member-role" style="background:#e74c3c">${role}</span>
-                            <div class="member-description">${description}</div>
-                        </div>
-                    </div>
-                `;
-
-                contentEl.innerHTML = card;
-                loadingEl.style.display = 'none';
-                contentEl.style.display = 'block';
-            })
-            .catch(err => {
-                loadingEl.style.display = 'none';
-                errorEl.textContent = `Ошибка: ${err.message}`;
-                errorEl.style.display = 'block';
-            });
-    </script>
+      loadingEl.style.display = 'none';
+      contentEl.innerHTML = card;
+      contentEl.style.display = 'block';
+    })
+    .catch(err => {
+      loadingEl.style.display = 'none';
+      errorEl.textContent = `Ошибка: ${err.message}`;
+      errorEl.style.display = 'block';
+    });
+</script>
 </body>
 </html>
