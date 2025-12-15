@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -38,7 +39,7 @@
             position: absolute;
             color: white;
             font-size: 1.2em;
-            opacity: 0.9;
+            opacity: 0;
             animation: fall linear infinite;
             line-height: 1;
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
@@ -66,25 +67,26 @@
             left: 0;
             width: 100%;
             height: 150px;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.95), transparent);
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0));
             z-index: 2;
         }
 
-        .container {
-            position: relative;
-            z-index: 2;
-            max-width: 900px;
-            padding: 80px 20px 60px;
-            text-align: center;
-            width: 100%;
-        }
+.container {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    padding: 80px 20px 60px; /* ← уменьшили на 20px */
+    text-align: center;
+    width: 100%;
+}
 
         .header h1 {
             font-size: 3rem;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             color: #d8b4f8;
             text-shadow: 0 0 20px rgba(216, 180, 248, 0.6);
+            margin-top: 0; /* ← доп. смещение заголовка */
         }
 
         p.subtitle {
@@ -95,32 +97,30 @@
             line-height: 1.5;
         }
 
-        /* Основные кнопки */
-        .main-buttons {
+        /* Группы кнопок */
+        .btn-row {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            margin: 40px auto;
-            max-width: 500px;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin: 20px 0;
         }
 
         .btn {
             display: inline-block;
+            width: 240px;
             padding: 12px 24px;
             background: linear-gradient(45deg, #7e22ce, #4f46e5);
-            color: #F8F8FF; /* ← Нежно-белый */
+            color: #F8F8FF;
             text-decoration: none;
-            font-size: 1.1rem;
+            font-size: 1.0rem;
             font-weight: 600;
-            border: none;      /* ← Без обводки */
-            outline: none;     /* ← Без фокуса */
+            border: none;
+            outline: none;
             border-radius: 50px;
             transition: all 0.3s ease;
             box-shadow: 0 4px 16px rgba(126, 34, 206, 0.4);
             font-family: 'Exo 2', sans-serif;
-            width: 100%;
-            max-width: 320px;
             text-align: center;
             cursor: pointer;
         }
@@ -130,7 +130,7 @@
             margin-right: 8px;
             color: #e0cfff;
             text-shadow: 0 0 8px rgba(224, 192, 255, 0.6);
-            font-size: 1.1em;
+            font-size: 1.0em;
         }
 
         .btn:hover {
@@ -144,7 +144,6 @@
             background: linear-gradient(45deg, #fbbf24, #f59e0b);
             color: #1e1b4b;
             font-weight: 700;
-            box-shadow: 0 4px 16px rgba(251, 191, 36, 0.4);
         }
         .btn-new::before {
             content: "✧";
@@ -152,262 +151,91 @@
             text-shadow: 0 0 10px rgba(254, 249, 195, 0.8);
         }
         .btn-new:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 24px rgba(251, 191, 36, 0.7), 0 0 12px rgba(254, 249, 195, 0.5);
             background: linear-gradient(45deg, #fcd34d, #fbbf24);
         }
 
-        /* Модальное окно "Создатели" */
-        #credits-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
+/* Кнопка "Создатели" — в самом низу потока */
+.creator-section {
+    margin: 60px auto 40px; /* отступ сверху — 60px, снизу — 40px */
+    width: 240px;
+    text-align: center;
+}
 
-        #credits-content {
-            background: #1a1a2e;
-            color: #e0e0ff;
-            padding: 25px;
-            border-radius: 16px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-            border: 1px solid #8b5cf6;
-            font-family: 'Exo 2', sans-serif;
-            text-align: center;
-        }
-
-        #credits-content h3 {
-            color: #d8b4f8;
-            margin-bottom: 20px;
-            font-size: 1.4rem;
-        }
-
-        /* Сетка создателей */
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }
-
-        .member-card {
-            background: #16162a;
-            border: 1px solid #8b5cf6;
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            transition: transform 0.2s;
-        }
-        .member-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
-        }
-
-        .member-avatar {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #8b5cf6;
-            margin-bottom: 10px;
-        }
-
-        .member-name {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #d8b4f8;
-            margin-bottom: 5px;
-        }
-
-        .member-role {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            color: white;
-            font-weight: 600;
-        }
-
-        /* Кнопки "О сайте" и "О сервере" */
-        .info-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin: 20px 0;
-        }
-        .info-buttons .btn {
-            font-size: 0.95rem;
-            padding: 8px 16px;
-            width: auto;
-        }
-
-        #close-credits {
-            margin-top: 20px;
-            padding: 8px 20px;
-            background: linear-gradient(45deg, #8b5cf6, #6366f1);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-family: 'Exo 2', sans-serif;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        #close-credits:hover {
-            transform: scale(1.05);
-        }
-
-        /* Адаптивность */
         @media (max-width: 768px) {
             .header h1 { font-size: 2.2rem; }
             p.subtitle { font-size: 1rem; }
-            .container { padding: 60px 15px 50px; }
-            .btn { font-size: 1rem; padding: 10px 16px; }
-            .team-grid { grid-template-columns: 1fr; }
-            .info-buttons { flex-direction: column; }
+            .container { padding: 80px 15px 50px; } /* ← 60px + 20px */
+            .btn { font-size: 0.95rem; padding: 10px 16px; width: 220px; }
+            .creator-section { width: 220px; }
         }
 
         @media (max-width: 480px) {
             .header h1 { font-size: 1.8rem; }
             p.subtitle { font-size: 0.9rem; }
-            .btn { font-size: 0.9rem; padding: 8px 12px; }
+            .btn { font-size: 0.9rem; padding: 8px 12px; width: 200px; }
+            .creator-section { width: 200px; }
+            .btn-row {
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+            }
         }
     </style>
 </head>
 <body>
+
     <div class="top-gradient"></div>
     <div class="stars" id="stars"></div>
     <div class="bottom-gradient"></div>
 
     <div class="container">
         <div class="header">
-            <h1>Dark Galaxy</h1> <!-- ✅ Без 3D-модели -->
+            <h1>Dark Galaxy</h1>
         </div>
+
         <p class="subtitle">Добро пожаловать в официальный портал сервера</p>
 
-        <!-- ✅ Четыре кнопки -->
-        <div class="main-buttons">
+        <!-- НОВОЕ -->
+        <div class="btn-row">
             <a href="#" class="btn btn-new">НОВОЕ</a>
+        </div>
+
+        <!-- Гайды / Цены / Услуги -->
+        <div class="btn-row">
             <a href="guides.html" class="btn">Гайды</a>
             <a href="warp-info.html" class="btn">Цены варпов</a>
             <a href="services.html" class="btn">Услуги</a>
         </div>
-    </div>
 
-    <!-- ✅ Кнопка "Создатели" — адаптивная -->
-    <div class="creator-section">
-        <button id="toggle-credits" class="btn">Создатели</button>
-    </div>
-
-    <!-- ✅ Модальное окно с карточками -->
-    <div id="credits-modal">
-        <div id="credits-content">
-            <h3>Создатели сайта</h3>
-
-            <div class="team-grid">
-                <div class="member-card">
-                    <img class="member-avatar" src="https://cdn.discordapp.com/embed/avatars/0.png" alt="NoVartrix">
-                    <div class="member-info">
-                        <div class="member-name">NoVartrix</div>
-                        <span class="member-role" style="background:#9b59b6">Младший Модератор</span>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <img class="member-avatar" src="https://cdn.discordapp.com/embed/avatars/1.png" alt="ghosts34444">
-                    <div class="member-info">
-                        <div class="member-name">ghosts34444</div>
-                        <span class="member-role" style="background:#3498db">Старший Модератор</span>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <img class="member-avatar" src="https://cdn.discordapp.com/embed/avatars/2.png" alt="MrkGrshTraklar">
-                    <div class="member-info">
-                        <div class="member-name">MrkGrshTraklar</div>
-                        <span class="member-role" style="background:#e74c3c">Старший Модератор</span>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <img class="member-avatar" src="https://cdn.discordapp.com/embed/avatars/3.png" alt="Xan421">
-                    <div class="member-info">
-                        <div class="member-name">Xan421</div>
-                        <span class="member-role" style="background:#2ecc71">Старший администратор</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ✅ Кнопки "О сайте" и "О сервере" -->
-            <div class="info-buttons">
-                <button class="btn" onclick="alert('Информация о сайте...')">О сайте</button>
-                <button class="btn" onclick="alert('Информация о сервере...')">О сервере</button>
-            </div>
-
-            <button id="close-credits">Закрыть</button>
+        <!-- О сайте / О сервере -->
+        <div class="btn-row">
+            <a href="about-site.html" class="btn">О сайте</a>
+            <a href="about-server.html" class="btn">О сервере</a>
         </div>
     </div>
 
+    <!-- Создатели — отдельно внизу -->
+    <div class="creator-section">
+        <a href="creators.html" class="btn">Создатели</a>
+    </div>
+
     <script>
-        // Звёзды
-        const stars = document.getElementById('stars');
-        for (let i = 0; i < 40; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.textContent = '★';
-            star.style.left = `${Math.random() * 100}vw`;
-            star.style.animationDuration = `${Math.random() * 15 + 10}s`;
-            star.style.animationDelay = `${Math.random() * 10}s`;
-            star.style.fontSize = `${Math.random() * 0.6 + 0.4}em`;
-            stars.appendChild(star);
-        }
-
-        // Модальное окно
-        const modal = document.getElementById('credits-modal');
-        const openBtn = document.getElementById('toggle-credits');
-        const closeBtn = document.getElementById('close-credits');
-
-        function openModal() {
-            modal.style.display = 'flex';
-            setTimeout(() => modal.style.opacity = '1', 10);
-        }
-        function closeModal() {
-            modal.style.opacity = '0';
-            setTimeout(() => modal.style.display = 'none', 300);
-        }
-
-        openBtn.addEventListener('click', openModal);
-        closeBtn.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
-        });
-
-        // Адаптивная кнопка "Создатели"
-        const creatorSection = document.querySelector('.creator-section');
-        function updateCreatorPosition() {
-            if (window.innerWidth <= 768) {
-                creatorSection.style.position = 'static';
-                creatorSection.style.marginTop = '30px';
-            } else {
-                creatorSection.style.position = 'fixed';
-                creatorSection.style.bottom = '40px';
-                creatorSection.style.left = '0';
-                creatorSection.style.right = '0';
-                creatorSection.style.margin = '0';
-                creatorSection.style.display = 'flex';
-                creatorSection.style.justifyContent = 'center';
+        // Анимация звёзд — корректная, без полосы
+        document.addEventListener('DOMContentLoaded', () => {
+            const stars = document.getElementById('stars');
+            const count = 40;
+            for (let i = 0; i < count; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.textContent = '✧'; // ✅ символ ✧
+                star.style.left = `${Math.random() * 100}vw`;
+                star.style.animationDuration = `${Math.random() * 15 + 10}s`;
+                star.style.animationDelay = `${Math.random() * 10 + 2}s`; // ✅ задержка
+                star.style.opacity = '0'; // ✅ начинаются невидимыми
+                stars.appendChild(star);
             }
-        }
-        window.addEventListener('resize', updateCreatorPosition);
-        updateCreatorPosition(); // Инициализация
+        });
     </script>
+
 </body>
 </html>
