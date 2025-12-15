@@ -154,13 +154,6 @@
             background: linear-gradient(45deg, #fcd34d, #fbbf24);
         }
 
-/* Кнопка "Создатели" — в самом низу потока */
-.creator-section {
-    margin: 60px auto 40px; /* отступ сверху — 60px, снизу — 40px */
-    width: 240px;
-    text-align: center;
-}
-
         @media (max-width: 768px) {
             .header h1 { font-size: 2.2rem; }
             p.subtitle { font-size: 1rem; }
@@ -214,10 +207,11 @@
         </div>
     </div>
 
-    <!-- Создатели — отдельно внизу -->
-    <div class="creator-section">
-        <a href="creators.html" class="btn">Создатели</a>
-    </div>
+<div style="text-align: center; margin: 40px 0 20px;">
+    <a href="creators.html" class="btn" style="font-size: 0.95rem; padding: 10px 20px; display: inline-block;">
+        Создатель таблицы
+    </a>
+</div>
 
     <script>
         // Анимация звёзд — корректная, без полосы
