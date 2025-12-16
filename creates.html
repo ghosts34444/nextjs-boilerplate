@@ -20,14 +20,65 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 40px 20px;
+            overflow-x: hidden;
             position: relative;
         }
 
+        /* Звёздопад — как на главной */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            color: white;
+            font-size: 1.2em;
+            opacity: 0.9;
+            animation: fall linear infinite;
+            line-height: 1;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-20px) translateX(0) rotate(0deg); opacity: 0; }
+            5% { opacity: 0.9; }
+            95% { opacity: 0.9; }
+            100% { transform: translateY(100vh) translateX(-50px) rotate(-45deg); opacity: 0; }
+        }
+
+        .top-gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to bottom, rgba(15,12,41,0.95), transparent);
+            z-index: 2;
+        }
+
+        .bottom-gradient {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0));
+            z-index: 2;
+        }
+
         .container {
+            position: relative;
+            z-index: 2;
             max-width: 800px;
             width: 100%;
             text-align: center;
+            padding: 60px 20px 40px;
         }
 
         h1 {
@@ -56,7 +107,6 @@
             margin-right: 20px;
             border: 2px solid #8b5cf6;
             object-fit: cover;
-            /* Убрали background — никакого красного фона */
         }
 
         .member-info {
@@ -85,11 +135,11 @@
         }
 
         .member-role {
-            background: #e74c3c; /* Старший Модератор — красный */
+            background: #e74c3c; /* Старший Модератор */
         }
 
         .member-site-role {
-            background: #3498db; /* Синий — для "роли на сайте" */
+            background: #3498db; /* Роль на сайте */
         }
 
         .member-description {
@@ -112,51 +162,58 @@
             .member-info {
                 text-align: center;
             }
+            h1 {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
 
+    <!-- Фоновые элементы -->
+    <div class="top-gradient"></div>
+    <div class="stars" id="stars"></div>
+    <div class="bottom-gradient"></div>
+
     <div class="container">
         <h1>Создатели сайта</h1>
 
-        <div id="loading" style="color: #a5b4fc; margin: 20px 0;">Загрузка информации...</div>
-        <div id="error" style="color: #f87171; display: none; margin: 20px 0;"></div>
-        <div id="content" style="display: none;"></div>
+        <div class="member-card">
+            <img class="member-avatar"
+                 src="https://loliland.ru/apiv2/user/avatar/medium/0196d4bd-2c0e-710d-8be3-3b6685aed744.gif"
+                 alt="MrkGrshTraklar">
+            <div class="member-info">
+                <div class="member-name">MrkGrshTraklar</div>
+                <span class="member-role">Старший Модератор</span>
+                <span class="member-site-role">Автор гайда по Galacticraft</span>
+                <div class="member-description">
+                    Автор и составитель официальных гайдов сервера Dark Galaxy.<br>
+                    Отвечает за достоверность и полноту игровой информации.
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        const userId = "0196d4bd-2c0e-710d-8be3-3b6685aed744";
-        const avatarUrl = `https://loliland.ru/apiv2/user/avatar/medium/${userId}.gif`;
-        const displayName = "MrkGrshTraklar";
-        const serverRole = "Старший Модератор";
-        // Это — "роль на сайте", которую ты хочешь указать вручную
-        const siteRole = "Автор гайда по Galacticraft";
-
-        const loadingEl = document.getElementById('loading');
-        const errorEl = document.getElementById('error');
-        const contentEl = document.getElementById('content');
-
-        // Показываем карточку сразу, без парсинга (чтобы аватарка точно загрузилась)
-        const card = `
-            <div class="member-card">
-                <img class="member-avatar" src="${avatarUrl}" alt="${displayName}"
-                     onerror="this.src='https://loliland.ru/apiv2/user/avatar/medium/019a1a33-5f3f-735c-a808-231393134ed1.gif'">
-                <div class="member-info">
-                    <div class="member-name">${displayName}</div>
-                    <span class="member-role">${serverRole}</span>
-                    <span class="member-site-role">${siteRole}</span>
-                    <div class="member-description">
-                        Автор и составитель официальных гайдов сервера Dark Galaxy.<br>
-                        Отвечает за достоверность и полноту игровой информации.
-                    </div>
-                </div>
-            </div>
-        `;
-
-        loadingEl.style.display = 'none';
-        contentEl.innerHTML = card;
-        contentEl.style.display = 'block';
+        // Звёздопад — как на главной
+        const stars = document.getElementById('stars');
+        const count = 40;
+        for (let i = 0; i < count; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.textContent = '✧';
+            const size = Math.random() * 0.6 + 0.4;
+            const duration = Math.random() * 15 + 10;
+            const delay = Math.random() * 10;
+            const startX = Math.random() * 100;
+            star.style.fontSize = `${size}em`;
+            star.style.left = `${startX}vw`;
+            star.style.top = `-30px`;
+            star.style.opacity = Math.random() * 0.3 + 0.5;
+            star.style.animationDuration = `${duration}s`;
+            star.style.animationDelay = `${delay}s`;
+            stars.appendChild(star);
+        }
     </script>
 </body>
 </html>
