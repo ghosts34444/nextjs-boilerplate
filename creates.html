@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Создатели — Dark Galaxy</title>
+    <title>Dark Galaxy - Создатели сайта</title>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -56,6 +56,7 @@
             margin-right: 20px;
             border: 2px solid #8b5cf6;
             object-fit: cover;
+            background: #e74c3c; /* Красный фон, как на скрине */
         }
 
         .member-info {
@@ -110,52 +111,99 @@
     <div class="container">
         <h1>Создатели сайта</h1>
 
-        <div id="loading" style="color: #a5b4fc; margin: 20px 0;">Загрузка информации о гайдере...</div>
+        <div id="loading" style="color: #a5b4fc; margin: 20px 0;">Загрузка информации...</div>
         <div id="error" style="color: #f87171; display: none; margin: 20px 0;"></div>
         <div id="content" style="display: none;"></div>
     </div>
 
-   <script>
-  const login = "MrkGrshTraklar";
-  const proxyUrl = `/api/loliland-profile?login=${encodeURIComponent(login)}`;
+    <script>
+        const userId = "0196d4bd-2c0e-710d-8be3-3b6685aed744";
+        const profileUrl = `https://loliland.net/ru/profile/${userId}/statistics`;
 
-  const loadingEl = document.getElementById('loading');
-  const errorEl = document.getElementById('error');
-  const contentEl = document.getElementById('content');
+        const loadingEl = document.getElementById('loading');
+        const errorEl = document.getElementById('error');
+        const contentEl = document.getElementById('content');
 
-  fetch(proxyUrl)
-    .then(response => {
-      if (!response.ok) throw new Error('Пользователь не найден или ошибка сервера');
-      return response.json();
-    })
-    .then(data => {
-      const displayName = data.displayName;
-      const userId = data.userId;
-      const role = data.role;
-      const avatarUrl = `https://loliland.ru/apiv2/user/avatar/medium/${userId}.gif`;
-      const description = "Автор и составитель официальных гайдов сервера Dark Galaxy. Отвечает за достоверность и полноту информации для игроков.";
+        fetch(profileUrl)
+            .then(response => {
+                if (!response.ok) throw new Error('Не удалось загрузить профиль');
+                return response.text();
+            })
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
 
-      const card = `
-        <div class="member-card">
-          <img class="member-avatar" src="${avatarUrl}" alt="${displayName}"
-               onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
-          <div class="member-info">
-            <div class="member-name">${displayName}</div>
-            <span class="member-role" style="background:#e74c3c">${role}</span>
-            <div class="member-description">${description}</div>
-          </div>
-        </div>
-      `;
+                // Извлекаем имя
+                let displayName = "MrkGrshTraklar";
+                const h1 = doc.querySelector('h1');
+                if (h1 && h1.textContent.trim()) {
+                    displayName = h1.textContent.trim();
+                }
 
-      loadingEl.style.display = 'none';
-      contentEl.innerHTML = card;
-      contentEl.style.display = 'block';
-    })
-    .catch(err => {
-      loadingEl.style.display = 'none';
-      errorEl.textContent = `Ошибка: ${err.message}`;
-      errorEl.style.display = 'block';
-    });
-</script>
+                // Извлекаем аватарку (используем /avatar — статичная версия)
+                let avatarUrl = `https://loliland.net/ru/profile/${userId}/avatar`;
+                const avatarImg = doc.querySelector('img.avatar');
+                if (avatarImg && avatarImg.src) {
+                    avatarUrl = avatarImg.src;
+                }
+
+                // Извлекаем роль
+                let role = "Старший Модератор";
+                const roleSpan = doc.querySelector('span.role');
+                if (roleSpan && roleSpan.textContent.trim()) {
+                    role = roleSpan.textContent.trim();
+                }
+
+                // Извлекаем описание
+                let description = "Автор и составитель официальных гайдов сервера Dark Galaxy. Отвечает за достоверность и полноту игровой информации.";
+                const descDiv = doc.querySelector('div.profile-description');
+                if (descDiv && descDiv.textContent.trim()) {
+                    description = descDiv.textContent.trim().replace(/\s+/g, ' ').trim();
+                }
+
+                if (!description || description === "") {
+                    description = "Автор и составитель официальных гайдов сервера Dark Galaxy. Отвечает за достоверность и полноту игровой информации.";
+                }
+
+                const card = `
+                    <div class="member-card">
+                        <img class="member-avatar" src="${avatarUrl}" alt="${displayName}"
+                             onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+                        <div class="member-info">
+                            <div class="member-name">${displayName}</div>
+                            <span class="member-role" style="background:#e74c3c">${role}</span>
+                            <div class="member-description">${description}</div>
+                        </div>
+                    </div>
+                `;
+
+                loadingEl.style.display = 'none';
+                contentEl.innerHTML = card;
+                contentEl.style.display = 'block';
+            })
+            .catch(err => {
+                loadingEl.style.display = 'none';
+                errorEl.textContent = `Ошибка: ${err.message}`;
+                errorEl.style.display = 'block';
+
+                // Статичная карточка с реальной аватаркой и описанием
+                const staticCard = `
+                    <div class="member-card">
+                        <img class="member-avatar" src="https://loliland.net/ru/profile/0196d4bd-2c0e-710d-8be3-3b6685aed744/avatar" alt="MrkGrshTraklar"
+                             onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+                        <div class="member-info">
+                            <div class="member-name">MrkGrshTraklar</div>
+                            <span class="member-role" style="background:#e74c3c">Старший Модератор</span>
+                            <div class="member-description">
+                                Автор и составитель официальных гайдов сервера Dark Galaxy.<br>
+                                Отвечает за достоверность и полноту игровой информации.
+                            </div>
+                        </div>
+                    </div>
+                `;
+                contentEl.innerHTML = staticCard;
+                contentEl.style.display = 'block';
+            });
+    </script>
 </body>
 </html>
