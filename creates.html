@@ -57,7 +57,6 @@
             100% { transform: translateY(100vh) translateX(-50px) rotate(-45deg); opacity: 0; }
         }
 
-        /* Кнопка меню */
         .menu-btn {
             position: fixed;
             top: 20px;
@@ -74,11 +73,8 @@
             font-size: 0.95rem;
             box-shadow: 0 5px 20px rgba(139, 92, 246, 0.4);
         }
-        .menu-btn:hover {
-            transform: scale(1.05);
-        }
+        .menu-btn:hover { transform: scale(1.05); }
 
-        /* Боковое меню */
         .sidebar {
             position: fixed;
             left: -300px;
@@ -133,50 +129,6 @@
             color: white;
         }
 
-        /* Выпадающее меню для Гайдов */
-        .sidebar-menu .dropdown {
-            position: relative;
-        }
-        .sidebar-menu .dropdown-toggle {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 9px 14px;
-            color: #e0e0ff;
-            text-decoration: none;
-            border-radius: 8px;
-            font-size: 0.92rem;
-            transition: background 0.2s;
-            cursor: pointer;
-        }
-        .sidebar-menu .dropdown-toggle:hover,
-        .sidebar-menu .dropdown-toggle.active {
-            background: linear-gradient(45deg, #8b5cf6, #6366f1);
-            color: white;
-        }
-        .sidebar-menu .dropdown-menu {
-            display: none;
-            margin-top: 5px;
-            padding: 5px 0;
-            background: #16162a;
-            border: 1px solid #8b5cf6;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            z-index: 1001;
-        }
-        .sidebar-menu .dropdown-menu a {
-            display: block;
-            padding: 8px 20px;
-            color: #e0e0ff;
-            text-decoration: none;
-            font-size: 0.88rem;
-            transition: background 0.2s;
-        }
-        .sidebar-menu .dropdown-menu a:hover {
-            background: rgba(139, 92, 246, 0.2);
-        }
-
-        /* Контент */
         .page-container {
             max-width: 1000px;
             width: 100%;
@@ -194,7 +146,6 @@
             text-shadow: 0 0 20px rgba(216, 180, 248, 0.6);
         }
 
-        /* Карточки создателей */
         .team-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -209,11 +160,6 @@
             display: flex;
             align-items: flex-start;
             gap: 16px;
-            transition: transform 0.2s;
-        }
-
-        .member-card:hover {
-            transform: translateY(-3px);
         }
 
         .member-avatar {
@@ -253,11 +199,15 @@
             color: #c0c0e0;
         }
 
+        #loading {
+            text-align: center;
+            padding: 40px 0;
+            color: #a5b4fc;
+        }
+
         @media (max-width: 768px) {
             body { padding: 20px 15px 100px; }
             h1 { font-size: 2.2rem; }
-            .menu-btn { padding: 7px 14px; font-size: 0.9rem; }
-            .sidebar { width: 260px; }
             .team-grid { grid-template-columns: 1fr; }
             .member-card {
                 flex-direction: column;
@@ -271,12 +221,6 @@
                 text-align: center;
             }
         }
-
-        @media (max-width: 480px) {
-            h1 { font-size: 1.8rem; }
-            .sidebar-header { padding: 15px; }
-            .sidebar-menu a { padding: 8px 12px; font-size: 0.88rem; }
-        }
     </style>
 </head>
 <body>
@@ -285,7 +229,6 @@
     <button class="menu-btn" id="menu-btn">☰</button>
     <div class="bottom-gradient"></div>
 
-    <!-- Боковое меню -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <span class="sidebar-title">Путиводитель</span>
@@ -293,23 +236,7 @@
         </div>
         <ul class="sidebar-menu">
             <li><a href="index.html">Главная</a></li>
-            <li class="dropdown">
-                <div class="dropdown-toggle" id="guides-dropdown">
-                    Гайды <span style="font-size: 0.8rem;">▼</span>
-                </div>
-                <div class="dropdown-menu" id="guides-list">
-                    <a href="#">Galacticraft</a>
-                    <a href="#">Botania</a>
-                    <a href="#">Thaumcraft</a>
-                    <a href="#">Draconic Evolution</a>
-                    <a href="#">Applied Energistics 2</a>
-                    <a href="#">Forestry</a>
-                    <a href="#">Blood Magic</a>
-                    <a href="#">Thermal Expansion</a>
-                    <a href="#">Ic2 | MineFactory</a>
-                    <a href="#">TConstruct</a>
-                </div>
-            </li>
+            <li><a href="#">Гайды</a></li>
             <li><a href="warp-info.html">Цены варпа</a></li>
             <li><a href="#">Услуги</a></li>
             <li><a href="#">О сайте</a></li>
@@ -318,174 +245,153 @@
         </ul>
     </div>
 
-    <!-- Основной контент -->
     <div class="page-container">
         <div class="header">
             <h1>Создатели Dark Galaxy</h1>
         </div>
 
-        <div class="team-grid" id="team-grid">
-            <!-- Карточки будут загружены скриптом -->
-        </div>
+        <div id="loading">Загрузка команды...</div>
+        <div class="team-grid" id="team-grid" style="display: none;"></div>
     </div>
 
-    <script>
-        // === Данные создателей ===
-        const CREATORS = [
-             {
-                userId: "018b3406-6b00-7f50-b64b-797c513ea4c9",
-                login: "ghosts34444",
-                dgRole: "Старший Модератор",
-                description: ""
-            },
-            {
-                userId: "0196d4bd-2c0e-710d-8be3-3b6685aed744",
-                login: "Mrkgrshtraklar",
-                dgRole: "Старший Модератор",
-                description: ""
-            },
-            {
-                userId: "0182a4f0-1c25-77f8-9444-2b4886f2ae38",
-                login: "Xan241",
-                dgRole: "Старший Администратор",
-                description: ""
-            },
-            {
-                userId: "0182ca14-3c71-7818-a4d8-f2131be587fc",
-                login: "NoVartix",
-                dgRole: "Младший Модератор",
-                description: ""
-            }
-        ];
-
-        // Цвета ролей
-        const ROLE_COLORS = {
-            "Старший Модератор": "#e74c3c",
-            "Старший Администратор": "#e91e63",
-            "Модератор": "#f39c12",
-            "Администратор": "#2ecc71",
-            "Младший Модератор": "#3498db"
-        };
-
-        function getRoleColor(role) {
-            return ROLE_COLORS[role] || '#e74c3c';
+<script>
+    // === РОЛИ И ОПИСАНИЯ ===
+    const ROLE_CONFIG = {
+        "ghosts34444": {
+            role: "Старший Модератор",
+            desc: "Разработчик сайта и систем автоматизации. Отвечает за техническую поддержку и инфраструктуру проекта."
+        },
+        "Xan241": {
+            role: "Старший Администратор",
+            desc: "Куратор цен на варпах. Собирает, проверяет и публикует информацию о стоимости предметов в торговле."
+        },
+        "MrkGrshtraklar": {
+            role: "Старший Модератор",
+            desc: "Главный гайдер по моду Galacticraft. Составляет и обновляет гайды для новичков и опытных игроков."
+        },
+        "DoKFoReVe": {
+            role: "Младший Модератор",
+            desc: "Активный модератор чата и варпов. Следит за соблюдением правил и помогает игрокам."
         }
+    };
 
-        // Загрузка имени из <title>
-        async function fetchProfileName(userId) {
-            try {
-                const res = await fetch(`https://loliland.net/ru/profile/${userId}/statistics`);
-                if (!res.ok) throw new Error('Профиль не найден');
-                const html = await res.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
+    const ROLE_COLORS = {
+        "Старший Модератор": "#e74c3c",
+        "Старший Администратор": "#e91e63",
+        "Модератор": "#f39c12",
+        "Администратор": "#2ecc71",
+        "Младший Модератор": "#3498db"
+    };
 
-                let title = doc.querySelector('title')?.textContent || '';
-                let name = title.split(' - ')[0].trim();
-                return name || 'Игрок';
-            } catch (err) {
-                return 'Игрок';
+    function getRoleColor(role) {
+        return ROLE_COLORS[role] || '#e74c3c';
+    }
+
+    // === ЗАГРУЗКА КОМАНДЫ ===
+    async function loadTeam() {
+        const loading = document.getElementById('loading');
+        const teamGrid = document.getElementById('team-grid');
+        const TARGET_LOGINS = ["ghosts34444", "Xan241", "MrkGrshtraklar", "DoKFoReVe"];
+
+        try {
+            let users = [];
+
+            // Загружаем из API
+            const res = await fetch('https://loliland.ru/apiv2/team', {
+                headers: { 'User-Agent': 'Mozilla/5.0 (compatible; DarkGalaxy/1.0)' }
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+                if (data.team?.dark_galaxy?.length) {
+                    const apiMap = new Map();
+                    for (const m of data.team.dark_galaxy) {
+                        if (m.user?.login) {
+                            apiMap.set(m.user.login, m.user);
+                        }
+                    }
+
+                    for (const login of TARGET_LOGINS) {
+                        if (apiMap.has(login)) {
+                            users.push(apiMap.get(login));
+                        }
+                    }
+                }
             }
-        }
 
-        // Отрисовка
-        async function renderCreators() {
-            const teamGrid = document.getElementById('team-grid');
-            const cards = [];
+            // Генерация карточек
+            const cards = users.map(user => {
+                const login = user.login;
+                const config = ROLE_CONFIG[login] || { role: "Участник", desc: "Член команды Dark Galaxy." };
 
-            for (const creator of CREATORS) {
-                let name = await fetchProfileName(creator.userId);
-                if (!name || name === '') name = creator.login;
+                let avatar = 'https://cdn.discordapp.com/embed/avatars/0.png';
+                if (user.avatarOrSkin?.id && user.avatarOrSkin.extension) {
+                    avatar = `https://loliland.ru/apiv2/user/avatar/medium/${user.avatarOrSkin.id}.${user.avatarOrSkin.extension}`;
+                }
 
-                const avatarUrl = `https://loliland.ru/apiv2/user/avatar/medium/${creator.userId}.jpg`;
-                const roleColor = getRoleColor(creator.dgRole);
+                const roleColor = getRoleColor(config.role);
 
-                cards.push(`
+                return `
                     <div class="member-card">
-                        <img class="member-avatar" 
-                             src="${avatarUrl}" 
-                             alt="${name}"
+                        <img class="member-avatar" src="${avatar}" alt="${login}"
                              onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
                         <div class="member-info">
-                            <div class="member-name">${name}</div>
-                            <span class="member-role" style="background:${roleColor}">${creator.dgRole}</span>
-                            <div class="member-description">${creator.description}</div>
+                            <div class="member-name">${login}</div>
+                            <span class="member-role" style="background:${roleColor}">${config.role}</span>
+                            <div class="member-description">${config.desc}</div>
                         </div>
                     </div>
-                `);
-            }
+                `;
+            }).join('');
 
-            teamGrid.innerHTML = cards.join('');
+            loading.style.display = 'none';
+            teamGrid.innerHTML = cards;
+            teamGrid.style.display = 'grid';
+
+        } catch (err) {
+            loading.textContent = `Ошибка загрузки: ${err.message}`;
         }
+    }
 
-        renderCreators();
+    // === МЕНЮ ===
+    const menuBtn = document.getElementById('menu-btn');
+    const sidebar = document.getElementById('sidebar');
+    const closeSidebar = document.getElementById('close-sidebar');
 
-        // === Меню ===
-        const menuBtn = document.getElementById('menu-btn');
-        const sidebar = document.getElementById('sidebar');
-        const closeSidebar = document.getElementById('close-sidebar');
+    menuBtn.addEventListener('click', () => {
+        sidebar.classList.add('open');
+        menuBtn.style.display = 'none';
+    });
 
-        menuBtn.addEventListener('click', () => {
-            sidebar.classList.add('open');
-            menuBtn.style.display = 'none';
-        });
+    closeSidebar.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        menuBtn.style.display = 'block';
+    });
 
-        function showMenuButton() {
+    document.addEventListener('click', (e) => {
+        if (!sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
+            sidebar.classList.remove('open');
             menuBtn.style.display = 'block';
         }
+    });
 
-        closeSidebar.addEventListener('click', () => {
-            sidebar.classList.remove('open');
-            showMenuButton();
-        });
+    // === ЗВЁЗДЫ ===
+    const stars = document.getElementById('stars');
+    for (let i = 0; i < 40; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        star.textContent = '✧';
+        star.style.fontSize = `${Math.random() * 0.6 + 0.4}em`;
+        star.style.left = `${Math.random() * 100}vw`;
+        star.style.top = `-30px`;
+        star.style.opacity = Math.random() * 0.3 + 0.5;
+        star.style.animationDuration = `${Math.random() * 15 + 10}s`;
+        star.style.animationDelay = `${Math.random() * 10}s`;
+        stars.appendChild(star);
+    }
 
-        document.addEventListener('click', (e) => {
-            if (!sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
-                sidebar.classList.remove('open');
-                showMenuButton();
-            }
-        });
-
-        // === Логика выпадающего меню Гайды ===
-        const guidesDropdown = document.getElementById('guides-dropdown');
-        const guidesList = document.getElementById('guides-list');
-
-        guidesDropdown.addEventListener('click', function(e) {
-            // Если кликнули на стрелку — разворачиваем список
-            if (e.target.closest('span')) {
-                guidesList.style.display = guidesList.style.display === 'block' ? 'none' : 'block';
-            } else {
-                // Если кликнули на саму кнопку — переходим на страницу гайдов
-                window.location.href = 'guides.html'; // замени на реальный URL
-            }
-        });
-
-        // Закрытие списка при клике вне его
-        document.addEventListener('click', function(e) {
-            if (!guidesDropdown.contains(e.target)) {
-                guidesList.style.display = 'none';
-            }
-        });
-
-        // === Звёзды ===
-        const stars = document.getElementById('stars');
-        const count = 40;
-        for (let i = 0; i < count; i++) {
-            const star = document.createElement('div');
-            star.classList.add('star');
-            star.textContent = '✧';
-            const size = Math.random() * 0.6 + 0.4;
-            const duration = Math.random() * 15 + 10;
-            const delay = Math.random() * 10;
-            const startX = Math.random() * 100;
-            star.style.fontSize = `${size}em`;
-            star.style.left = `${startX}vw`;
-            star.style.top = `-30px`;
-            star.style.opacity = Math.random() * 0.3 + 0.5;
-            star.style.animationDuration = `${duration}s`;
-            star.style.animationDelay = `${delay}s`;
-            stars.appendChild(star);
-        }
-    </script>
+    // ЗАПУСК
+    loadTeam();
+</script>
 </body>
 </html>
