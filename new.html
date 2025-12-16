@@ -293,18 +293,6 @@
         const teamGrid = document.getElementById('team-grid');
         const TARGET_LOGINS = ["ghosts34444", "Xan241", "MrkGrshtraklar", "DoKFoReVe"];
 
-        // Ручные данные для Mrk (и других, если понадобится)
-        const MANUAL_USERS = {
-            "MrkGrshtraklar": {
-                login: "MrkGrshtraklar",
-                id: "0196d4bd-2c0e-710d-8be3-3b6685aed744",
-                avatarOrSkin: {
-                    id: "019a1a33-5f3f-735c-a808-231393134ed1",
-                    extension: "gif"
-                }
-            }
-        };
-
         try {
             let users = [];
 
@@ -326,25 +314,7 @@
                     for (const login of TARGET_LOGINS) {
                         if (apiMap.has(login)) {
                             users.push(apiMap.get(login));
-                        } else if (MANUAL_USERS[login]) {
-                            users.push(MANUAL_USERS[login]);
                         }
-                    }
-                }
-            }
-
-            // Если API недоступен — используем ручные данные для всех
-            if (users.length === 0) {
-                for (const login of TARGET_LOGINS) {
-                    if (MANUAL_USERS[login]) {
-                        users.push(MANUAL_USERS[login]);
-                    } else {
-                        // Заглушка (например, для ghosts, Xan, DoK — если что-то пойдёт не так)
-                        users.push({
-                            login,
-                            id: '',
-                            avatarOrSkin: null
-                        });
                     }
                 }
             }
@@ -357,9 +327,6 @@
                 let avatar = 'https://cdn.discordapp.com/embed/avatars/0.png';
                 if (user.avatarOrSkin?.id && user.avatarOrSkin.extension) {
                     avatar = `https://loliland.ru/apiv2/user/avatar/medium/${user.avatarOrSkin.id}.${user.avatarOrSkin.extension}`;
-                } else if (user.id) {
-                    // Попытка использовать id профиля как fallback (для ghosts, Xan и DoK)
-                    avatar = `https://loliland.ru/apiv2/user/avatar/medium/${user.id}.jpg`;
                 }
 
                 const roleColor = getRoleColor(config.role);
