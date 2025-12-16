@@ -255,43 +255,25 @@
     </div>
 
 <script>
-    // === ВСЕ ДАННЫЕ ВРУЧНУЮ + UUID ===
-    const CREATOR_MANUAL = [
-    {
-        login: "ghosts34444",
-        userId: "018b3406-6b00-7f50-b64b-797c513ea4c9",
-        avatarId: "018b3406-6b00-7f50-b64b-797c513ea4c9", // совпадает с userId
-        avatarExt: "jpg",
-        customRole: "Старший Модератор",
-        description: "Разработчик сайта и систем автоматизации. Отвечает за техническую поддержку и инфраструктуру проекта."
-    },
-    {
-        login: "Xan241",
-        userId: "0182a4f0-1c25-77f8-9444-2b4886f2ae38",
-        avatarId: "0182a4f0-1c25-77f8-9444-2b4886f2ae38",
-        avatarExt: "jpg",
-        customRole: "Старший Администратор",
-        description: "Куратор цен на варпах. Собирает, проверяет и публикует информацию о стоимости предметов в торговле."
-    },
-    {
-        login: "MrkGrshtraklar",
-        userId: "0196d4bd-2c0e-710d-8be3-3b6685aed744",
-        avatarId: "019a1a33-5f3f-735c-a808-231393134ed1", // ← ОТДЕЛЬНЫЙ ID АВАТАРКИ!
-        avatarExt: "gif",
-        customRole: "Старший Модератор",
-        description: "Главный гайдер по моду Galacticraft. Составляет и обновляет гайды для новичков и опытных игроков."
-    },
-    {
-        login: "DoKFoReVe",
-        userId: "01873501-a948-77c2-b1b3-2599ef057cb5",
-        avatarId: "01873501-a948-77c2-b1b3-2599ef057cb5",
-        avatarExt: "jpg",
-        customRole: "Младший Модератор",
-        description: "Активный модератор чата и варпов. Следит за соблюдением правил и помогает игрокам."
-    }
-];
-
-    const ORDER = ["ghosts34444", "Xan241", "MrkGrshtraklar", "DoKFoReVe"];
+    // === РОЛИ И ОПИСАНИЯ ===
+    const ROLE_CONFIG = {
+        "ghosts34444": {
+            role: "Старший Модератор",
+            desc: "Разработчик сайта и систем автоматизации. Отвечает за техническую поддержку и инфраструктуру проекта."
+        },
+        "Xan241": {
+            role: "Старший Администратор",
+            desc: "Куратор цен на варпах. Собирает, проверяет и публикует информацию о стоимости предметов в торговле."
+        },
+        "MrkGrshtraklar": {
+            role: "Старший Модератор",
+            desc: "Главный гайдер по моду Galacticraft. Составляет и обновляет гайды для новичков и опытных игроков."
+        },
+        "DoKFoReVe": {
+            role: "Младший Модератор",
+            desc: "Активный модератор чата и варпов. Следит за соблюдением правил и помогает игрокам."
+        }
+    };
 
     const ROLE_COLORS = {
         "Старший Модератор": "#e74c3c",
@@ -305,74 +287,103 @@
         return ROLE_COLORS[role] || '#e74c3c';
     }
 
-    // === ЗАГРУЗКА ДАННЫХ ===
+    // === ЗАГРУЗКА КОМАНДЫ ===
     async function loadTeam() {
         const loading = document.getElementById('loading');
         const teamGrid = document.getElementById('team-grid');
+        const TARGET_LOGINS = ["ghosts34444", "Xan241", "MrkGrshtraklar", "DoKFoReVe"];
 
-        const loginToUser = new Map();
+        // Ручные данные для Mrk (и других, если понадобится)
+        const MANUAL_USERS = {
+            "MrkGrshtraklar": {
+                login: "MrkGrshtraklar",
+                id: "0196d4bd-2c0e-710d-8be3-3b6685aed744",
+                avatarOrSkin: {
+                    id: "019a1a33-5f3f-735c-a808-231393134ed1",
+                    extension: "gif"
+                }
+            }
+        };
 
-        // Пытаемся получить данные из API для точных аватарок
         try {
+            let users = [];
+
+            // Загружаем из API
             const res = await fetch('https://loliland.ru/apiv2/team', {
                 headers: { 'User-Agent': 'Mozilla/5.0 (compatible; DarkGalaxy/1.0)' }
             });
+
             if (res.ok) {
                 const data = await res.json();
                 if (data.team?.dark_galaxy?.length) {
-                    for (const member of data.team.dark_galaxy) {
-                        if (member.user?.login) {
-                            loginToUser.set(member.user.login, member.user);
+                    const apiMap = new Map();
+                    for (const m of data.team.dark_galaxy) {
+                        if (m.user?.login) {
+                            apiMap.set(m.user.login, m.user);
+                        }
+                    }
+
+                    for (const login of TARGET_LOGINS) {
+                        if (apiMap.has(login)) {
+                            users.push(apiMap.get(login));
+                        } else if (MANUAL_USERS[login]) {
+                            users.push(MANUAL_USERS[login]);
                         }
                     }
                 }
             }
-        } catch (err) {
-            console.warn('Не удалось загрузить apiv2/team — используем резервные аватарки по UUID');
-        }
 
-        // Формируем финальный список
-        const members = CREATOR_MANUAL.map(creator => {
-            const user = loginToUser.get(creator.login);
-
-            let avatarUrl;
-            if (user?.avatarOrSkin?.id && user.avatarOrSkin.extension) {
-                // Берём аватар из API, если есть
-                avatarUrl = `https://loliland.ru/apiv2/user/avatar/medium/${user.avatarOrSkin.id}.${user.avatarOrSkin.extension}`;
-            } else {
-                // Иначе — по UUID (гарантированно работает)
-                avatarUrl = `https://loliland.ru/apiv2/user/avatar/medium/${creator.userId}.jpg`;
+            // Если API недоступен — используем ручные данные для всех
+            if (users.length === 0) {
+                for (const login of TARGET_LOGINS) {
+                    if (MANUAL_USERS[login]) {
+                        users.push(MANUAL_USERS[login]);
+                    } else {
+                        // Заглушка (например, для ghosts, Xan, DoK — если что-то пойдёт не так)
+                        users.push({
+                            login,
+                            id: '',
+                            avatarOrSkin: null
+                        });
+                    }
+                }
             }
 
-            return {
-                login: creator.login,
-                role: creator.customRole,
-                description: creator.description,
-                avatar: avatarUrl
-            };
-        });
+            // Генерация карточек
+            const cards = users.map(user => {
+                const login = user.login;
+                const config = ROLE_CONFIG[login] || { role: "Участник", desc: "Член команды Dark Galaxy." };
 
-        // Отрисовка карточек
-        const cards = members.map(m => {
-            const roleColor = getRoleColor(m.role);
-            return `
-                <div class="member-card">
-                    <img class="member-avatar" 
-                         src="${m.avatar}" 
-                         alt="${m.login}"
-                         onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
-                    <div class="member-info">
-                        <div class="member-name">${m.login}</div>
-                        <span class="member-role" style="background:${roleColor}">${m.role}</span>
-                        <div class="member-description">${m.description}</div>
+                let avatar = 'https://cdn.discordapp.com/embed/avatars/0.png';
+                if (user.avatarOrSkin?.id && user.avatarOrSkin.extension) {
+                    avatar = `https://loliland.ru/apiv2/user/avatar/medium/${user.avatarOrSkin.id}.${user.avatarOrSkin.extension}`;
+                } else if (user.id) {
+                    // Попытка использовать id профиля как fallback (для ghosts, Xan и DoK)
+                    avatar = `https://loliland.ru/apiv2/user/avatar/medium/${user.id}.jpg`;
+                }
+
+                const roleColor = getRoleColor(config.role);
+
+                return `
+                    <div class="member-card">
+                        <img class="member-avatar" src="${avatar}" alt="${login}"
+                             onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+                        <div class="member-info">
+                            <div class="member-name">${login}</div>
+                            <span class="member-role" style="background:${roleColor}">${config.role}</span>
+                            <div class="member-description">${config.desc}</div>
+                        </div>
                     </div>
-                </div>
-            `;
-        }).join('');
+                `;
+            }).join('');
 
-        loading.style.display = 'none';
-        teamGrid.innerHTML = cards;
-        teamGrid.style.display = 'grid';
+            loading.style.display = 'none';
+            teamGrid.innerHTML = cards;
+            teamGrid.style.display = 'grid';
+
+        } catch (err) {
+            loading.textContent = `Ошибка загрузки: ${err.message}`;
+        }
     }
 
     // === МЕНЮ ===
