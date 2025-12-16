@@ -1,1 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создатели — Dark Galaxy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            background: #1a1a2e;
+            color: #e0e0ff;
+            font-family: 'Exo 2', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            color: #d8b4f8;
+            margin-bottom: 30px;
+            text-shadow: 0 0 16px rgba(216, 180, 248, 0.6);
+        }
+
+        .member-card {
+            display: flex;
+            align-items: flex-start;
+            background: rgba(30, 30, 50, 0.6);
+            border: 1px solid #8b5cf6;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .member-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-right: 20px;
+            border: 2px solid #8b5cf6;
+            object-fit: cover;
+        }
+
+        .member-info {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .member-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #f0f0ff;
+            margin-bottom: 6px;
+        }
+
+        .member-role {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #e74c3c;
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+
+        .member-description {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #c0c0e0;
+        }
+
+        @media (max-width: 600px) {
+            .member-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .member-avatar {
+                margin-right: 0;
+                margin-bottom: 16px;
+                align-self: center;
+            }
+            .member-info {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Создатели сайта</h1>
+
+        <div id="loading" style="color: #a5b4fc; margin: 20px 0;">Загрузка информации...</div>
+        <div id="error" style="color: #f87171; display: none; margin: 20px 0;"></div>
+        <div id="content" style="display: none;"></div>
+    </div>
+
+    <script>
+        // Настройки для конкретного создателя
+        const creators = [
+            {
+                userId: "0196d4bd-2c0e-710d-8be3-3b6685aed744",
+                customDescription: "Автор и составитель официальных гайдов сервера Dark Galaxy. Отвечает за достоверность и полноту игровой информации.",
+                fallbackName: "MrkGrshTraklar",
+                fallbackRole: "Старший Модератор"
+            }
+            // Можно добавить других создателей по аналогии
+        ];
+
+        const loadingEl = document.getElementById('loading');
+        const errorEl = document.getElementById('error');
+        const contentEl = document.getElementById('content');
+
+        async function loadCreator(creator) {
+            const { userId, customDescription, fallbackName, fallbackRole } = creator;
+            const profileUrl = `https://loliland.net/ru/profile/${userId}/statistics`;
+
+            try {
+                const response = await fetch(profileUrl);
+                if (!response.ok) throw new Error('Профиль не загружен');
+
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+
+                // Имя
+                let displayName = fallbackName;
+                const h1 = doc.querySelector('h1');
+                if (h1 && h1.textContent.trim()) {
+                    displayName = h1.textContent.trim();
+                }
+
+                // Аватар
+                let avatarUrl = `https://loliland.ru/apiv2/user/avatar/medium/${userId}.gif`;
+                const avatarImg = doc.querySelector('img.avatar');
+                if (avatarImg && avatarImg.src) {
+                    avatarUrl = avatarImg.src;
+                }
+
+                // Роль
+                let role = fallbackRole;
+                const roleSpan = doc.querySelector('span.role');
+                if (roleSpan && roleSpan.textContent.trim()) {
+                    role = roleSpan.textContent.trim();
+                }
+
+                return {
+                    displayName,
+                    avatarUrl,
+                    role,
+                    description: customDescription // ← ВСЕГДА берём из кода!
+                };
+            } catch (err) {
+                // В случае ошибки — используем все fallback-значения
+                return {
+                    displayName: fallbackName,
+                    avatarUrl: `https://loliland.net/ru/profile/${userId}/avatar`,
+                    role: fallbackRole,
+                    description: customDescription
+                };
+            }
+        }
+
+        (async () => {
+            const cards = [];
+            for (const creator of creators) {
+                const data = await loadCreator(creator);
+                cards.push(`
+                    <div class="member-card">
+                        <img class="member-avatar" src="${data.avatarUrl}" alt="${data.displayName}"
+                             onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+                        <div class="member-info">
+                            <div class="member-name">${data.displayName}</div>
+                            <span class="member-role" style="background:#e74c3c">${data.role}</span>
+                            <div class="member-description">${data.description}</div>
+                        </div>
+                    </div>
+                `);
+            }
+
+            loadingEl.style.display = 'none';
+            contentEl.innerHTML = cards.join('');
+            contentEl.style.display = 'block';
+        })();
+    </script>
+</body>
+</html>
