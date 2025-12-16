@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark Galaxy - Создатели сайта</title>
+    <title>Dark Galaxy — Создатели</title>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -11,57 +11,18 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             background: #1a1a2e;
             color: #e0e0ff;
             font-family: 'Exo 2', sans-serif;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow-x: hidden;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 30px 20px 100px;
             position: relative;
+            overflow-x: hidden;
         }
-
-        /* Звёздопад — как на главной */
-        .stars {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .star {
-            position: absolute;
-            color: white;
-            font-size: 1.2em;
-            opacity: 0.9;
-            animation: fall linear infinite;
-            line-height: 1;
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
-        }
-
-        @keyframes fall {
-            0% { transform: translateY(-20px) translateX(0) rotate(0deg); opacity: 0; }
-            5% { opacity: 0.9; }
-            95% { opacity: 0.9; }
-            100% { transform: translateY(100vh) translateX(-50px) rotate(-45deg); opacity: 0; }
-        }
-
-        .top-gradient {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background: linear-gradient(to bottom, rgba(15,12,41,0.95), transparent);
-            z-index: 2;
-        }
-
         .bottom-gradient {
             position: absolute;
             bottom: 0;
@@ -71,149 +32,442 @@
             background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0));
             z-index: 2;
         }
-
-        .container {
-            position: relative;
-            z-index: 2;
-            max-width: 800px;
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            text-align: center;
-            padding: 60px 20px 40px;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .star {
+            position: absolute;
+            color: white;
+            font-size: 1.2em;
+            opacity: 0.9;
+            animation: fall linear infinite;
+            line-height: 1;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+        }
+        @keyframes fall {
+            0% { transform: translateY(-20px) translateX(0) rotate(0deg); opacity: 0; }
+            5% { opacity: 0.9; }
+            95% { opacity: 0.9; }
+            100% { transform: translateY(100vh) translateX(-50px) rotate(-45deg); opacity: 0; }
         }
 
-        h1 {
-            font-size: 2.4rem;
-            color: #d8b4f8;
+        /* Кнопка меню */
+        .menu-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: linear-gradient(45deg, #8b5cf6, #6366f1);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 5px 20px rgba(139, 92, 246, 0.4);
+        }
+        .menu-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Боковое меню */
+        .sidebar {
+            position: fixed;
+            left: -300px;
+            top: 0;
+            width: 280px;
+            height: 100%;
+            background: #1a1a2e;
+            border-right: 1px solid #8b5cf6;
+            z-index: 1000;
+            transition: left 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        .sidebar.open { left: 0; }
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 20px 20px 15px;
+            border-bottom: 1px solid #8b5cf6;
+            background: #1a1a2e;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .sidebar-title { font-size: 1.1rem; font-weight: 600; color: #d8b4f8; }
+        .sidebar-close {
+            background: none; border: none;
+            color: #a5b4fc;
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-left: auto;
+        }
+        .sidebar-menu {
+            list-style: none;
+            padding: 15px 20px;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+        .sidebar-menu li { margin-bottom: 8px; }
+        .sidebar-menu a {
+            display: block;
+            padding: 9px 14px;
+            color: #e0e0ff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.92rem;
+            transition: background 0.2s;
+        }
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: linear-gradient(45deg, #8b5cf6, #6366f1);
+            color: white;
+        }
+
+        /* Выпадающее меню для Гайдов */
+        .sidebar-menu .dropdown {
+            position: relative;
+        }
+        .sidebar-menu .dropdown-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 9px 14px;
+            color: #e0e0ff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.92rem;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+        .sidebar-menu .dropdown-toggle:hover,
+        .sidebar-menu .dropdown-toggle.active {
+            background: linear-gradient(45deg, #8b5cf6, #6366f1);
+            color: white;
+        }
+        .sidebar-menu .dropdown-menu {
+            display: none;
+            margin-top: 5px;
+            padding: 5px 0;
+            background: #16162a;
+            border: 1px solid #8b5cf6;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+        }
+        .sidebar-menu .dropdown-menu a {
+            display: block;
+            padding: 8px 20px;
+            color: #e0e0ff;
+            text-decoration: none;
+            font-size: 0.88rem;
+            transition: background 0.2s;
+        }
+        .sidebar-menu .dropdown-menu a:hover {
+            background: rgba(139, 92, 246, 0.2);
+        }
+
+        /* Контент */
+        .page-container {
+            max-width: 1000px;
+            width: 100%;
+            z-index: 2;
+            position: relative;
+        }
+        .header {
+            text-align: center;
             margin-bottom: 30px;
-            text-shadow: 0 0 16px rgba(216, 180, 248, 0.6);
+        }
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #d8b4f8;
+            text-shadow: 0 0 20px rgba(216, 180, 248, 0.6);
+        }
+
+        /* Карточки создателей */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
         }
 
         .member-card {
+            background: #16162a;
+            border: 1px solid #8b5cf6;
+            border-radius: 12px;
+            padding: 20px;
             display: flex;
             align-items: flex-start;
-            background: rgba(30, 30, 50, 0.6);
-            border: 1px solid #8b5cf6;
-            border-radius: 16px;
-            padding: 20px;
-            margin: 20px auto;
-            max-width: 600px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            gap: 16px;
+            transition: transform 0.2s;
+        }
+
+        .member-card:hover {
+            transform: translateY(-3px);
         }
 
         .member-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            margin-right: 20px;
-            border: 2px solid #8b5cf6;
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
             object-fit: cover;
+            border: 2px solid #8b5cf6;
         }
 
         .member-info {
+            flex: 1;
             text-align: left;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
         }
 
         .member-name {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: #f0f0ff;
-            margin-bottom: 6px;
-        }
-
-        .member-role,
-        .member-site-role {
-            display: inline-block;
-            padding: 4px 12px;
-            color: white;
-            font-size: 0.95rem;
-            font-weight: 600;
-            border-radius: 6px;
             margin-bottom: 8px;
         }
 
         .member-role {
-            background: #e74c3c; /* Старший Модератор */
-        }
-
-        .member-site-role {
-            background: #3498db; /* Роль на сайте */
+            display: inline-block;
+            padding: 4px 12px;
+            background: #e74c3c;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 20px;
+            margin-bottom: 12px;
         }
 
         .member-description {
-            font-size: 1rem;
+            font-size: 0.95rem;
             line-height: 1.5;
             color: #c0c0e0;
-            margin-top: 10px;
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
+            body { padding: 20px 15px 100px; }
+            h1 { font-size: 2.2rem; }
+            .menu-btn { padding: 7px 14px; font-size: 0.9rem; }
+            .sidebar { width: 260px; }
+            .team-grid { grid-template-columns: 1fr; }
             .member-card {
                 flex-direction: column;
                 text-align: center;
             }
             .member-avatar {
-                margin-right: 0;
                 margin-bottom: 16px;
                 align-self: center;
             }
             .member-info {
                 text-align: center;
             }
-            h1 {
-                font-size: 2rem;
-            }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 1.8rem; }
+            .sidebar-header { padding: 15px; }
+            .sidebar-menu a { padding: 8px 12px; font-size: 0.88rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Фоновые элементы -->
-    <div class="top-gradient"></div>
     <div class="stars" id="stars"></div>
+    <button class="menu-btn" id="menu-btn">☰</button>
     <div class="bottom-gradient"></div>
 
-    <div class="container">
-        <h1>Создатели сайта</h1>
-
-        <div class="member-card">
-            <img class="member-avatar"
-                 src="https://loliland.ru/apiv2/user/avatar/medium/019a1a33-5f3f-735c-a808-231393134ed1.gif"
-                 alt="MrkGrshTraklar">
-            <onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
-            <div class="member-info">
-                <div class="member-name">MrkGrshTraklar</div>
-                <span class="member-role">Старший Модератор</span>
-                <span class="member-site-role">Автор гайда по Galacticraft</span>
-                <div class="member-description">
-                    Автор и составитель официальных гайдов сервера Dark Galaxy.<br>
-                    Отвечает за достоверность и полноту игровой информации.
-                </div>
-            </div>
+    <!-- Боковое меню -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span class="sidebar-title">Путиводитель</span>
+            <button class="sidebar-close" id="close-sidebar">×</button>
         </div>
-    </div>
-            <div class="member-card">
-            <img class="member-avatar"
-                 src="https://loliland.net/apiv2/user/avatar/medium/019a2127-a40c-7b8d-abf4-822abb0cf4b1.webp"
-                 alt="ghosts34444">
-            <onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
-            <div class="member-info">
-                <div class="member-name">ghosts34444</div>
-                <span class="member-role">Старший Модератор</span>
-                <span class="member-site-role">Поддержка сайта</span>
-                <div class="member-description">
-                    быр быр патамим, быр быр холодрым.<br>
-                    антиразвитый.
+        <ul class="sidebar-menu">
+            <li><a href="index.html">Главная</a></li>
+            <li class="dropdown">
+                <div class="dropdown-toggle" id="guides-dropdown">
+                    Гайды <span style="font-size: 0.8rem;">▼</span>
                 </div>
-            </div>
-        </div>
+                <div class="dropdown-menu" id="guides-list">
+                    <a href="#">Galacticraft</a>
+                    <a href="#">Botania</a>
+                    <a href="#">Thaumcraft</a>
+                    <a href="#">Draconic Evolution</a>
+                    <a href="#">Applied Energistics 2</a>
+                    <a href="#">Forestry</a>
+                    <a href="#">Blood Magic</a>
+                    <a href="#">Thermal Expansion</a>
+                    <a href="#">Ic2 | MineFactory</a>
+                    <a href="#">TConstruct</a>
+                </div>
+            </li>
+            <li><a href="warp-info.html">Цены варпа</a></li>
+            <li><a href="#">Услуги</a></li>
+            <li><a href="#">О сайте</a></li>
+            <li><a href="#">О сервере</a></li>
+            <li><a href="creators.html" class="active">Создатели</a></li>
+        </ul>
     </div>
 
+    <!-- Основной контент -->
+    <div class="page-container">
+        <div class="header">
+            <h1>Создатели Dark Galaxy</h1>
+        </div>
+
+        <div class="team-grid" id="team-grid">
+            <!-- Карточки будут загружены скриптом -->
+        </div>
+    </div>
 
     <script>
-        // Звёздопад — как на главной
+        // === Данные создателей ===
+        const CREATORS = [
+            {
+                userId: "0196d4bd-2c0e-710d-8be3-3b6685aed744",
+                login: "Mrkgrshtraklar",
+                dgRole: "Старший Модератор",
+                description: "Автор и ведущий гайдер по моду Galacticraft. Составляет и обновляет гайды для новичков и опытных игроков."
+            },
+            {
+                userId: "018b3406-6b00-7f50-b64b-797c513ea4c9",
+                login: "ghosts34444",
+                dgRole: "Старший Модератор",
+                description: "Разработчик сайта и систем автоматизации. Отвечает за техническую поддержку и инфраструктуру проекта."
+            },
+            {
+                userId: "0182a4f0-1c25-77f8-9444-2b4886f2ae38",
+                login: "Xan241",
+                dgRole: "Старший Администратор",
+                description: "Куратор цен на варпах. Собирает, проверяет и публикует информацию о стоимости предметов в торговле."
+            },
+            {
+                userId: "0182ca14-3c71-7818-a4d8-f2131be587fc",
+                login: "NoVartix",
+                dgRole: "Младший Модератор",
+                description: "Основатель проекта. Участвует в развитии сервера и управлении командой."
+            }
+        ];
+
+        // Цвета ролей
+        const ROLE_COLORS = {
+            "Старший Модератор": "#e74c3c",
+            "Старший Администратор": "#e91e63",
+            "Модератор": "#f39c12",
+            "Администратор": "#2ecc71",
+            "Младший Модератор": "#3498db"
+        };
+
+        function getRoleColor(role) {
+            return ROLE_COLORS[role] || '#e74c3c';
+        }
+
+        // Загрузка имени из <title>
+        async function fetchProfileName(userId) {
+            try {
+                const res = await fetch(`https://loliland.net/ru/profile/${userId}/statistics`);
+                if (!res.ok) throw new Error('Профиль не найден');
+                const html = await res.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+
+                let title = doc.querySelector('title')?.textContent || '';
+                let name = title.split(' - ')[0].trim();
+                return name || 'Игрок';
+            } catch (err) {
+                return 'Игрок';
+            }
+        }
+
+        // Отрисовка
+        async function renderCreators() {
+            const teamGrid = document.getElementById('team-grid');
+            const cards = [];
+
+            for (const creator of CREATORS) {
+                let name = await fetchProfileName(creator.userId);
+                if (!name || name === '') name = creator.login;
+
+                const avatarUrl = `https://loliland.ru/apiv2/user/avatar/medium/${creator.userId}.jpg`;
+                const roleColor = getRoleColor(creator.dgRole);
+
+                cards.push(`
+                    <div class="member-card">
+                        <img class="member-avatar" 
+                             src="${avatarUrl}" 
+                             alt="${name}"
+                             onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+                        <div class="member-info">
+                            <div class="member-name">${name}</div>
+                            <span class="member-role" style="background:${roleColor}">${creator.dgRole}</span>
+                            <div class="member-description">${creator.description}</div>
+                        </div>
+                    </div>
+                `);
+            }
+
+            teamGrid.innerHTML = cards.join('');
+        }
+
+        renderCreators();
+
+        // === Меню ===
+        const menuBtn = document.getElementById('menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        const closeSidebar = document.getElementById('close-sidebar');
+
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.add('open');
+            menuBtn.style.display = 'none';
+        });
+
+        function showMenuButton() {
+            menuBtn.style.display = 'block';
+        }
+
+        closeSidebar.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            showMenuButton();
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
+                sidebar.classList.remove('open');
+                showMenuButton();
+            }
+        });
+
+        // === Логика выпадающего меню Гайды ===
+        const guidesDropdown = document.getElementById('guides-dropdown');
+        const guidesList = document.getElementById('guides-list');
+
+        guidesDropdown.addEventListener('click', function(e) {
+            // Если кликнули на стрелку — разворачиваем список
+            if (e.target.closest('span')) {
+                guidesList.style.display = guidesList.style.display === 'block' ? 'none' : 'block';
+            } else {
+                // Если кликнули на саму кнопку — переходим на страницу гайдов
+                window.location.href = 'guides.html'; // замени на реальный URL
+            }
+        });
+
+        // Закрытие списка при клике вне его
+        document.addEventListener('click', function(e) {
+            if (!guidesDropdown.contains(e.target)) {
+                guidesList.style.display = 'none';
+            }
+        });
+
+        // === Звёзды ===
         const stars = document.getElementById('stars');
         const count = 40;
         for (let i = 0; i < count; i++) {
