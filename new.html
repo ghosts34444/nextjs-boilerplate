@@ -234,7 +234,7 @@
             <span class="sidebar-title">Путиводитель</span>
             <button class="sidebar-close" id="close-sidebar">×</button>
         </div>
-        <ul class "sidebar-menu">
+        <ul class="sidebar-menu">
             <li><a href="index.html">Главная</a></li>
             <li><a href="#">Гайды</a></li>
             <li><a href="warp-info.html">Цены варпа</a></li>
@@ -254,136 +254,158 @@
         <div class="team-grid" id="team-grid" style="display: none;"></div>
     </div>
 
-    <script>
-        // Сопоставление ролей с описанием на Dark Galaxy
-        const ROLE_DESCRIPTIONS = {
-            "Старший Модератор": "Автор и ведущий гайдер по моду Galacticraft. Составляет и обновляет гайды для новичков и опытных игроков.",
-            "Младший Модератор": "Активный участник команды. Контролирует соблюдение правил на варпах и участвует в модерации чата.",
-            "Старший Администратор": "Куратор цен на варпах. Собирает, проверяет и публикует информацию о стоимости предметов в торговле.",
-            "Администратор": "Отвечает за техническую поддержку и инфраструктуру проекта."
-        };
-
-        const ROLE_COLORS = {
-            "Старший Модератор": "#e74c3c",
-            "Старший Администратор": "#e91e63",
-            "Модератор": "#f39c12",
-            "Администратор": "#2ecc71",
-            "Младший Модератор": "#3498db"
-        };
-
-        function getRoleColor(role) {
-            return ROLE_COLORS[role] || '#e74c3c';
+<script>
+    // === ВСЕ ДАННЫЕ ВРУЧНУЮ + UUID ===
+    const CREATOR_MANUAL = [
+        {
+            login: "ghosts34444",
+            userId: "018b3406-6b00-7f50-b64b-797c513ea4c9",
+            customRole: "Старший Модератор",
+            description: "Разработчик сайта и систем автоматизации. Отвечает за техническую поддержку и инфраструктуру проекта."
+        },
+        {
+            login: "Xan241",
+            userId: "0182a4f0-1c25-77f8-9444-2b4886f2ae38",
+            customRole: "Старший Администратор",
+            description: "Куратор цен на варпах. Собирает, проверяет и публикует информацию о стоимости предметов в торговле."
+        },
+        {
+            login: "MrkGrshtraklar",
+            userId: "0196d4bd-2c0e-710d-8be3-3b6685aed744",
+            customRole: "Старший Модератор",
+            description: "Главный гайдер по моду Galacticraft. Составляет и обновляет гайды для новичков и опытных игроков."
+        },
+        {
+            login: "DoKFoReVe",
+            userId: "01873501-a948-77c2-b1b3-2599ef057cb5",
+            customRole: "Младший Модератор",
+            description: "Активный модератор чата и варпов. Следит за соблюдением правил и помогает игрокам."
         }
+    ];
 
-        function translateRole(roleKey) {
-            const map = {
-                "junior_moderator": "Младший Модератор",
-                "senior_moderator": "Старший Модератор",
-                "moderator": "Модератор",
-                "admin": "Администратор",
-                "senior_admin": "Старший Администратор",
-                "chief_admin": "Главный Администратор",
-                "curator": "Куратор"
-            };
-            return map[roleKey] || "Участник";
-        }
+    const ORDER = ["ghosts34444", "Xan241", "MrkGrshtraklar", "DoKFoReVe"];
 
-        async function loadTeam() {
-            const loading = document.getElementById('loading');
-            const teamGrid = document.getElementById('team-grid');
+    const ROLE_COLORS = {
+        "Старший Модератор": "#e74c3c",
+        "Старший Администратор": "#e91e63",
+        "Модератор": "#f39c12",
+        "Администратор": "#2ecc71",
+        "Младший Модератор": "#3498db"
+    };
 
-            try {
-                const res = await fetch('https://loliland.ru/apiv2/team', {
-                    headers: { 'User-Agent': 'Mozilla/5.0 (compatible; DarkGalaxy/1.0)' }
-                });
-                if (!res.ok) throw new Error(`Ошибка ${res.status}`);
+    function getRoleColor(role) {
+        return ROLE_COLORS[role] || '#e74c3c';
+    }
 
+    // === ЗАГРУЗКА ДАННЫХ ===
+    async function loadTeam() {
+        const loading = document.getElementById('loading');
+        const teamGrid = document.getElementById('team-grid');
+
+        const loginToUser = new Map();
+
+        // Пытаемся получить данные из API для точных аватарок
+        try {
+            const res = await fetch('https://loliland.ru/apiv2/team', {
+                headers: { 'User-Agent': 'Mozilla/5.0 (compatible; DarkGalaxy/1.0)' }
+            });
+            if (res.ok) {
                 const data = await res.json();
-                if (!data.team?.dark_galaxy) throw new Error('Команда dark_galaxy не найдена');
-
-                const members = data.team.dark_galaxy.map(m => {
-                    const user = m.user || {};
-                    const login = user.login || 'Неизвестно';
-                    const roleKey = m.role || 'Участник';
-                    const role = translateRole(roleKey);
-
-                    // Аватар
-                    let avatar = 'https://cdn.discordapp.com/embed/avatars/0.png';
-                    const avatarInfo = user.avatarOrSkin;
-                    if (avatarInfo && avatarInfo.id && avatarInfo.extension) {
-                        avatar = `https://loliland.ru/apiv2/user/avatar/medium/${avatarInfo.id}.${avatarInfo.extension}`;
+                if (data.team?.dark_galaxy?.length) {
+                    for (const member of data.team.dark_galaxy) {
+                        if (member.user?.login) {
+                            loginToUser.set(member.user.login, member.user);
+                        }
                     }
-
-                    return { login, role, avatar };
-                });
-
-                // Отрисовка
-                const cards = members.map(m => {
-                    const description = ROLE_DESCRIPTIONS[m.role] || "Участник команды Dark Galaxy.";
-                    const roleColor = getRoleColor(m.role);
-                    return `
-                        <div class="member-card">
-                            <img class="member-avatar" 
-                                 src="${m.avatar}" 
-                                 alt="${m.login}"
-                                 onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
-                            <div class="member-info">
-                                <div class="member-name">${m.login}</div>
-                                <span class="member-role" style="background:${roleColor}">${m.role}</span>
-                                <div class="member-description">${description}</div>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-
-                loading.style.display = 'none';
-                teamGrid.innerHTML = cards;
-                teamGrid.style.display = 'grid';
-
-            } catch (err) {
-                loading.textContent = `Ошибка загрузки: ${err.message}`;
+                }
             }
+        } catch (err) {
+            console.warn('Не удалось загрузить apiv2/team — используем резервные аватарки по UUID');
         }
 
-        // Меню
-        const menuBtn = document.getElementById('menu-btn');
-        const sidebar = document.getElementById('sidebar');
-        const closeSidebar = document.getElementById('close-sidebar');
+        // Формируем финальный список
+        const members = CREATOR_MANUAL.map(creator => {
+            const user = loginToUser.get(creator.login);
 
-        menuBtn.addEventListener('click', () => {
-            sidebar.classList.add('open');
-            menuBtn.style.display = 'none';
+            let avatarUrl;
+            if (user?.avatarOrSkin?.id && user.avatarOrSkin.extension) {
+                // Берём аватар из API, если есть
+                avatarUrl = `https://loliland.ru/apiv2/user/avatar/medium/${user.avatarOrSkin.id}.${user.avatarOrSkin.extension}`;
+            } else {
+                // Иначе — по UUID (гарантированно работает)
+                avatarUrl = `https://loliland.ru/apiv2/user/avatar/medium/${creator.userId}.jpg`;
+            }
+
+            return {
+                login: creator.login,
+                role: creator.customRole,
+                description: creator.description,
+                avatar: avatarUrl
+            };
         });
 
-        closeSidebar.addEventListener('click', () => {
+        // Отрисовка карточек
+        const cards = members.map(m => {
+            const roleColor = getRoleColor(m.role);
+            return `
+                <div class="member-card">
+                    <img class="member-avatar" 
+                         src="${m.avatar}" 
+                         alt="${m.login}"
+                         onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+                    <div class="member-info">
+                        <div class="member-name">${m.login}</div>
+                        <span class="member-role" style="background:${roleColor}">${m.role}</span>
+                        <div class="member-description">${m.description}</div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        loading.style.display = 'none';
+        teamGrid.innerHTML = cards;
+        teamGrid.style.display = 'grid';
+    }
+
+    // === МЕНЮ ===
+    const menuBtn = document.getElementById('menu-btn');
+    const sidebar = document.getElementById('sidebar');
+    const closeSidebar = document.getElementById('close-sidebar');
+
+    menuBtn.addEventListener('click', () => {
+        sidebar.classList.add('open');
+        menuBtn.style.display = 'none';
+    });
+
+    closeSidebar.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        menuBtn.style.display = 'block';
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
             sidebar.classList.remove('open');
             menuBtn.style.display = 'block';
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
-                sidebar.classList.remove('open');
-                menuBtn.style.display = 'block';
-            }
-        });
-
-        // Звёзды
-        const stars = document.getElementById('stars');
-        for (let i = 0; i < 40; i++) {
-            const star = document.createElement('div');
-            star.classList.add('star');
-            star.textContent = '✧';
-            star.style.fontSize = `${Math.random() * 0.6 + 0.4}em`;
-            star.style.left = `${Math.random() * 100}vw`;
-            star.style.top = `-30px`;
-            star.style.opacity = Math.random() * 0.3 + 0.5;
-            star.style.animationDuration = `${Math.random() * 15 + 10}s`;
-            star.style.animationDelay = `${Math.random() * 10}s`;
-            stars.appendChild(star);
         }
+    });
 
-        // Загрузка
-        loadTeam();
-    </script>
+    // === ЗВЁЗДЫ ===
+    const stars = document.getElementById('stars');
+    for (let i = 0; i < 40; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        star.textContent = '✧';
+        star.style.fontSize = `${Math.random() * 0.6 + 0.4}em`;
+        star.style.left = `${Math.random() * 100}vw`;
+        star.style.top = `-30px`;
+        star.style.opacity = Math.random() * 0.3 + 0.5;
+        star.style.animationDuration = `${Math.random() * 15 + 10}s`;
+        star.style.animationDelay = `${Math.random() * 10}s`;
+        stars.appendChild(star);
+    }
+
+    // ЗАПУСК
+    loadTeam();
+</script>
 </body>
 </html>
