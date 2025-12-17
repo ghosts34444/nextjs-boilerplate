@@ -255,38 +255,38 @@
     </div>
 
 <script>
-    // === РОЛИ И ОПИСАНИЯ ===
-    const ROLE_CONFIG = {
-        "ghosts34444": {
-            role: "Старший Модератор",
-            desc: "Cайт"
-        },
-        "Xan241": {
-            role: "Старший Администратор",
-            desc: "Таблица"
-        },
-        "Mrkgrshtraklar": {
-            role: "Старший Модератор",
-            desc: "Гайд"
-        },
-        "DoKFoReVe": {
-            role: "Младший Модератор",
-            desc: "Гайд"
-        },
-        "K6ng": {
-            role: "Хелпер",
-            desc: "Тестовый"
-        }
+    // === ОПИСАНИЯ (вручную, не из API) ===
+    const DESCRIPTIONS = {
+        "ghosts34444": "Разработчик сайта и систем автоматизации. Отвечает за техническую поддержку и инфраструктуру проекта.",
+        "Xan241": "Куратор цен на варпах. Собирает, проверяет и публикует информацию о стоимости предметов в торговле.",
+        "MrkGrshtraklar": "Главный гайдер по моду Galacticraft. Составляет и обновляет гайды для новичков и опытных игроков.",
+        "DoKFoReVe": "Активный модератор чата и варпов. Следит за соблюдением правил и помогает игрокам."
     };
 
+    // === ПЕРЕВОД РОЛЕЙ ИЗ API ===
+    function translateRole(roleKey) {
+        const map = {
+            "junior_moderator": "Младший Модератор",
+            "senior_moderator": "Старший Модератор",
+            "moderator": "Модератор",
+            "junior_admin": "Младший Администратор",      // ← добавлено!
+            "admin": "Администратор",
+            "senior_admin": "Старший Администратор",
+            "chief_admin": "Главный Администратор",
+            "curator": "Куратор"
+        };
+        return map[roleKey] || "Участник";
+    }
+
+    // === ЦВЕТА РОЛЕЙ ===
     const ROLE_COLORS = {
         "Старший Модератор": "#e74c3c",
         "Старший Администратор": "#e91e63",
         "Модератор": "#f39c12",
         "Администратор": "#2ecc71",
         "Младший Модератор": "#3498db",
-        "Хелпер": "#27ae60",
-        "Младший Администратор": "8b0000"
+        "Младший Администратор": "#8b5cf6", // ← добавлено!
+        "Куратор": "#9b59b6"
     };
 
     function getRoleColor(role) {
@@ -297,12 +297,11 @@
     async function loadTeam() {
         const loading = document.getElementById('loading');
         const teamGrid = document.getElementById('team-grid');
-        const TARGET_LOGINS = ["ghosts34444", "Xan241", "Mrkgrshtraklar", "DoKFoReVe", "K6ng"];
+        const TARGET_LOGINS = ["ghosts34444", "Xan241", "MrkGrshtraklar", "DoKFoReVe"];
 
         try {
             let users = [];
 
-            // Загружаем из API
             const res = await fetch('https://loliland.ru/apiv2/team', {
                 headers: { 'User-Agent': 'Mozilla/5.0 (compatible; DarkGalaxy/1.0)' }
             });
@@ -313,7 +312,7 @@
                     const apiMap = new Map();
                     for (const m of data.team.dark_galaxy) {
                         if (m.user?.login) {
-                            apiMap.set(m.user.login, m.user);
+                            apiMap.set(m.user.login, m);
                         }
                     }
 
@@ -326,16 +325,22 @@
             }
 
             // Генерация карточек
-            const cards = users.map(user => {
+            const cards = users.map(m => {
+                const user = m.user;
                 const login = user.login;
-                const config = ROLE_CONFIG[login] || { role: "Участник", desc: "Член команды Dark Galaxy." };
 
+                // Роль → из API
+                const role = translateRole(m.role);
+                // Описание → из ручных данных
+                const desc = DESCRIPTIONS[login] || "Член команды Dark Galaxy.";
+
+                // Аватарка
                 let avatar = 'https://cdn.discordapp.com/embed/avatars/0.png';
                 if (user.avatarOrSkin?.id && user.avatarOrSkin.extension) {
                     avatar = `https://loliland.ru/apiv2/user/avatar/medium/${user.avatarOrSkin.id}.${user.avatarOrSkin.extension}`;
                 }
 
-                const roleColor = getRoleColor(config.role);
+                const roleColor = getRoleColor(role);
 
                 return `
                     <div class="member-card">
@@ -343,8 +348,8 @@
                              onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
                         <div class="member-info">
                             <div class="member-name">${login}</div>
-                            <span class="member-role" style="background:${roleColor}">${config.role}</span>
-                            <div class="member-description">${config.desc}</div>
+                            <span class="member-role" style="background:${roleColor}">${role}</span>
+                            <div class="member-description">${desc}</div>
                         </div>
                     </div>
                 `;
