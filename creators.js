@@ -146,7 +146,7 @@
 
     toggle.addEventListener('click', (e) => {
         if (!e.target.closest('.dropdown-arrow')) {
-            window.location.href = 'guides.html';
+            window.location.href = 'guidesbook.html';
         }
     });
 
