@@ -1,4 +1,32 @@
- // Модальные окна
+ // Модальное окно выбора отдела (без заголовка)
+        const modsList = document.getElementById('mods-list');
+        const order = [
+            'vanilla', 'thaumcraft', 'appliedenergistics2', 'ic2', 'thermal', 'blood',
+            'botania', 'minefactory', 'dc', 'avaritia', 'tanker', 'stradania',
+            'ender', 'lolienergistics', 'lolimagically', 'divine', 'galactic', 'trade'
+        ];
+        order.forEach(key => {
+            const dept = departments[key];
+            if (!dept) return;
+            const div = document.createElement('a');
+            div.href = '#';
+            div.className = 'mod-option';
+            div.dataset.key = key;
+            const icon = document.createElement('div');
+            icon.className = 'mod-icon';
+            icon.textContent = dept.name.charAt(0);
+            const text = document.createTextNode(dept.name);
+            div.appendChild(icon);
+            div.appendChild(text);
+            div.addEventListener('click', (e) => {
+                e.preventDefault();
+                showTable(key);
+                closeModal('mods-modal');
+            });
+            modsList.appendChild(div);
+        });
+
+// Модальные окна
 function showModal(modalId) {
             const modal = document.getElementById(modalId);
             modal.style.display = 'flex';
