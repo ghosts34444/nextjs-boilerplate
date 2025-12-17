@@ -272,6 +272,10 @@
         "DoKFoReVe": {
             role: "Младший Модератор",
             desc: "Гайд"
+        },
+        "K6ng": {
+            role: "Хелпер",
+            desc: "Тестовый"
         }
     };
 
@@ -280,7 +284,8 @@
         "Старший Администратор": "#e91e63",
         "Модератор": "#f39c12",
         "Администратор": "#2ecc71",
-        "Младший Модератор": "#3498db"
+        "Младший Модератор": "#3498db",
+        "Хелпер": "#27ae60"
     };
 
     function getRoleColor(role) {
@@ -291,7 +296,7 @@
     async function loadTeam() {
         const loading = document.getElementById('loading');
         const teamGrid = document.getElementById('team-grid');
-        const TARGET_LOGINS = ["ghosts34444", "Xan241", "Mrkgrshtraklar", "DoKFoReVe"];
+        const TARGET_LOGINS = ["ghosts34444", "Xan241", "Mrkgrshtraklar", "DoKFoReVe", "K6ng"];
 
         try {
             let users = [];
