@@ -1,3 +1,27 @@
+ // Модальные окна
+function showModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.style.opacity = '1';
+                modal.style.pointerEvents = 'auto';
+            }, 10);
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.style.pointerEvents = 'none';
+            }, 300);
+        }
+
+        document.getElementById('open-mods-modal').addEventListener('click', () => showModal('mods-modal'));
+        document.getElementById('mods-modal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('mods-modal')) closeModal('mods-modal');
+        });
+//таюлица
 let lastOpenedDeptKey = null;
 let isTableManuallyClosed = false; 
 
