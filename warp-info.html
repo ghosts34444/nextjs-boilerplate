@@ -1249,241 +1249,268 @@
             ]}
         };
 
-        // Инициализация звёзд
-        const stars = document.getElementById('stars');
-        const count = 40;
-        for (let i = 0; i < count; i++) {
-            const star = document.createElement('div');
-            star.classList.add('star');
-            star.innerHTML = '✧';
-            const size = Math.random() * 0.6 + 0.4;
-            const duration = Math.random() * 15 + 10;
-            const delay = Math.random() * 10;
-            const startX = Math.random() * 100;
-            star.style.fontSize = `${size}em`;
-            star.style.left = `${startX}vw`;
-            star.style.top = `-30px`;
-            star.style.opacity = Math.random() * 0.3 + 0.5;
-            star.style.animationDuration = `${duration}s`;
-            star.style.animationDelay = `${delay}s`;
-            stars.appendChild(star);
-        }
+  const stars = document.getElementById('stars');
+  const count = 40;
+  for (let i = 0; i < count; i++) {
+    const star = document.createElement('div');
+    star.classList.add('star');
+    star.textContent = '✧';
+    const size = Math.random() * 0.6 + 0.4;
+    const duration = Math.random() * 15 + 10;
+    const delay = Math.random() * 10;
+    const startX = Math.random() * 100;
+    star.style.fontSize = `${size}em`;
+    star.style.left = `${startX}vw`;
+    star.style.top = `-30px`;
+    star.style.opacity = Math.random() * 0.3 + 0.5;
+    star.style.animationDuration = `${duration}s`;
+    star.style.animationDelay = `${delay}s`;
+    stars.appendChild(star);
+  }
 
-// === МЕНЮ ===
-const menuBtn = document.getElementById('menu-btn');
-const sidebar = document.getElementById('sidebar');
-const closeSidebar = document.getElementById('close-sidebar');
+  const menuBtn = document.getElementById('menu-btn');
+  const sidebar = document.getElementById('sidebar');
+  const closeSidebar = document.getElementById('close-sidebar');
 
-menuBtn.addEventListener('click', () => {
+  menuBtn.addEventListener('click', () => {
     sidebar.classList.add('open');
     menuBtn.style.display = 'none';
-});
+  });
 
-closeSidebar.addEventListener('click', () => {
+  closeSidebar.addEventListener('click', () => {
     sidebar.classList.remove('open');
     menuBtn.style.display = 'block';
-});
+  });
 
-document.addEventListener('click', (e) => {
+  document.addEventListener('click', (e) => {
     if (!sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
-        sidebar.classList.remove('open');
-        menuBtn.style.display = 'block';
+      sidebar.classList.remove('open');
+      menuBtn.style.display = 'block';
     }
-});
+  });
 
-// Выпадающее меню "Гайды"
-document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', () => {
     const toggle = document.getElementById('guides-toggle');
-    const arrow = toggle?.querySelector('.dropdown-arrow');
+    if (!toggle) return;
+
+    const arrow = toggle.querySelector('.dropdown-arrow');
     const dropdown = document.getElementById('guides-dropdown');
 
     if (arrow && dropdown) {
-        arrow.addEventListener('click', (e) => {
-            e.stopPropagation();
-            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-        });
+      arrow.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+      });
 
-        toggle.addEventListener('click', (e) => {
-            if (!e.target.closest('.dropdown-arrow')) {
-                window.location.href = 'guides.html';
-            }
-        });
+      toggle.addEventListener('click', (e) => {
+        if (!e.target.closest('.dropdown-arrow')) {
+          window.location.href = 'guides.html';
+        }
+      });
 
-        document.addEventListener('click', (e) => {
-            if (!toggle.contains(e.target) && !dropdown.contains(e.target)) {
-                dropdown.style.display = 'none';
-            }
-        });
+      document.addEventListener('click', (e) => {
+        if (!toggle.contains(e.target) && !dropdown.contains(e.target)) {
+          dropdown.style.display = 'none';
+        }
+      });
     }
-});
+  });
 
-        // Модальное окно выбора отдела (без заголовка)
-        const modsList = document.getElementById('mods-list');
-        const order = [
-            'vanilla', 'thaumcraft', 'appliedenergistics2', 'ic2', 'thermal', 'blood',
-            'botania', 'minefactory', 'dc', 'avaritia', 'tanker', 'stradania',
-            'ender', 'lolienergistics', 'lolimagically', 'divine', 'galactic', 'trade'
-        ];
-        order.forEach(key => {
-            const dept = departments[key];
-            if (!dept) return;
-            const div = document.createElement('a');
-            div.href = '#';
-            div.className = 'mod-option';
-            div.dataset.key = key;
-            const icon = document.createElement('div');
-            icon.className = 'mod-icon';
-            icon.textContent = dept.name.charAt(0);
-            const text = document.createTextNode(dept.name);
-            div.appendChild(icon);
-            div.appendChild(text);
-            div.addEventListener('click', (e) => {
-                e.preventDefault();
-                showTable(key);
-                closeModal('mods-modal');
-            });
-            modsList.appendChild(div);
-        });
+  const modsList = document.getElementById('mods-list');
+  if (modsList) {
+    const order = [
+      'vanilla', 'thaumcraft', 'appliedenergistics2', 'ic2', 'thermal', 'blood',
+      'botania', 'minefactory', 'dc', 'avaritia', 'tanker', 'stradania',
+      'ender', 'lolienergistics', 'lolimagically', 'divine', 'galactic', 'trade'
+    ];
 
-        // Модальные окна
-        function showModal(modalId) {
-            const modal = document.getElementById(modalId);
-            modal.style.display = 'flex';
-            setTimeout(() => {
-                modal.style.opacity = '1';
-                modal.style.pointerEvents = 'auto';
-            }, 10);
-        }
+    order.forEach(key => {
+      const dept = departments?.[key];
+      if (!dept) return;
 
-        function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            modal.style.opacity = '0';
-            setTimeout(() => {
-                modal.style.display = 'none';
-                modal.style.pointerEvents = 'none';
-            }, 300);
-        }
+      const div = document.createElement('a');
+      div.href = '#';
+      div.className = 'mod-option';
+      div.dataset.key = key;
+      const icon = document.createElement('div');
+      icon.className = 'mod-icon';
+      icon.textContent = dept.name.charAt(0);
+      const text = document.createTextNode(dept.name);
+      div.appendChild(icon);
+      div.appendChild(text);
+      div.addEventListener('click', (e) => {
+        e.preventDefault();
+        showTable(key);
+        closeModal('mods-modal');
+      });
+      modsList.appendChild(div);
+    });
+  }
 
-        document.getElementById('open-mods-modal').addEventListener('click', () => showModal('mods-modal'));
-        document.getElementById('mods-modal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('mods-modal')) closeModal('mods-modal');
-        });
+  function showModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+    modal.style.display = 'flex';
+    setTimeout(() => {
+      modal.style.opacity = '1';
+      modal.style.pointerEvents = 'auto';
+    }, 10);
+  }
 
-// === ЛОГИКА ТАБЛИЦ И ПОИСКА ===
-let lastOpenedDeptKey = null;
-let isTableManuallyClosed = false; // 🔑 Флаг: таблица закрыта вручную
+  function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+    modal.style.opacity = '0';
+    setTimeout(() => {
+      modal.style.display = 'none';
+      modal.style.pointerEvents = 'none';
+    }, 300);
+  }
 
-function showTable(deptKey) {
-    // Очищаем поле поиска
+  const openModsBtn = document.getElementById('open-mods-modal');
+  if (openModsBtn) {
+    openModsBtn.addEventListener('click', () => showModal('mods-modal'));
+  }
+
+  const modsModal = document.getElementById('mods-modal');
+  if (modsModal) {
+    modsModal.addEventListener('click', (e) => {
+      if (e.target === modsModal) closeModal('mods-modal');
+    });
+  }
+
+  let lastOpenedDeptKey = null;
+  let isTableManuallyClosed = false;
+
+  function showTable(deptKey) {
+    const dept = departments?.[deptKey];
+    if (!dept) return;
+
+    // Очистка поиска
     const searchInput = document.getElementById('search-input');
-    searchInput.value = '';
-    document.getElementById('search-clear').style.display = 'none';
-    document.getElementById('search-results').style.display = 'none';
+    const searchClear = document.getElementById('search-clear');
+    const searchResults = document.getElementById('search-results');
+    if (searchInput) searchInput.value = '';
+    if (searchClear) searchClear.style.display = 'none';
+    if (searchResults) searchResults.style.display = 'none';
 
-    const dept = departments[deptKey];
-    document.getElementById('table-title').textContent = dept.name;
+    // Заполнение таблицы
+    const titleEl = document.getElementById('table-title');
     const tbody = document.getElementById('table-body');
-    tbody.innerHTML = '';
-    dept.items.forEach(item => {
+    if (titleEl) titleEl.textContent = dept.name;
+    if (tbody) {
+      tbody.innerHTML = '';
+      dept.items.forEach(item => {
         const row = tbody.insertRow();
         row.insertCell(0).textContent = item.name;
         row.insertCell(1).textContent = item.price;
-    });
+      });
+    }
 
     const table = document.getElementById('mod-table');
-    table.style.display = 'block';
-    setTimeout(() => table.classList.add('visible'), 10);
+    if (table) {
+      table.style.display = 'block';
+      setTimeout(() => table.classList.add('visible'), 10);
+    }
 
-    // 🔑 Сбрасываем флаг — таблица открыта по выбору отдела
     isTableManuallyClosed = false;
     lastOpenedDeptKey = deptKey;
 
-    // Сдвигаем градиент под таблицу
     setTimeout(() => {
-        const tableRect = table.getBoundingClientRect();
-        const tableBottom = tableRect.bottom;
-        const viewportHeight = window.innerHeight;
-        const neededHeight = viewportHeight - tableBottom + 50;
-        const minHeight = 150;
-        const finalHeight = Math.max(minHeight, neededHeight);
-        document.querySelector('.bottom-gradient').style.height = `${finalHeight}px`;
+      const bottomGradient = document.querySelector('.bottom-gradient');
+      if (!table || !bottomGradient) return;
+      const tableRect = table.getBoundingClientRect();
+      const tableBottom = tableRect.bottom;
+      const viewportHeight = window.innerHeight;
+      const neededHeight = viewportHeight - tableBottom + 50;
+      const finalHeight = Math.max(150, neededHeight);
+      bottomGradient.style.height = `${finalHeight}px`;
     }, 310);
-}
+  }
 
-function hideTable() {
+  function hideTable() {
     const table = document.getElementById('mod-table');
-    if (table.classList.contains('visible')) {
-        table.classList.remove('visible');
-        setTimeout(() => {
-            table.style.display = 'none';
-            document.querySelector('.bottom-gradient').style.height = '150px';
-        }, 300);
-    }
-}
+    const bottomGradient = document.querySelector('.bottom-gradient');
+    if (!table || !table.classList.contains('visible')) return;
 
-// 🔑 При закрытии таблицы вручную — устанавливаем флаг
-document.getElementById('close-table').addEventListener('click', () => {
-    isTableManuallyClosed = true;
-    hideTable();
-});
+    table.classList.remove('visible');
+    setTimeout(() => {
+      table.style.display = 'none';
+      if (bottomGradient) bottomGradient.style.height = '150px';
+    }, 300);
+  }
 
-// === ПОИСК ===
-const searchInput = document.getElementById('search-input');
-const searchClear = document.getElementById('search-clear');
+  const closeTableBtn = document.getElementById('close-table');
+  if (closeTableBtn) {
+    closeTableBtn.addEventListener('click', () => {
+      isTableManuallyClosed = true;
+      hideTable();
+    });
+  }
+        
+  const searchInput = document.getElementById('search-input');
+  const searchClear = document.getElementById('search-clear');
 
-searchInput.addEventListener('input', () => {
-    const query = searchInput.value.trim();
-    searchClear.style.display = query.length > 0 ? 'block' : 'none';
+  if (searchInput && searchClear) {
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.trim();
+      searchClear.style.display = query.length > 0 ? 'block' : 'none';
 
-    if (query.length < 3) {
+      if (query.length < 3) {
         document.getElementById('search-results').style.display = 'none';
         return;
-    }
+      }
 
-    performSearch(query);
-    // Скрываем таблицу при поиске (но НЕ меняем isTableManuallyClosed!)
-    hideTable();
-});
+      performSearch(query);
+      hideTable(); 
+    });
 
-searchClear.addEventListener('click', () => {
-    searchInput.value = '';
-    searchClear.style.display = 'none';
-    document.getElementById('search-results').style.display = 'none';
+    searchClear.addEventListener('click', () => {
+      searchInput.value = '';
+      searchClear.style.display = 'none';
+      document.getElementById('search-results').style.display = 'none';
 
-    // 🔑 Восстанавливаем таблицу ТОЛЬКО если она не была закрыта вручную
-    if (!isTableManuallyClosed && lastOpenedDeptKey) {
+      if (!isTableManuallyClosed && lastOpenedDeptKey) {
         showTable(lastOpenedDeptKey);
-    }
-});
+      }
+    });
+  }
 
-function performSearch(query) {
+  function performSearch(query) {
     const results = {};
-    for (const [key, dept] of Object.entries(departments)) {
-        const matches = dept.items.filter(item =>
-            item.name.toLowerCase().includes(query.toLowerCase())
-        );
-        if (matches.length > 0) {
-            results[key] = { name: dept.name, items: matches };
-        }
+    for (const [key, dept] of Object.entries(departments || {})) {
+      const matches = dept.items.filter(item =>
+        item.name.toLowerCase().includes(query.toLowerCase())
+      );
+      if (matches.length > 0) {
+        results[key] = { name: dept.name, items: matches };
+      }
     }
 
     const resultsDiv = document.getElementById('search-results');
+    if (!resultsDiv) return;
+
     if (Object.keys(results).length === 0) {
-        resultsDiv.innerHTML = '<h3>Ничего не найдено</h3>';
+      resultsDiv.innerHTML = '<h3>Ничего не найдено</h3>';
     } else {
-        const sortedResults = order.filter(key => results[key]).map(key => [key, results[key]]);
-        let html = '';
-        for (const [key, dept] of sortedResults) {
-            html += `<h3>${dept.name}</h3><table><thead><tr><th>Предмет</th><th>Цена</th></tr></thead><tbody>`;
-            dept.items.forEach(item => {
-                html += `<tr><td>${item.name}</td><td>${item.price}</td></tr>`;
-            });
-            html += `</tbody></table><br>`;
-        }
-        resultsDiv.innerHTML = html;
+      const order = [
+        'vanilla', 'thaumcraft', 'appliedenergistics2', 'ic2', 'thermal', 'blood',
+        'botania', 'minefactory', 'dc', 'avaritia', 'tanker', 'stradania',
+        'ender', 'lolienergistics', 'lolimagically', 'divine', 'galactic', 'trade'
+      ];
+      const sorted = order.filter(k => results[k]).map(k => [k, results[k]]);
+      let html = '';
+      for (const [key, dept] of sorted) {
+        html += `<h3>${dept.name}</h3><table><thead><tr><th>Предмет</th><th>Цена</th></tr></thead><tbody>`;
+        dept.items.forEach(item => {
+          html += `<tr><td>${item.name}</td><td>${item.price}</td></tr>`;
+        });
+        html += `</tbody></table><br>`;
+      }
+      resultsDiv.innerHTML = html;
     }
     resultsDiv.style.display = 'block';
-}
-    </script>
+  }
+</script>
 </body>
 </html>
