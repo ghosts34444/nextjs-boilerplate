@@ -1,5 +1,6 @@
-//инфа для таблиц
-const departments = {
+document.addEventListener('DOMContentLoaded', () => {
+    // === ДАННЫЕ ОТДЕЛОВ ===
+    const departments = {
             vanilla: { name: "Vanilla", items: [
                 { name: "Тростник | 64 шт", price: "6 Железных слитка" },
                 { name: "Порох | 10 шт", price: "12 Железных слитка" },
@@ -730,167 +731,203 @@ const departments = {
                 { name: "Руды из Galacticraft", price: "1 к 4" },
                 { name: "Руды из Thaumcraft", price: "1 к 10" },
                 { name: "Дракониевая руда", price: "1 к 12" },
-                { name: "Остальные руды по типу железа", price: "1 к 6" }
-            ]}
+            { name: "Остальные руды по типу железа", price: "1 к 6" }
+        ]}
+    };
 
-// Модальное окно выбора отдела 
-        const modsList = document.getElementById('mods-list');
-        const order = [
-            'vanilla', 'thaumcraft', 'appliedenergistics2', 'ic2', 'thermal', 'blood',
-            'botania', 'minefactory', 'dc', 'avaritia', 'tanker', 'stradania',
-            'ender', 'lolienergistics', 'lolimagically', 'divine', 'galactic', 'trade'
-        ];
+    // === ПОРЯДОК ОТДЕЛОВ ===
+    const order = [
+        'vanilla', 'thaumcraft', 'appliedenergistics2', 'ic2', 'thermal', 'blood',
+        'botania', 'minefactory', 'dc', 'avaritia', 'tanker', 'stradania',
+        'ender', 'lolienergistics', 'lolimagically', 'divine', 'galactic', 'trade'
+    ];
+
+    // === ЭЛЕМЕНТЫ ===
+    const openModalBtn = document.getElementById('open-mods-modal');
+    const modal = document.getElementById('mods-modal');
+    const modsList = document.getElementById('mods-list');
+    const closeTableBtn = document.getElementById('close-table');
+    const tableContainer = document.getElementById('mod-table');
+    const tableTitle = document.getElementById('table-title');
+    const tableBody = document.getElementById('table-body');
+    const searchInput = document.getElementById('search-input');
+    const searchClearBtn = document.getElementById('search-clear');
+    const searchResults = document.getElementById('search-results');
+
+    let lastOpenedDeptKey = null;
+    let isTableManuallyClosed = false;
+
+    // === МОДАЛЬНЫЕ ОКНА ===
+    function showModal(id) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.style.display = 'flex';
+            setTimeout(() => {
+                el.style.opacity = '1';
+                el.style.pointerEvents = 'auto';
+            }, 10);
+        }
+    }
+
+    function closeModal(id) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.style.opacity = '0';
+            setTimeout(() => {
+                el.style.display = 'none';
+                el.style.pointerEvents = 'none';
+            }, 300);
+        }
+    }
+
+    // === ЗАПОЛНЕНИЕ СПИСКА ОТДЕЛОВ ===
+    if (modsList) {
         order.forEach(key => {
             const dept = departments[key];
             if (!dept) return;
-            const div = document.createElement('a');
-            div.href = '#';
-            div.className = 'mod-option';
-            div.dataset.key = key;
-            const icon = document.createElement('div');
+            const a = document.createElement('a');
+            a.href = '#';
+            a.className = 'mod-option';
+            a.dataset.key = key;
+            const icon = document.createElement('span');
             icon.className = 'mod-icon';
             icon.textContent = dept.name.charAt(0);
-            const text = document.createTextNode(dept.name);
-            div.appendChild(icon);
-            div.appendChild(text);
-            div.addEventListener('click', (e) => {
+            a.appendChild(icon);
+            a.appendChild(document.createTextNode(dept.name));
+            a.addEventListener('click', (e) => {
                 e.preventDefault();
                 showTable(key);
                 closeModal('mods-modal');
             });
-            modsList.appendChild(div);
+            modsList.appendChild(a);
         });
+    }
 
-// Модальные окна
-function showModal(modalId) {
-            const modal = document.getElementById(modalId);
-            modal.style.display = 'flex';
-            setTimeout(() => {
-                modal.style.opacity = '1';
-                modal.style.pointerEvents = 'auto';
-            }, 10);
+    // === ПОКАЗ ТАБЛИЦЫ ===
+    function showTable(deptKey) {
+        const dept = departments[deptKey];
+        if (!dept) return;
+
+        // Очистка поиска
+        if (searchInput) searchInput.value = '';
+        if (searchClearBtn) searchClearBtn.style.display = 'none';
+        if (searchResults) searchResults.style.display = 'none';
+
+        // Заполнение таблицы
+        if (tableTitle) tableTitle.textContent = dept.name;
+        if (tableBody) {
+            tableBody.innerHTML = '';
+            dept.items.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${item.name}</td><td>${item.price}</td>`;
+                tableBody.appendChild(row);
+            });
         }
 
-        function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            modal.style.opacity = '0';
+        // Показ таблицы
+        if (tableContainer) {
+            tableContainer.style.display = 'block';
+            setTimeout(() => tableContainer.classList.add('visible'), 10);
+        }
+
+        isTableManuallyClosed = false;
+        lastOpenedDeptKey = deptKey;
+
+        // Коррекция градиента (опционально)
+        setTimeout(() => {
+            const gradient = document.querySelector('.bottom-gradient');
+            if (gradient && tableContainer) {
+                const tableRect = tableContainer.getBoundingClientRect();
+                const needed = window.innerHeight - tableRect.bottom + 50;
+                gradient.style.height = `${Math.max(150, needed)}px`;
+            }
+        }, 310);
+    }
+
+    // === СКРЫТИЕ ТАБЛИЦЫ ===
+    function hideTable() {
+        if (tableContainer && tableContainer.classList.contains('visible')) {
+            tableContainer.classList.remove('visible');
             setTimeout(() => {
-                modal.style.display = 'none';
-                modal.style.pointerEvents = 'none';
+                tableContainer.style.display = 'none';
+                const gradient = document.querySelector('.bottom-gradient');
+                if (gradient) gradient.style.height = '150px';
             }, 300);
         }
+    }
 
-        document.getElementById('open-mods-modal').addEventListener('click', () => showModal('mods-modal'));
-        document.getElementById('mods-modal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('mods-modal')) closeModal('mods-modal');
+    // === ПОИСК ===
+    function performSearch(query) {
+        const results = {};
+        for (const [key, dept] of Object.entries(departments)) {
+            const matches = dept.items.filter(item =>
+                item.name.toLowerCase().includes(query.toLowerCase())
+            );
+            if (matches.length > 0) {
+                results[key] = { name: dept.name, items: matches };
+            }
+        }
+        if (searchResults) {
+            if (Object.keys(results).length === 0) {
+                searchResults.innerHTML = '<h3>Ничего не найдено</h3>';
+            } else {
+                let html = '';
+                order.forEach(key => {
+                    if (results[key]) {
+                        const dept = results[key];
+                        html += `<h3>${dept.name}</h3><table><thead><tr><th>Предмет</th><th>Цена</th></tr></thead><tbody>`;
+                        dept.items.forEach(item => {
+                            html += `<tr><td>${item.name}</td><td>${item.price}</td></tr>`;
+                        });
+                        html += '</tbody></table><br>';
+                    }
+                });
+                searchResults.innerHTML = html;
+            }
+            searchResults.style.display = 'block';
+        }
+    }
+
+    // === ОБРАБОТЧИКИ ===
+    if (openModalBtn) {
+        openModalBtn.addEventListener('click', () => showModal('mods-modal'));
+    }
+
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal('mods-modal');
         });
-//таюлица
-let lastOpenedDeptKey = null;
-let isTableManuallyClosed = false; 
-
-function showTable(deptKey) {
-  
-    const searchInput = document.getElementById('search-input');
-    searchInput.value = '';
-    document.getElementById('search-clear').style.display = 'none';
-    document.getElementById('search-results').style.display = 'none';
-
-    const dept = departments[deptKey];
-    document.getElementById('table-title').textContent = dept.name;
-    const tbody = document.getElementById('table-body');
-    tbody.innerHTML = '';
-    dept.items.forEach(item => {
-        const row = tbody.insertRow();
-        row.insertCell(0).textContent = item.name;
-        row.insertCell(1).textContent = item.price;
-    });
-
-    const table = document.getElementById('mod-table');
-    table.style.display = 'block';
-    setTimeout(() => table.classList.add('visible'), 10);
-
-    isTableManuallyClosed = false;
-    lastOpenedDeptKey = deptKey;
-
-    setTimeout(() => {
-        const tableRect = table.getBoundingClientRect();
-        const tableBottom = tableRect.bottom;
-        const viewportHeight = window.innerHeight;
-        const neededHeight = viewportHeight - tableBottom + 50;
-        const minHeight = 150;
-        const finalHeight = Math.max(minHeight, neededHeight);
-        document.querySelector('.bottom-gradient').style.height = `${finalHeight}px`;
-    }, 310);
-}
-
-function hideTable() {
-    const table = document.getElementById('mod-table');
-    if (table.classList.contains('visible')) {
-        table.classList.remove('visible');
-        setTimeout(() => {
-            table.style.display = 'none';
-            document.querySelector('.bottom-gradient').style.height = '150px';
-        }, 300);
-    }
-}
-
-document.getElementById('close-table').addEventListener('click', () => {
-    isTableManuallyClosed = true;
-    hideTable();
-});
-
-const searchInput = document.getElementById('search-input');
-const searchClear = document.getElementById('search-clear');
-
-searchInput.addEventListener('input', () => {
-    const query = searchInput.value.trim();
-    searchClear.style.display = query.length > 0 ? 'block' : 'none';
-
-    if (query.length < 3) {
-        document.getElementById('search-results').style.display = 'none';
-        return;
     }
 
-    performSearch(query);
-  
-    hideTable();
-});
+    if (closeTableBtn) {
+        closeTableBtn.addEventListener('click', () => {
+            isTableManuallyClosed = true;
+            hideTable();
+        });
+    }
 
-searchClear.addEventListener('click', () => {
-    searchInput.value = '';
-    searchClear.style.display = 'none';
-    document.getElementById('search-results').style.display = 'none';
+    if (searchInput && searchClearBtn) {
+        searchInput.addEventListener('input', () => {
+            const q = searchInput.value.trim();
+            searchClearBtn.style.display = q.length > 0 ? 'block' : 'none';
+            if (q.length < 3) {
+                if (searchResults) searchResults.style.display = 'none';
+                if (!isTableManuallyClosed && lastOpenedDeptKey) {
+                    showTable(lastOpenedDeptKey);
+                }
+            } else {
+                performSearch(q);
+                hideTable();
+            }
+        });
 
-    if (!isTableManuallyClosed && lastOpenedDeptKey) {
-        showTable(lastOpenedDeptKey);
+        searchClearBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            searchClearBtn.style.display = 'none';
+            if (searchResults) searchResults.style.display = 'none';
+            if (!isTableManuallyClosed && lastOpenedDeptKey) {
+                showTable(lastOpenedDeptKey);
+            }
+        });
     }
 });
-
-function performSearch(query) {
-    const results = {};
-    for (const [key, dept] of Object.entries(departments)) {
-        const matches = dept.items.filter(item =>
-            item.name.toLowerCase().includes(query.toLowerCase())
-        );
-        if (matches.length > 0) {
-            results[key] = { name: dept.name, items: matches };
-        }
-    }
-
-    const resultsDiv = document.getElementById('search-results');
-    if (Object.keys(results).length === 0) {
-        resultsDiv.innerHTML = '<h3>Ничего не найдено</h3>';
-    } else {
-        const sortedResults = order.filter(key => results[key]).map(key => [key, results[key]]);
-        let html = '';
-        for (const [key, dept] of sortedResults) {
-            html += `<h3>${dept.name}</h3><table><thead><tr><th>Предмет</th><th>Цена</th></tr></thead><tbody>`;
-            dept.items.forEach(item => {
-                html += `<tr><td>${item.name}</td><td>${item.price}</td></tr>`;
-            });
-            html += `</tbody></table><br>`;
-        }
-        resultsDiv.innerHTML = html;
-    }
-    resultsDiv.style.display = 'block';
-}
