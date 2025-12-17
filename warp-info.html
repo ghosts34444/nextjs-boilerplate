@@ -445,32 +445,38 @@
     </style>
 </head>
 <body>
-    <div class="stars" id="stars"></div>
-    <button class="menu-btn" id="menu-btn">☰</button>
-    <div class="bottom-gradient"></div>
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <span class="sidebar-title">Путиводитель</span>
-            <button class="sidebar-close" id="close-sidebar">×</button>
-        </div>
-        <ul class="sidebar-menu">
-            <li><a href="index.html">Главная</a></li>
-            <li><a href="loli-magically-guide.html">LoliMagically</a></li>
-            <li><a href="#">LoliEnergistics</a></li>
-            <li><a href="#">LoliUtility</a></li>
-            <li><a href="#">Applied Energistics 2</a></li>
-            <li><a href="#">Forestry</a></li>
-            <li><a href="#">Draconic Evolution</a></li>
-            <li><a href="#">Thaumcraft</a></li>
-            <li><a href="#">Botania</a></li>
-            <li><a href="#">Blood Magic</a></li>
-            <li><a href="#">Thermal Expansion</a></li>
-            <li><a href="#">Galacticraft</a></li>
-            <li><a href="#">Ic2|MineFactory</a></li>
-            <li><a href="#">TConstruct</a></li>
-            <li><a href="warp-info.html" class="active">Цены варпа</a></li>
-        </ul>
-    </div>
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <span class="sidebar-title">Путиводитель</span>
+    <button class="sidebar-close" id="close-sidebar">×</button>
+  </div>
+  <ul class="sidebar-menu">
+    <li><a href="index.html">Главная</a></li>
+    <li class="sidebar-menu-item">
+      <div class="sidebar-menu-link with-dropdown" id="guides-toggle">
+        Гайды
+        <span class="dropdown-arrow">▼</span>
+      </div>
+      <ul class="dropdown-menu" id="guides-dropdown" style="display: none;">
+        <li><a href="galacticraft-guide.html">Galacticraft</a></li>
+        <li><a href="botania-guide.html">Botania</a></li>
+        <li><a href="thaumcraft-guide.html">Thaumcraft</a></li>
+        <li><a href="draconic-evolution-guide.html">Draconic Evolution</a></li>
+        <li><a href="ae2-guide.html">Applied Energistics 2</a></li>
+        <li><a href="forestry-guide.html">Forestry</a></li>
+        <li><a href="blood-magic-guide.html">Blood Magic</a></li>
+        <li><a href="thermal-expansion-guide.html">Thermal Expansion</a></li>
+        <li><a href="ic2-minefactory-guide.html">Ic2 | MineFactory</a></li>
+        <li><a href="tconstruct-guide.html">TConstruct</a></li>
+      </ul>
+    </li>
+    <li><a href="warp-info.html" class="active">Цены варпа</a></li>
+    <li><a href="#">Услуги</a></li>
+    <li><a href="#">О сайте</a></li>
+    <li><a href="#">О сервере</a></li>
+    <li><a href="creates.html">Создатели</a></li>
+  </ul>
+</div>
     <div class="page-container">
         <div class="header">
             <h1>Цены варпа</h1>
@@ -1263,17 +1269,53 @@
             stars.appendChild(star);
         }
 
-        // Боковое меню
-        const menuBtn = document.getElementById('menu-btn');
-        const sidebar = document.getElementById('sidebar');
-        const closeBtn = document.getElementById('close-sidebar');
-        menuBtn.addEventListener('click', () => sidebar.classList.add('open'));
-        closeBtn.addEventListener('click', () => sidebar.classList.remove('open'));
-        document.addEventListener('click', (e) => {
-            if (!sidebar.contains(e.target) && e.target !== menuBtn) {
-                sidebar.classList.remove('open');
+// === МЕНЮ ===
+const menuBtn = document.getElementById('menu-btn');
+const sidebar = document.getElementById('sidebar');
+const closeSidebar = document.getElementById('close-sidebar');
+
+menuBtn.addEventListener('click', () => {
+    sidebar.classList.add('open');
+    menuBtn.style.display = 'none';
+});
+
+closeSidebar.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    menuBtn.style.display = 'block';
+});
+
+document.addEventListener('click', (e) => {
+    if (!sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
+        sidebar.classList.remove('open');
+        menuBtn.style.display = 'block';
+    }
+});
+
+// Выпадающее меню "Гайды"
+document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.getElementById('guides-toggle');
+    const arrow = toggle?.querySelector('.dropdown-arrow');
+    const dropdown = document.getElementById('guides-dropdown');
+
+    if (arrow && dropdown) {
+        arrow.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        });
+
+        toggle.addEventListener('click', (e) => {
+            if (!e.target.closest('.dropdown-arrow')) {
+                window.location.href = 'guides.html';
             }
         });
+
+        document.addEventListener('click', (e) => {
+            if (!toggle.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+    }
+});
 
         // Модальное окно выбора отдела (без заголовка)
         const modsList = document.getElementById('mods-list');
