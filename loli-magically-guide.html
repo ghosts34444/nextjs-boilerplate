@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DarkGalaxy - LoliMagically</title>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2  :wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js  "></script>
     <style>
         * {
             margin: 0;
@@ -259,6 +259,74 @@
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
+
+        /* Кнопка "Инвентарь" */
+.inventory-btn {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: #8b5cf6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.inventory-btn:hover {
+  background: #7c4dff;
+}
+
+/* Модальное окно */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #F8F8FF;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 900px;
+  width: 90%;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 28px;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Подсказка */
+.tooltip {
+  position: absolute;
+  background: #1a1a2e;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  pointer-events: none;
+  z-index: 1001;
+  max-width: 300px;
+  word-wrap: break-word;
+  font-family: 'Exo 2', sans-serif;
+}
     </style>
 </head>
 <body>
@@ -305,7 +373,7 @@
             <div class="model-column">
                 <model-viewer 
     id="myModel"
-    src="models/sky_hermit.geo.glb"
+    src="models/alchemical_synthesizer.glb"
     environment-image="neutral"
     ar
     camera-controls
@@ -353,6 +421,9 @@
         <div class="guide-container">
             <div class="model-column">
                 <model-viewer 
+<div class="mechanism-block">
+      <div class="model-column">
+                <model-viewer 
     id="myModel"
     src="models/helio.glb"
     environment-image="neutral"
@@ -363,41 +434,85 @@
     <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Crect width='220' height='220' fill='%231a1a2e'/%3E%3Ctext x='110' y='115' font-family='Exo 2' font-size='14' fill='%238b5cf6' text-anchor='middle'%3E?%3C/text%3E%3C/svg%3E" 
          slot="poster">
 </model-viewer>
-            </div>
+    <button class="inventory-btn" onclick="showInventory('synthesizer')">Инвентарь</button>
+  </div>
 
-            <div class="text-column">
-                <div class="section">
-                    <h2>Синтезатор магических слитков</h2>
-                    <p>Это устройство позволяет создавать <strong>магические слитки</strong> из обычных руд и ингредиентов. Идеально подходит для автоматизации производства.</p>
-                </div>
+  <div class="text-column">
+    <div class="section">
+      <h3>Синтезатор магических слитков</h3>
+      <p>Это устройство позволяет создавать <strong>магические слитки</strong> из обычных руд и ингредиентов. Идеально подходит для автоматизации производства.</p>
+    </div>
 
-                <div class="section">
-                    <h2>Как работает автоматическая версия</h2>
-                    <p>Автоматический синтезатор можно подключить к системам автотранспорта (например, Ender IO или AE2). Он будет:</p>
-                    <ul>
-                        <li>Принимать сырьё через входной слот</li>
-                        <li>Выдавать готовый слиток в выходной слот</li>
-                        <li>Работать без участия игрока</li>
-                    </ul>
-                </div>
+    <div class="section">
+      <h3>Как работает автоматическая версия</h3>
+      <p>Автоматический синтезатор можно подключить к системам автотранспорта (например, Ender IO или AE2). Он будет:</p>
+      <ul>
+        <li>Принимать сырьё через входной слот</li>
+        <li>Выдавать готовый слиток в выходной слот</li>
+        <li>Работать без участия игрока</li>
+      </ul>
+    </div>
 
-                <div class="section">
-                    <h2>Подключение</h2>
-                    <p>Подключите синтезатор к энергетической сети (например, через LoliEnergistics или Redstone Flux). Устройство начнёт работать автоматически при наличии энергии и реагентов.</p>
-                </div>
+    <div class="section">
+      <h3>Подключение</h3>
+      <p>Подключите синтезатор к энергетической сети (например, через LoliEnergistics или Redstone Flux). Устройство начнёт работать автоматически при наличии энергии и реагентов.</p>
+    </div>
 
-                <div class="section">
-                    <h2>Совместимость</h2>
-                    <p>Синтезатор поддерживает большинство типов руд и слитков, включая:</p>
-                    <ul>
-                        <li>Железо, золото, медь</li>
-                        <li>Алмаз, изумруд</li>
-                        <li>Магические кристаллы</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>            
+    <div class="section">
+      <h3>Совместимость</h3>
+      <p>Синтезатор поддерживает большинство типов руд и слитков, включая:</p>
+      <ul>
+        <li>Железо, золото, медь</li>
+        <li>Алмаз, изумруд</li>
+        <li>Магические кристаллы</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Модальное окно с интерактивной схемой -->
+<div id="inventoryModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close" onclick="closeInventory()">&times;</span>
+    
+    <img src="images/heliospheric_charging_center.png" usemap="#synthesizerMap" alt="Инвентарь синтезатора">
+
+    <map name="synthesizerMap">
+      <!-- Бак слева (красный) -->
+      <area shape="rect" coords="50,100,100,200" 
+            onmouseover="showTooltip(event, 'Бак для жидкости\\nДля очистки бака нажмите: SHIFT+ПКМ')" 
+            onmouseout="hideTooltip()">
+      
+      <!-- Шкала нагрева (оранжевая) -->
+      <area shape="rect" coords="120,80,140,220" 
+            onmouseover="showTooltip(event, 'Щкала нагрева ядра/звезды')" 
+            onmouseout="hideTooltip()">
+      
+      <!-- Центральный слот (ядро/микрозвезда) -->
+      <area shape="rect" coords="160,100,220,180" 
+            onmouseover="showTooltip(event, 'Слот для ядра / микрозвезды\')" 
+            onmouseout="hideTooltip()">
+      
+      <!-- Шкала насыщения (зелёная) -->
+      <area shape="rect" coords="240,80,260,220" 
+            onmouseover="showTooltip(event, 'Щкала сыщение энергией(сжатие шакала по ебучести шакалов)')" 
+            onmouseout="hideTooltip()">
+      
+      <!-- Слот для блоков звездной материи (справа) -->
+      <area shape="rect" coords="280,120,320,160" 
+            onmouseover="showTooltip(event, 'Слот для блоков звездной материи')" 
+            onmouseout="hideTooltip()">
+      
+      <!-- Слот улучшения (внизу слева) -->
+      <area shape="rect" coords="80,240,120,280" 
+            onmouseover="showTooltip(event, 'Слот для Улучшения: Термоизолятор')" 
+            onmouseout="hideTooltip()">
+    </map>
+  </div>
+</div>
+
+<!-- Подсказка -->
+<div id="tooltip" class="tooltip" style="display: none;"></div>
         
 <div class="guide-container">
             
@@ -476,54 +591,76 @@
         </div>
     </div> 
     
-    <script>
-        // Анимация звёзд
-        const stars = document.getElementById('stars');
-        const count = 40;
-        for (let i = 0; i < count; i++) {
-            const star = document.createElement('div');
-            star.classList.add('star');
-            star.innerHTML = '★';
-            const size = Math.random() * 0.6 + 0.4;
-            const duration = Math.random() * 15 + 10;
-            const delay = Math.random() * 10;
-            const startX = Math.random() * 100;
-            star.style.fontSize = `${size}em`;
-            star.style.left = `${startX}vw`;
-            star.style.top = `-30px`;
-            star.style.opacity = Math.random() * 0.3 + 0.5;
-            star.style.animationDuration = `${duration}s`;
-            star.style.animationDelay = `${delay}s`;
-            stars.appendChild(star);
-        }
+<script>
+  // Анимация звёзд
+  const stars = document.getElementById('stars');
+  const count = 40;
+  for (let i = 0; i < count; i++) {
+    const star = document.createElement('div');
+    star.classList.add('star');
+    star.innerHTML = '★';
+    const size = Math.random() * 0.6 + 0.4;
+    const duration = Math.random() * 15 + 10;
+    const delay = Math.random() * 10;
+    const startX = Math.random() * 100;
+    star.style.fontSize = `${size}em`;
+    star.style.left = `${startX}vw`;
+    star.style.top = `-30px`;
+    star.style.opacity = Math.random() * 0.3 + 0.5;
+    star.style.animationDuration = `${duration}s`;
+    star.style.animationDelay = `${delay}s`;
+    stars.appendChild(star);
+  }
 
-        // Боковое меню
-        const menuBtn = document.getElementById('menu-btn');
-        const sidebar = document.getElementById('sidebar');
-        const closeBtn = document.getElementById('close-sidebar');
+  // Боковое меню
+  const menuBtn = document.getElementById('menu-btn');
+  const sidebar = document.getElementById('sidebar');
+  const closeBtn = document.getElementById('close-sidebar');
 
-        menuBtn.addEventListener('click', () => {
-            sidebar.classList.add('open');
-        });
+  menuBtn.addEventListener('click', () => {
+    sidebar.classList.add('open');
+  });
 
-        closeBtn.addEventListener('click', () => {
-            sidebar.classList.remove('open');
-        });
+  closeBtn.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+  });
 
-        document.addEventListener('click', (e) => {
-            if (!sidebar.contains(e.target) && e.target !== menuBtn) {
-                sidebar.classList.remove('open');
-            }
-        });
-        // Автоматический запуск анимации после загрузки модели
-document.getElementById('myModel').addEventListener('load', (e) => {
+  document.addEventListener('click', (e) => {
+    if (!sidebar.contains(e.target) && e.target !== menuBtn) {
+      sidebar.classList.remove('open');
+    }
+  });
+
+  // Автоматический запуск анимации после загрузки модели
+  document.getElementById('myModel').addEventListener('load', (e) => {
     const modelViewer = e.target;
     if (modelViewer.availableAnimations && modelViewer.availableAnimations.length > 0) {
-        // Старт первой анимации
-        modelViewer.animationName = modelViewer.availableAnimations[3];
-        modelViewer.play();
+      // Старт первой анимации (индекс 3 — как у тебя)
+      modelViewer.animationName = modelViewer.availableAnimations[3];
+      modelViewer.play();
     }
-});
-    </script>
+  });
+
+  // Функции для инвентаря и подсказок
+  function showInventory(id) {
+    document.getElementById('inventoryModal').style.display = 'flex';
+  }
+
+  function closeInventory() {
+    document.getElementById('inventoryModal').style.display = 'none';
+  }
+
+  function showTooltip(event, text) {
+    const tooltip = document.getElementById('tooltip');
+    tooltip.textContent = text.replace(/\\n/g, '\n');
+    tooltip.style.display = 'block';
+    tooltip.style.left = (event.pageX + 10) + 'px';
+    tooltip.style.top = (event.pageY + 10) + 'px';
+  }
+
+  function hideTooltip() {
+    document.getElementById('tooltip').style.display = 'none';
+  }
+</script>
 </body>
 </html>
