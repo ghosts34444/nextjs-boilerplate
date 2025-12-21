@@ -414,8 +414,8 @@
 
         <!-- Гайд с 3D-моделью -->
         <div class="guide-container">
-<div class="model-column">
-    <model-viewer 
+        <div class="model-column">
+        <model-viewer 
         id="myModel"
         src="models/helio.glb"
         environment-image="neutral"
@@ -424,10 +424,11 @@
         style="width: 220px; height: 220px; background: transparent;">
         <div slot="progress-bar" style="display:none"></div>
         <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Crect width='220' height='220' fill='%231a1a2e'/%3E%3Ctext x='110' y='115' font-family='Exo 2' font-size='14' fill='%238b5cf6' text-anchor='middle'%3E?%3C/text%3E%3C/svg%3E" 
-             slot="poster">
-    </model-viewer>
-    <button class="inventory-btn" onclick="showInventory('synthesizer')">Инвентарь</button>
-</div>
+             slot="poster"
+        >
+        </model-viewer>
+        <button class="inventory-btn" onclick="showInventory('synthesizer')">Инвентарь</button>
+        </div>
 
             <div class="text-column">
                 <div class="section">
@@ -461,9 +462,10 @@
                 </div>
             </div>
         </div>
+    </div>
 
  <!-- Модальное окно -->
-<div id="inventoryModal" class="modal" style="display: none;">
+  <div id="inventoryModal" class="modal" style="display: none;">
   <div class="modal-content">
     <span class="close" onclick="closeInventory()">&times;</span>
 
@@ -504,7 +506,7 @@
             onmouseout="hideTooltip()">
     </map>
   </div>
-</div>
+ </div>
 
     <!-- Подсказка -->
     <div id="tooltip" class="tooltip" style="display: none;"></div>
