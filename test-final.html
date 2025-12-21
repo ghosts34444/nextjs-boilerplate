@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Минимальный тест</title>
+  <title>Минимальный тест — ИНВЕНТАРЬ</title>
   <style>
     body {
       background: #1a1a2e;
@@ -11,7 +11,7 @@
       padding: 40px;
     }
 
-    .btn {
+    .inventory-btn {
       padding: 10px 20px;
       background: #8b5cf6;
       color: white;
@@ -21,7 +21,7 @@
       font-size: 16px;
     }
 
-    #modal {
+    #inventoryModal {
       display: none;
       position: fixed;
       top: 0; left: 0;
@@ -32,101 +32,62 @@
       z-index: 1000;
     }
 
-    #modal-content {
-      background: #222;
+    .modal-content {
+      background: #1a1a2e;
       padding: 30px;
       border-radius: 12px;
       text-align: center;
       color: white;
+      border: 1px solid #8b5cf6;
+      max-width: 500px;
+      width: 90%;
     }
 
-    .inventory-btn {
-  padding: 8px 16px;
-  background: #8b5cf6;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.modal {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.7);
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  background: #1a1a2e;
-  padding: 20px;
-  border-radius: 12px;
-  max-width: 600px;
-  width: 90%;
-  position: relative;
-  border: 1px solid #8b5cf6;
-}
-
-.close {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  color: #a5b4fc;
-  font-size: 28px;
-  cursor: pointer;
-}
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      color: #a5b4fc;
+      font-size: 28px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
-  <h2>Тест кнопки</h2>
-<button class="inventory-btn" id="open-inventory-modal">Инвентарь</button>
+  <h2>Тест кнопки "Инвентарь"</h2>
+  
+  <!-- Кнопка -->
+  <button class="inventory-btn" id="open-inventory-modal">Инвентарь</button>
 
-  <div id="modal">
-    <div id="modal-content">
-      <h3>✅ Модальное окно открыто!</h3>
-      <p>Это значит, что кнопка работает.</p>
-      <button class="btn" onclick="document.getElementById('modal').style.display='none'">
-        Закрыть
-      </button>
+  <!-- МОДАЛЬНОЕ ОКНО с id="inventoryModal" -->
+  <div id="inventoryModal">
+    <div class="modal-content">
+      <span class="close" id="close-inventory-modal">&times;</span>
+      <h3>✅ Инвентарь открыт!</h3>
+      <p>Теперь мы знаем — кнопка работает.</p>
     </div>
   </div>
 
   <script>
+    // Открытие
+    document.getElementById('open-inventory-modal').addEventListener('click', function() {
+      document.getElementById('inventoryModal').style.display = 'flex';
+    });
+
+    // Закрытие по крестику
+    document.getElementById('close-inventory-modal').addEventListener('click', function() {
+      document.getElementById('inventoryModal').style.display = 'none';
+    });
+
     // Закрытие по клику вне окна
     document.addEventListener('click', function(e) {
-      const modal = document.getElementById('modal');
-      if (modal.style.display === 'flex' && !modal.contains(e.target)) {
+      const modal = document.getElementById('inventoryModal');
+      if (modal && modal.style.display === 'flex' && !modal.contains(e.target)) {
         modal.style.display = 'none';
       }
     });
-
-    // Открытие инвентаря
-document.getElementById('open-inventory-modal').addEventListener('click', function() {
-  document.getElementById('inventoryModal').style.display = 'flex';
-});
-
-    // Открытие
-document.getElementById('open-inventory-modal').addEventListener('click', function() {
-  document.getElementById('inventoryModal').style.display = 'flex';
-});
-
-// Закрытие по крестику
-document.getElementById('close-inventory-modal').addEventListener('click', function() {
-  document.getElementById('inventoryModal').style.display = 'none';
-});
-
-// Закрытие по клику вне окна
-document.addEventListener('click', function(e) {
-  const modal = document.getElementById('inventoryModal');
-  if (modal && modal.style.display === 'flex' && !modal.contains(e.target)) {
-    modal.style.display = 'none';
-  }
-});
   </script>
+
 </body>
 </html>
