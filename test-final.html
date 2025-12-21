@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html>
 <head>
   <meta charset="UTF-8">
-  <title>Тест инвентаря</title>
+  <title>Минимальный тест</title>
   <style>
-    body { background: #1a1a2e; color: white; padding: 40px; font-family: sans-serif; }
+    body {
+      background: #1a1a2e;
+      color: white;
+      font-family: sans-serif;
+      padding: 40px;
+    }
 
     .btn {
       padding: 10px 20px;
@@ -13,100 +18,54 @@
       border: none;
       border-radius: 6px;
       cursor: pointer;
+      font-size: 16px;
     }
 
-    .modal {
+    #modal {
       display: none;
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0,0,0,0.7);
+      background: rgba(0,0,0,0.8);
       justify-content: center;
       align-items: center;
       z-index: 1000;
     }
 
-    .modal-content {
-      background: #1a1a2e;
-      padding: 20px;
+    #modal-content {
+      background: #222;
+      padding: 30px;
       border-radius: 12px;
-      max-width: 900px;
-      width: 90%;
-      position: relative;
-      border: 1px solid #8b5cf6;
-    }
-
-    .close {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      color: #a5b4fc;
-      font-size: 28px;
-      cursor: pointer;
-    }
-
-    .hint {
-      position: absolute;
-      background: #1a1a2e;
+      text-align: center;
       color: white;
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-size: 14px;
-      pointer-events: none;
-      z-index: 1001;
-      max-width: 300px;
-      word-wrap: break-word;
     }
   </style>
 </head>
 <body>
 
-  <button class="btn" onclick="showInventoryModal()">Инвентарь</button>
+  <h2>Тест кнопки</h2>
+  <button class="btn" onclick="document.getElementById('modal').style.display='flex'">
+    Инвентарь
+  </button>
 
-  <div id="inventoryModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close" onclick="closeInventoryModal()">&times;</span>
-      <img src="images/heliospheric_charging_center.png" usemap="#inventoryMap" alt="Инвентарь" style="max-width: 100%; max-height: 80vh;">
-      <map name="inventoryMap">
-        <area shape="rect" coords="50,100,100,200" onmouseover="showHint('Бак для жидкости\\nОчистка: SHIFT+ПКМ')" onmouseout="hideHint()">
-        <area shape="rect" coords="120,80,140,220" onmouseover="showHint('Щкала нагрева ядра/звезды')" onmouseout="hideHint()">
-        <area shape="rect" coords="160,100,220,180" onmouseover="showHint('Слот для ядра / микрозвезды')" onmouseout="hideHint()">
-        <area shape="rect" coords="240,80,260,220" onmouseover="showHint('Щкала сыщение энергией')" onmouseout="hideHint()">
-        <area shape="rect" coords="280,120,320,160" onmouseover="showHint('Блоки звездной материи')" onmouseout="hideHint()">
-        <area shape="rect" coords="80,240,120,280" onmouseover="showHint('Улучшение: Термоизолятор')" onmouseout="hideHint()">
-      </map>
+  <div id="modal">
+    <div id="modal-content">
+      <h3>✅ Модальное окно открыто!</h3>
+      <p>Это значит, что кнопка работает.</p>
+      <button class="btn" onclick="document.getElementById('modal').style.display='none'">
+        Закрыть
+      </button>
     </div>
   </div>
 
-  <div id="hint" class="hint" style="display: none;"></div>
-
   <script>
-    function showInventoryModal() {
-      document.getElementById('inventoryModal').style.display = 'flex';
-    }
-
-    function closeInventoryModal() {
-      document.getElementById('inventoryModal').style.display = 'none';
-    }
-
-    document.addEventListener('click', (e) => {
-      const modal = document.getElementById('inventoryModal');
-      if (modal && modal.style.display === 'flex' && !modal.contains(e.target)) {
-        closeInventoryModal();
+    // Закрытие по клику вне окна
+    document.addEventListener('click', function(e) {
+      const modal = document.getElementById('modal');
+      if (modal.style.display === 'flex' && !modal.contains(e.target)) {
+        modal.style.display = 'none';
       }
     });
-
-    function showHint(text) {
-      const hint = document.getElementById('hint');
-      hint.textContent = text.replace(/\\n/g, '\n');
-      hint.style.display = 'block';
-      hint.style.left = (event.pageX + 10) + 'px';
-      hint.style.top = (event.pageY + 10) + 'px';
-    }
-
-    function hideHint() {
-      document.getElementById('hint').style.display = 'none';
-    }
   </script>
 
 </body>
