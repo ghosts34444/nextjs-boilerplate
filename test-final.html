@@ -39,90 +39,52 @@
       text-align: center;
       color: white;
     }
+
+    .inventory-btn {
+  padding: 8px 16px;
+  background: #8b5cf6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.7);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #1a1a2e;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 90%;
+  position: relative;
+  border: 1px solid #8b5cf6;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: #a5b4fc;
+  font-size: 28px;
+  cursor: pointer;
+}
   </style>
 </head>
 <body>
 
   <h2>Тест кнопки</h2>
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Минимальный тест</title>
-  <style>
-    body {
-      background: #1a1a2e;
-      color: white;
-      font-family: sans-serif;
-      padding: 40px;
-    }
-
-    .btn {
-      padding: 10px 20px;
-      background: #8b5cf6;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    #modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.8);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    #modal-content {
-      background: #222;
-      padding: 30px;
-      border-radius: 12px;
-      text-align: center;
-      color: white;
-    }
-  </style>
-</head>
-<body>
-
-  <h2>Тест кнопки</h2>
-        <button class="mods-btn" id="open-mods-modal">Выбрать отдел</button>
-        <div class="search-results" id="search-results"></div>
-        <div class="mod-table" id="mod-table">
-            <button class="table-close" id="close-table">×</button>
-            <h3 id="table-title">Заголовок</h3>
-            <table>
-                <thead><tr><th>Предмет</th><th>Цена</th></tr></thead>
-                <tbody id="table-body"></tbody>
-            </table>
-        </div>
-    </div>
-    <!-- Модальное окно выбора отдела (без заголовка) -->
-    <div id="mods-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-body" id="mods-list"></div>
-        </div>
-    </div>
-
-
-  <script>
-    // Закрытие по клику вне окна
-    document.addEventListener('click', function(e) {
-      const modal = document.getElementById('modal');
-      if (modal.style.display === 'flex' && !modal.contains(e.target)) {
-        modal.style.display = 'none';
-      }
-    });
-  </script>
-
-</body>
-</html>
-    Инвентарь
-  </button>
+<button class="inventory-btn" id="open-inventory-modal">Инвентарь</button>
 
   <div id="modal">
     <div id="modal-content">
@@ -142,7 +104,29 @@
         modal.style.display = 'none';
       }
     });
-  </script>
 
+    // Открытие инвентаря
+document.getElementById('open-inventory-modal').addEventListener('click', function() {
+  document.getElementById('inventoryModal').style.display = 'flex';
+});
+
+    // Открытие
+document.getElementById('open-inventory-modal').addEventListener('click', function() {
+  document.getElementById('inventoryModal').style.display = 'flex';
+});
+
+// Закрытие по крестику
+document.getElementById('close-inventory-modal').addEventListener('click', function() {
+  document.getElementById('inventoryModal').style.display = 'none';
+});
+
+// Закрытие по клику вне окна
+document.addEventListener('click', function(e) {
+  const modal = document.getElementById('inventoryModal');
+  if (modal && modal.style.display === 'flex' && !modal.contains(e.target)) {
+    modal.style.display = 'none';
+  }
+});
+  </script>
 </body>
 </html>
