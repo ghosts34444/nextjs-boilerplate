@@ -21,7 +21,7 @@
       font-size: 14px;
     }
 
-    /* Модальное окно — без рамки */
+    /* Модальное окно */
     #inventory-modal {
       display: none;
       position: fixed;
@@ -34,7 +34,7 @@
       padding: 20px;
     }
 
-    /* Контейнер для изображения — без фона, без рамки */
+    /* Контейнер для изображения — масштабируем */
     .inventory-image-container {
       display: flex;
       justify-content: center;
@@ -45,8 +45,10 @@
       max-width: 90vw;
       max-height: 80vh;
       object-fit: contain;
-      border: none;
+      transform: scale(2); /* Увеличиваем в 2 раза */
+      transform-origin: center;
       box-shadow: none;
+      border: none;
     }
 
     /* Подсказка — как на скриншоте */
@@ -84,7 +86,7 @@
       >
     </div>
 
-    <!-- Интерактивные зоны -->
+    <!-- Интерактивные зоны — координаты остаются те же! -->
     <map name="inventory-map">
       <!-- Бак слева -->
       <area shape="rect" coords="50,100,100,200" 
@@ -147,9 +149,9 @@
           tooltip.textContent = text.replace(/\\n/g, '\n');
           tooltip.style.display = 'block';
           
-          // Позиционируем рядом с курсором
-          tooltip.style.left = (e.pageX + 10) + 'px';
-          tooltip.style.top = (e.pageY + 10) + 'px';
+          // Позиционируем подсказку ниже и правее курсора
+          tooltip.style.left = (e.pageX + 20) + 'px';   // +20px вправо
+          tooltip.style.top = (e.pageY + 20) + 'px';     // +20px вниз
         });
 
         area.addEventListener('mouseleave', () => {
