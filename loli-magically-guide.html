@@ -461,7 +461,6 @@
                 </div>
             </div>
         </div>
-    </div>
 
  <!-- Модальное окно -->
 <div id="inventoryModal" class="modal" style="display: none;">
@@ -510,84 +509,92 @@
     <!-- Подсказка -->
     <div id="tooltip" class="tooltip" style="display: none;"></div>
 
-    <script>
-        // Анимация звёзд
-        const stars = document.getElementById('stars');
-        const count = 40;
-        for (let i = 0; i < count; i++) {
-            const star = document.createElement('div');
-            star.classList.add('star');
-            star.innerHTML = '★';
-            const size = Math.random() * 0.6 + 0.4;
-            const duration = Math.random() * 15 + 10;
-            const delay = Math.random() * 10;
-            const startX = Math.random() * 100;
-            star.style.fontSize = `${size}em`;
-            star.style.left = `${startX}vw`;
-            star.style.top = `-30px`;
-            star.style.opacity = Math.random() * 0.3 + 0.5;
-            star.style.animationDuration = `${duration}s`;
-            star.style.animationDelay = `${delay}s`;
-            stars.appendChild(star);
-        }
-
-        // Боковое меню
-        const menuBtn = document.getElementById('menu-btn');
-        const sidebar = document.getElementById('sidebar');
-        const closeBtn = document.getElementById('close-sidebar');
-
-        menuBtn.addEventListener('click', () => {
-            sidebar.classList.add('open');
-        });
-
-        closeBtn.addEventListener('click', () => {
-            sidebar.classList.remove('open');
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!sidebar.contains(e.target) && e.target !== menuBtn) {
-                sidebar.classList.remove('open');
-            }
-        });
-
-        // Автоматический запуск анимации после загрузки модели
-        document.getElementById('myModel').addEventListener('load', (e) => {
-            const modelViewer = e.target;
-            if (modelViewer.availableAnimations && modelViewer.availableAnimations.length > 0) {
-                // Старт первой анимации (индекс 3)
-                modelViewer.animationName = modelViewer.availableAnimations[3];
-                modelViewer.play();
-            }
-        });
-
-        // Функции для инвентаря и подсказок
-        function showInventory(id) {
-            document.getElementById('inventoryModal').style.display = 'flex';
-        }
-
-        function closeInventory() {
-            document.getElementById('inventoryModal').style.display = 'none';
-        }
-
-        function showTooltip(event, text) {
-            const tooltip = document.getElementById('tooltip');
-            tooltip.textContent = text.replace(/\\n/g, '\n');
-            tooltip.style.display = 'block';
-            tooltip.style.left = (event.pageX + 10) + 'px';
-            tooltip.style.top = (event.pageY + 10) + 'px';
-        }
-
-        function hideTooltip() {
-            document.getElementById('tooltip').style.display = 'none';
-        }
-
-        // Закрытие при клике вне окна
-document.addEventListener('click', (e) => {
-  const modal = document.getElementById('inventoryModal');
-  if (modal.style.display === 'flex' && !modal.contains(e.target)) {
-    closeInventory();
+<script>
+  // Анимация звёзд
+  const stars = document.getElementById('stars');
+  const count = 40;
+  for (let i = 0; i < count; i++) {
+    const star = document.createElement('div');
+    star.classList.add('star');
+    star.innerHTML = '★';
+    const size = Math.random() * 0.6 + 0.4;
+    const duration = Math.random() * 15 + 10;
+    const delay = Math.random() * 10;
+    const startX = Math.random() * 100;
+    star.style.fontSize = `${size}em`;
+    star.style.left = `${startX}vw`;
+    star.style.top = `-30px`;
+    star.style.opacity = Math.random() * 0.3 + 0.5;
+    star.style.animationDuration = `${duration}s`;
+    star.style.animationDelay = `${delay}s`;
+    stars.appendChild(star);
   }
-});
-    </script>
+
+  // Элементы интерфейса
+  const menuBtn = document.getElementById('menu-btn');
+  const sidebar = document.getElementById('sidebar');
+  const closeBtn = document.getElementById('close-sidebar');
+
+  // Кнопки бокового меню
+  menuBtn.addEventListener('click', () => {
+    sidebar.classList.add('open');
+  });
+
+  closeBtn.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+  });
+
+  // Единый обработчик кликов по документу
+  document.addEventListener('click', (e) => {
+    // Закрыть боковое меню
+    if (!sidebar.contains(e.target) && e.target !== menuBtn) {
+      sidebar.classList.remove('open');
+    }
+
+    // Закрыть модальное окно
+    const modal = document.getElementById('inventoryModal');
+    if (modal && modal.style.display === 'flex' && !modal.contains(e.target)) {
+      closeInventory();
+    }
+  });
+
+  // Анимация 3D-модели
+  const modelViewer = document.getElementById('myModel');
+  if (modelViewer) {
+    modelViewer.addEventListener('load', (e) => {
+      const mv = e.target;
+      if (mv.availableAnimations?.length > 3) {
+        mv.animationName = mv.availableAnimations[3];
+        mv.play();
+      }
+    });
+  }
+
+  // Модальное окно инвентаря
+  function showInventory(id) {
+    document.getElementById('inventoryModal').style.display = 'flex';
+  }
+
+  function closeInventory() {
+    document.getElementById('inventoryModal').style.display = 'none';
+  }
+
+  function showTooltip(event, text) {
+    const tooltip = document.getElementById('tooltip');
+    if (tooltip) {
+      tooltip.textContent = text.replace(/\\n/g, '\n');
+      tooltip.style.display = 'block';
+      tooltip.style.left = (event.pageX + 10) + 'px';
+      tooltip.style.top = (event.pageY + 10) + 'px';
+    }
+  }
+
+  function hideTooltip() {
+    const tooltip = document.getElementById('tooltip');
+    if (tooltip) {
+      tooltip.style.display = 'none';
+    }
+  }
+</script>
 </body>
 </html>
