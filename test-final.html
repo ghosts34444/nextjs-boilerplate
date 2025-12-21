@@ -57,17 +57,14 @@
 
   <h2>Тест кнопки "Инвентарь"</h2>
   
-  <!-- Кнопка -->
-  <button class="inventory-btn" id="open-inventoryModal">Инвентарь</button>
+<button id="open-inventory-modal">Инвентарь</button>
 
-  <!-- МОДАЛЬНОЕ ОКНО с id="inventoryModal" -->
-  <div id="inventoryModal">
-    <div class="modal-content">
-      <span class="close" id="close-inventory-modal">&times;</span>
-      <h3>✅ Инвентарь открыт!</h3>
-      <p>Теперь мы знаем — кнопка работает.</p>
-    </div>
+<div id="inventory-modal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span id="close-inventory" class="close">&times;</span>
+    <p>Инвентарь открыт!</p>
   </div>
+</div>
 
   <script>
     // Открытие
@@ -82,12 +79,11 @@
 
     // Закрытие по клику вне окна
     document.addEventListener('click', function(e) {
-      const modal = document.getElementById('inventoryModal');
+      const modal = document.getElementById('inventory-modal');
       if (modal && modal.style.display === 'flex' && !modal.contains(e.target)) {
         modal.style.display = 'none';
       }
     });
   </script>
-
 </body>
 </html>
