@@ -43,20 +43,89 @@
       font-size: 28px;
       cursor: pointer;
     }
+
+    /* Контейнер для изображения */
+.inventory-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.inventory-image-container img {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  border: 2px solid #8b5cf6;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+}
+
+/* Подсказка при наведении */
+#tooltip {
+  position: absolute;
+  background: #1a1a2e;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'Exo 2', sans-serif;
+  pointer-events: none;
+  z-index: 1001;
+  max-width: 280px;
+  word-wrap: break-word;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  border: 1px solid #8b5cf6;
+}
   </style>
 </head>
 <body>
 
-  <h2>Тест кнопки</h2>
-  <button id="open-inventory" class="btn">Инвентарь</button>
-
-  <div id="inventory-modal" class="modal">
-    <div class="modal-content">
-      <span id="close-inventory" class="close">&times;</span>
-      <p>✅ ОКНО ОТКРЫТО! Теперь закрой его.</p>
+    <button id="open-inventory" class="btn">Инвентарь</button>
+  
+<div id="inventory-modal" class="modal">
+  <div class="modal-content">
+    <span id="close-inventory" class="close">&times;</span>
+    
+    <!-- Контейнер для изображения -->
+    <div class="inventory-image-container">
+      <img 
+        id="inventory-image" 
+        src="images/heliospheric_charging_center.png" 
+        usemap="#inventory-map" 
+        alt="Схема инвентаря"
+      >
     </div>
-  </div>
 
+    <!-- Интерактивные зоны -->
+    <map name="inventory-map">
+      <!-- Бак слева -->
+      <area shape="rect" coords="50,100,100,200" 
+            data-tooltip="Бак для жидкости\nДля очистки бака нажмите: SHIFT+ПКМ">
+      
+      <!-- Шкала нагрева -->
+      <area shape="rect" coords="120,80,140,220" 
+            data-tooltip="Щкала нагрева ядра/звезды">
+      
+      <!-- Слот ядра -->
+      <area shape="rect" coords="160,100,220,180" 
+            data-tooltip="Слот для ядра / микрозвезды">
+      
+      <!-- Шкала насыщения -->
+      <area shape="rect" coords="240,80,260,220" 
+            data-tooltip="Щкала сыщение энергией\n(сжатие шакала по ебучести шакалов)">
+      
+      <!-- Слот звёздной материи -->
+      <area shape="rect" coords="280,120,320,160" 
+            data-tooltip="Слот для блоков звездной материи">
+      
+      <!-- Слот улучшения -->
+      <area shape="rect" coords="80,240,120,280" 
+            data-tooltip="Слот для Улучшения: Термоизолятор">
+    </map>
+  </div>
+</div>
+  
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const openBtn = document.getElementById('open-inventory');
@@ -85,7 +154,54 @@
         }
       });
     });
-  </script>
 
+document.addEventListener('DOMContentLoaded', function() {
+  const openBtn = document.getElementById('open-inventory');
+  const modal = document.getElementById('inventory-modal');
+  const closeBtn = document.getElementById('close-inventory');
+  const tooltip = document.createElement('div');
+  tooltip.id = 'tooltip';
+  document.body.appendChild(tooltip); // Добавляем подсказку в корень
+
+  if (!openBtn || !modal || !closeBtn) {
+    console.error('❗ Элементы не найдены. Проверь id.');
+    return;
+  }
+
+  // Открытие
+  openBtn.addEventListener('click', () => {
+    modal.style.display = 'flex';
+  });
+
+  // Закрытие
+  closeBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+    tooltip.style.display = 'none';
+  });
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+      tooltip.style.display = 'none';
+    }
+  });
+
+  // Наведение на зоны
+  const areas = document.querySelectorAll('area[data-tooltip]');
+  areas.forEach(area => {
+    area.addEventListener('mouseenter', (e) => {
+      const text = area.dataset.tooltip;
+      tooltip.textContent = text.replace(/\\n/g, '\n');
+      tooltip.style.display = 'block';
+      tooltip.style.left = (e.pageX + 10) + 'px';
+      tooltip.style.top = (e.pageY + 10) + 'px';
+    });
+
+    area.addEventListener('mouseleave', () => {
+      tooltip.style.display = 'none';
+    });
+  });
+});
+  </script>
 </body>
 </html>
