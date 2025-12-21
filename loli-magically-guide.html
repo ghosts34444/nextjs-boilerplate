@@ -319,6 +319,61 @@
             word-wrap: break-word;
             font-family: 'Exo 2', sans-serif;
         }
+
+        /* Модальное окно */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.modal-content {
+  background: #1a1a2e;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 900px;
+  width: 90%;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  border: 1px solid #8b5cf6;
+}
+
+.close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 28px;
+  color: #a5b4fc;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+/* Контейнер для изображения — чтобы оно было по центру и масштабировалось */
+.inventory-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 100%;
+  padding: 10px;
+}
+
+.inventory-image-container img {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border: 2px solid #8b5cf6;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+}
     </style>
 </head>
 <body>
@@ -359,20 +414,20 @@
 
         <!-- Гайд с 3D-моделью -->
         <div class="guide-container">
-            <div class="model-column">
-                <model-viewer 
-                    id="myModel"
-                    src="models/alchemical_synthesizer.glb"
-                    environment-image="neutral"
-                    ar
-                    camera-controls
-                    style="width: 220px; height: 220px; background: transparent;">
-                    <div slot="progress-bar" style="display:none"></div>
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Crect width='220' height='220' fill='%231a1a2e'/%3E%3Ctext x='110' y='115' font-family='Exo 2' font-size='14' fill='%238b5cf6' text-anchor='middle'%3E?%3C/text%3E%3C/svg%3E" 
-                         slot="poster">
-                </model-viewer>
-                <button class="inventory-btn" onclick="showInventory('synthesizer')">Инвентарь</button>
-            </div>
+<div class="model-column">
+    <model-viewer 
+        id="myModel"
+        src="models/alchemical_synthesizer.glb"
+        environment-image="neutral"
+        ar
+        camera-controls
+        style="width: 220px; height: 220px; background: transparent;">
+        <div slot="progress-bar" style="display:none"></div>
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Crect width='220' height='220' fill='%231a1a2e'/%3E%3Ctext x='110' y='115' font-family='Exo 2' font-size='14' fill='%238b5cf6' text-anchor='middle'%3E?%3C/text%3E%3C/svg%3E" 
+             slot="poster">
+    </model-viewer>
+    <button class="inventory-btn" onclick="showInventory('synthesizer')">Инвентарь</button>
+</div>
 
             <div class="text-column">
                 <div class="section">
@@ -408,46 +463,49 @@
         </div>
     </div>
 
-    <!-- Модальное окно с интерактивной схемой -->
-    <div id="inventoryModal" class="modal" style="display: none;">
-      <div class="modal-content">
-        <span class="close" onclick="closeInventory()">&times;</span>
-        
-        <img src="images/heliospheric_charging_center.png" usemap="#synthesizerMap" alt="Инвентарь синтезатора">
+ <!-- Модальное окно -->
+<div id="inventoryModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close" onclick="closeInventory()">&times;</span>
 
-        <map name="synthesizerMap">
-          <!-- Бак слева (красный) -->
-          <area shape="rect" coords="50,100,100,200" 
-                onmouseover="showTooltip(event, 'Бак для жидкости\\nДля очистки бака нажмите: SHIFT+ПКМ')" 
-                onmouseout="hideTooltip()">
-          
-          <!-- Шкала нагрева (оранжевая) -->
-          <area shape="rect" coords="120,80,140,220" 
-                onmouseover="showTooltip(event, 'Щкала нагрева ядра/звезды')" 
-                onmouseout="hideTooltip()">
-          
-          <!-- Центральный слот (ядро/микрозвезда) -->
-          <area shape="rect" coords="160,100,220,180" 
-                onmouseover="showTooltip(event, 'Слот для ядра / микрозвезды\')" 
-                onmouseout="hideTooltip()">
-          
-          <!-- Шкала насыщения (зелёная) -->
-          <area shape="rect" coords="240,80,260,220" 
-                onmouseover="showTooltip(event, 'Щкала сыщение энергией(сжатие шакала по ебучести шакалов)')" 
-                onmouseout="hideTooltip()">
-          
-          <!-- Слот для блоков звездной материи (справа) -->
-          <area shape="rect" coords="280,120,320,160" 
-                onmouseover="showTooltip(event, 'Слот для блоков звездной материи')" 
-                onmouseout="hideTooltip()">
-          
-          <!-- Слот улучшения (внизу слева) -->
-          <area shape="rect" coords="80,240,120,280" 
-                onmouseover="showTooltip(event, 'Слот для Улучшения: Термоизолятор')" 
-                onmouseout="hideTooltip()">
-        </map>
-      </div>
+    <!-- Изображение по центру, без белого фона -->
+    <div class="inventory-image-container">
+      <img src="images/heliospheric_charging_center.png" usemap="#synthesizerMap" alt="Инвентарь синтезатора">
     </div>
+
+    <map name="synthesizerMap">
+      <!-- Бак слева (красный) -->
+      <area shape="rect" coords="50,100,100,200" 
+            onmouseover="showTooltip(event, 'Бак для жидкости\\nДля очистки бака нажмите: SHIFT+ПКМ')" 
+            onmouseout="hideTooltip()">
+      
+      <!-- Шкала нагрева (оранжевая) -->
+      <area shape="rect" coords="120,80,140,220" 
+            onmouseover="showTooltip(event, 'Щкала нагрева ядра/звезды')" 
+            onmouseout="hideTooltip()">
+      
+      <!-- Центральный слот (ядро/микрозвезда) -->
+      <area shape="rect" coords="160,100,220,180" 
+            onmouseover="showTooltip(event, 'Слот для ядра / микрозвезды\')" 
+            onmouseout="hideTooltip()">
+      
+      <!-- Шкала насыщения (зелёная) -->
+      <area shape="rect" coords="240,80,260,220" 
+            onmouseover="showTooltip(event, 'Щкала сыщение энергией(сжатие шакала по ебучести шакалов)')" 
+            onmouseout="hideTooltip()">
+      
+      <!-- Слот для блоков звездной материи (справа) -->
+      <area shape="rect" coords="280,120,320,160" 
+            onmouseover="showTooltip(event, 'Слот для блоков звездной материи')" 
+            onmouseout="hideTooltip()">
+      
+      <!-- Слот улучшения (внизу слева) -->
+      <area shape="rect" coords="80,240,120,280" 
+            onmouseover="showTooltip(event, 'Слот для Улучшения: Термоизолятор')" 
+            onmouseout="hideTooltip()">
+    </map>
+  </div>
+</div>
 
     <!-- Подсказка -->
     <div id="tooltip" class="tooltip" style="display: none;"></div>
@@ -522,6 +580,14 @@
         function hideTooltip() {
             document.getElementById('tooltip').style.display = 'none';
         }
+
+        // Закрытие при клике вне окна
+document.addEventListener('click', (e) => {
+  const modal = document.getElementById('inventoryModal');
+  if (modal.style.display === 'flex' && !modal.contains(e.target)) {
+    closeInventory();
+  }
+});
     </script>
 </body>
 </html>
