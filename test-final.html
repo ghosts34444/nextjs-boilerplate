@@ -1,27 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Минимальный тест — ИНВЕНТАРЬ</title>
+  <title>Тест — точно работает</title>
   <style>
     body {
       background: #1a1a2e;
       color: white;
-      font-family: sans-serif;
       padding: 40px;
+      font-family: sans-serif;
     }
-
-    .inventory-btn {
+    .btn {
       padding: 10px 20px;
       background: #8b5cf6;
       color: white;
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      font-size: 16px;
     }
-
-    #inventoryModal {
+    .modal {
       display: none;
       position: fixed;
       top: 0; left: 0;
@@ -31,18 +28,13 @@
       align-items: center;
       z-index: 1000;
     }
-
     .modal-content {
-      background: #1a1a2e;
+      background: #222;
       padding: 30px;
       border-radius: 12px;
       text-align: center;
-      color: white;
       border: 1px solid #8b5cf6;
-      max-width: 500px;
-      width: 90%;
     }
-
     .close {
       position: absolute;
       top: 10px;
@@ -55,35 +47,45 @@
 </head>
 <body>
 
-  <h2>Тест кнопки "Инвентарь"</h2>
-  
-<button id="open-inventory-modal">Инвентарь</button>
+  <h2>Тест кнопки</h2>
+  <button id="open-inventory" class="btn">Инвентарь</button>
 
-<div id="inventory-modal" class="modal" style="display: none;">
-  <div class="modal-content">
-    <span id="close-inventory" class="close">&times;</span>
-    <p>Инвентарь открыт!</p>
+  <div id="inventory-modal" class="modal">
+    <div class="modal-content">
+      <span id="close-inventory" class="close">&times;</span>
+      <p>✅ ОКНО ОТКРЫТО! Теперь закрой его.</p>
+    </div>
   </div>
-</div>
 
   <script>
-    // Открытие
-    document.getElementById('open-inventory-modal').addEventListener('click', function() {
-      document.getElementById('inventoryModal').style.display = 'flex';
-    });
-
-    // Закрытие по крестику
-    document.getElementById('close-inventory-modal').addEventListener('click', function() {
-      document.getElementById('inventoryModal').style.display = 'none';
-    });
-
-    // Закрытие по клику вне окна
-    document.addEventListener('click', function(e) {
+    document.addEventListener('DOMContentLoaded', function() {
+      const openBtn = document.getElementById('open-inventory');
       const modal = document.getElementById('inventory-modal');
-      if (modal && modal.style.display === 'flex' && !modal.contains(e.target)) {
-        modal.style.display = 'none';
+      const closeBtn = document.getElementById('close-inventory');
+
+      if (!openBtn || !modal || !closeBtn) {
+        console.error('❗ Один из элементов не найден. Проверь id в HTML.');
+        return;
       }
+
+      openBtn.addEventListener('click', () => {
+        modal.style.display = 'flex';
+        console.log('✅ Модальное окно открыто');
+      });
+
+      closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+        console.log('✅ Модальное окно закрыто (крестик)');
+      });
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+          console.log('✅ Модальное окно закрыто (фон)');
+        }
+      });
     });
   </script>
+
 </body>
 </html>
