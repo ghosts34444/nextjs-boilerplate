@@ -1,512 +1,230 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DarkGalaxy - LoliMagically</title>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Тест гайда</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <style>
+    body {
+      background: #1a1a2e;
+      color: #e0e0ff;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 30px;
+    }
 
-        body {
-            background: #1a1a2e;
-            color: #e0e0ff;
-            font-family: 'Exo 2', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 30px 20px 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
+    .guide-block {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #16162a;
+      border: 1px solid #8b5cf6;
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      gap: 20px;
+    }
 
-        /* Звёзды */
-        .stars {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
+    @media (max-width: 768px) {
+      .guide-block { flex-direction: column; }
+    }
 
-        .star {
-            position: absolute;
-            color: white;
-            font-size: 1.2em;
-            opacity: 0.9;
-            animation: fall linear infinite;
-            line-height: 1;
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
-            transform-origin: center;
-        }
+    .model-column {
+      flex: 0 0 240px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
 
-        .star::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-top: 5px solid transparent;
-            border-bottom: 5px solid transparent;
-            border-left: 10px solid rgba(255, 255, 255, 0.5);
-            transform: translate(-50%, -50%) rotate(-45deg);
-            animation: trail linear infinite;
-            opacity: 0;
-        }
+    model-viewer {
+      width: 220px;
+      height: 220px;
+      background: transparent;
+    }
 
-        @keyframes fall {
-            0% {
-                transform: translateY(-20px) translateX(0) rotate(0deg);
-                opacity: 0;
-            }
-            5% {
-                opacity: 0.9;
-            }
-            95% {
-                opacity: 0.9;
-            }
-            100% {
-                transform: translateY(100vh) translateX(-50px) rotate(-45deg);
-                opacity: 0;
-            }
-        }
+    .inventory-btn {
+      padding: 8px 16px;
+      background: #8b5cf6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      width: 100%;
+    }
 
-        @keyframes trail {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -50%) rotate(-45deg) scale(0);
-            }
-            10% {
-                opacity: 0.7;
-                transform: translate(-50%, -50%) rotate(-45deg) scale(1);
-            }
-            90% {
-                opacity: 0.7;
-                transform: translate(-50%, -50%) rotate(-45deg) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(-50%, -50%) rotate(-45deg) scale(0);
-            }
-        }
+    .text-column {
+      flex: 1;
+    }
 
-        /* Кнопка меню */
-        .menu-btn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            background: linear-gradient(45deg, #8b5cf6, #6366f1);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 8px 16px;
-            cursor: pointer;
-            font-family: 'Exo 2', sans-serif;
-            font-weight: 600;
-            box-shadow: 0 5px 20px rgba(139, 92, 246, 0.4);
-            font-size: 0.95rem;
-        }
+    .text-column h2 {
+      color: #a5b4fc;
+      margin-bottom: 10px;
+    }
 
-        .menu-btn:hover {
-            transform: scale(1.05);
-        }
+    .text-column p, .text-column ul {
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
 
-        /* Боковое меню */
-        .sidebar {
-            position: fixed;
-            left: -300px;
-            top: 0;
-            width: 300px;
-            height: 100%;
-            background: #1a1a2e;
-            border-right: 1px solid #8b5cf6;
-            z-index: 1000;
-            transition: left 0.3s ease;
-            padding: 30px 20px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        }
-        .sidebar.open { left: 0; }
+    /* Модальное окно */
+    #inventoryModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
 
-        .sidebar-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #8b5cf6;
-        }
-        .sidebar-title { font-size: 1.2rem; font-weight: 600; color: #d8b4f8; }
-        .sidebar-close {
-            background: none; border: none; color: #a5b4fc; font-size: 1.5rem; cursor: pointer; margin-left: auto;
-        }
-        .sidebar-menu { list-style: none; }
-        .sidebar-menu li { margin-bottom: 10px; }
-        .sidebar-menu a {
-            display: block;
-            padding: 10px 15px;
-            color: #e0e0ff;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: background 0.2s;
-        }
-        .sidebar-menu a:hover,
-        .sidebar-menu a.active {
-            background: linear-gradient(45deg, #8b5cf6, #6366f1);
-            color: white;
-        }
+    .modal-content {
+      background: #1a1a2e;
+      border: 1px solid #8b5cf6;
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 900px;
+      width: 90%;
+      position: relative;
+    }
 
-        /* Контейнер страницы */
-        .page-container {
-            max-width: 1000px;
-            width: 100%;
-            z-index: 2;
-        }
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      color: #a5b4fc;
+      font-size: 28px;
+      cursor: pointer;
+    }
 
-        /* Заголовок */
-        .mod-header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-        .mod-header h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            color: #d8b4f8;
-            text-shadow: 0 0 20px rgba(216, 180, 248, 0.6);
-        }
+    .inventory-image-container {
+      display: flex;
+      justify-content: center;
+    }
 
-        /* Основной блок гайда */
-        .guide-container {
-            background: #1a1a2e;
-            border: 1px solid #8b5cf6;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-            display: flex;
-            gap: 20px;
-            padding: 20px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
+    .inventory-image-container img {
+      max-width: 100%;
+      max-height: 80vh;
+      border: 2px solid #8b5cf6;
+      border-radius: 8px;
+    }
 
-        @media (max-width: 768px) {
-            .guide-container {
-                flex-direction: column;
-                padding: 15px;
-            }
-        }
-
-        .model-column {
-            flex: 0 0 240px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #16162a;
-            border-radius: 12px;
-            padding: 15px;
-        }
-
-        model-viewer {
-            width: 220px;
-            height: 220px;
-            background: transparent;
-            display: block;
-        }
-
-        .text-column {
-            flex: 1;
-            padding: 0 15px;
-            font-size: 0.95rem;
-        }
-
-        .section {
-            margin-bottom: 20px;
-        }
-
-        .section h2 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #a5b4fc;
-            margin-bottom: 10px;
-        }
-
-        .section p {
-            margin-bottom: 12px;
-            line-height: 1.55;
-        }
-
-        .section ul {
-            padding-left: 20px;
-            margin-bottom: 12px;
-        }
-
-        .section li {
-            margin-bottom: 6px;
-        }
-
-        /* Кнопка "Инвентарь" */
-        .inventory-btn {
-            display: block;
-            width: 100%;
-            margin-top: 12px;
-            padding: 8px 12px;
-            background: #8b5cf6;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-family: 'Exo 2', sans-serif;
-            font-size: 14px;
-            transition: background 0.2s;
-        }
-
-        .inventory-btn:hover {
-            background: #7c4dff;
-        }
-
-        /* Модальное окно */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: #F8F8FF;
-            padding: 20px;
-            border-radius: 12px;
-            max-width: 900px;
-            width: 90%;
-            position: relative;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        }
-
-        .close {
-            position: absolute;
-            right: 15px;
-            top: 10px;
-            font-size: 28px;
-            color: #333;
-            cursor: pointer;
-        }
-
-        /* Подсказка */
-        .tooltip {
-            position: absolute;
-            background: #1a1a2e;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 14px;
-            pointer-events: none;
-            z-index: 1001;
-            max-width: 300px;
-            word-wrap: break-word;
-            font-family: 'Exo 2', sans-serif;
-        }
-
-        /* Модальное окно */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.7);
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-
-.modal-content {
-  background: #1a1a2e;
-  padding: 20px;
-  border-radius: 12px;
-  max-width: 900px;
-  width: 90%;
-  position: relative;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-  border: 1px solid #8b5cf6;
-}
-
-.close {
-  position: absolute;
-  right: 15px;
-  top: 10px;
-  font-size: 28px;
-  color: #a5b4fc;
-  cursor: pointer;
-  z-index: 1001;
-}
-
-/* Контейнер для изображения — чтобы оно было по центру и масштабировалось */
-.inventory-image-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  max-width: 100%;
-  padding: 10px;
-}
-
-.inventory-image-container img {
-  max-width: 100%;
-  max-height: 80vh;
-  object-fit: contain;
-  border: 2px solid #8b5cf6;
-  border-radius: 8px;
-  box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
-}
-    </style>
+    /* Подсказка */
+    #tooltip {
+      position: absolute;
+      background: #000;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      pointer-events: none;
+      z-index: 1001;
+      display: none;
+      max-width: 250px;
+      word-wrap: break-word;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="stars" id="stars"></div>
-    <button class="menu-btn" id="menu-btn">☰</button>
-
-    <!-- Боковое меню -->
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <span class="sidebar-title">DarkGalaxy</span>
-            <button class="sidebar-close" id="close-sidebar">×</button>
-        </div>
-        <ul class="sidebar-menu">
-            <li><a href="index.html">Главная</a></li>
-            <li><a href="loli-magically-guide.html" class="active">LoliMagically</a></li>
-            <li><a href="#">LoliEnergistics</a></li>
-            <li><a href="#">LoliUtility</a></li>
-            <li><a href="#">Applied Energistics 2</a></li>
-            <li><a href="#">Forestry</a></li>
-            <li><a href="#">Draconic Evolution</a></li>
-            <li><a href="#">Thaumcraft</a></li>
-            <li><a href="#">Botania</a></li>
-            <li><a href="#">Blood Magic</a></li>
-            <li><a href="#">Thermal Expansion</a></li>
-            <li><a href="#">Galacticraft</a></li>
-            <li><a href="#">Ic2|MineFactory</a></li>
-            <li><a href="#">TConstruct</a></li>
-            <li><a href="warp-info.html">Информация о варпах</a></li>
-        </ul>
-    </div>
-
-<!-- Гайд -->
-<div class="guide-container">
-  <div class="model-column">
-    <model-viewer 
-        id="myModel"
+  <!-- Основной блок -->
+  <div class="guide-block">
+    <div class="model-column">
+      <!-- 3D-модель -->
+      <model-viewer
         src="models/helio.glb"
         environment-image="neutral"
-        ar
         camera-controls
-        style="width: 220px; height: 220px; background: transparent;">
+        ar
+        style="width: 220px; height: 220px;">
         <div slot="progress-bar" style="display:none"></div>
-        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Crect width='220' height='220' fill='%231a1a2e'/%3E%3Ctext x='110' y='115' font-family='Exo 2' font-size='14' fill='%238b5cf6' text-anchor='middle'%3E?%3C/text%3E%3C/svg%3E" 
-             slot="poster">
-    </model-viewer>
-    <button class="inventory-btn" onclick="showInventory('synthesizer')">Инвентарь</button>
-  </div>
+        <img
+          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Crect width='220' height='220' fill='%231a1a2e'/%3E%3Ctext x='110' y='115' font-family='sans-serif' font-size='16' fill='%238b5cf6' text-anchor='middle'%3E?%3C/text%3E%3C/svg%3E"
+          slot="poster"
+        />
+      </model-viewer>
 
-  <div class="text-column">
-    <div class="section">
+      <!-- Кнопка -->
+      <button class="inventory-btn" onclick="openInventory()">Инвентарь</button>
+    </div>
+
+    <div class="text-column">
       <h2>Синтезатор магических слитков</h2>
-      <p>Это устройство позволяет создавать <strong>магические слитки</strong> из обычных руд и ингредиентов. Идеально подходит для автоматизации производства.</p>
+      <p>Это устройство позволяет создавать <strong>магические слитки</strong> из обычных руд и ингредиентов.</p>
+      <ul>
+        <li>Автоматизация</li>
+        <li>Поддержка AE2, Ender IO</li>
+        <li>Работает от Redstone Flux</li>
+      </ul>
     </div>
-    <!-- ... остальные разделы ... -->
   </div>
-</div>
 
-<!-- МОДАЛЬНОЕ ОКНО — ВНЕ .page-container -->
-<div id="inventoryModal" class="modal" style="display: none;">
-  <div class="modal-content">
-    <span class="close" onclick="closeInventory()">&times;</span>
-    <div class="inventory-image-container">
-      <img src="images/heliospheric_charging_center.png" usemap="#synthesizerMap" alt="Инвентарь синтезатора">
+  <!-- Модальное окно -->
+  <div id="inventoryModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeInventory()">&times;</span>
+      <div class="inventory-image-container">
+        <img
+          src="images/heliospheric_charging_center.png"
+          usemap="#invMap"
+          alt="Инвентарь"
+        />
+      </div>
+      <map name="invMap">
+        <area shape="rect" coords="50,100,100,200" 
+              onmouseover="showTip(event, 'Бак для жидкости\\nОчистка: SHIFT+ПКМ')"
+              onmouseout="hideTip()" />
+        <area shape="rect" coords="160,100,220,180" 
+              onmouseover="showTip(event, 'Слот для ядра / микрозвезды')"
+              onmouseout="hideTip()" />
+        <area shape="rect" coords="280,120,320,160" 
+              onmouseover="showTip(event, 'Блоки звездной материи')"
+              onmouseout="hideTip()" />
+        <area shape="rect" coords="80,240,120,280" 
+              onmouseover="showTip(event, 'Улучшение: Термоизолятор')"
+              onmouseout="hideTip()" />
+      </map>
     </div>
-    <map name="synthesizerMap">
-      <!-- зоны -->
-      <area shape="rect" coords="50,100,100,200" onmouseover="showTooltip(event, 'Бак для жидкости\\nДля очистки бака нажмите: SHIFT+ПКМ')" onmouseout="hideTooltip()">
-      <area shape="rect" coords="120,80,140,220" onmouseover="showTooltip(event, 'Щкала нагрева ядра/звезды')" onmouseout="hideTooltip()">
-      <area shape="rect" coords="160,100,220,180" onmouseover="showTooltip(event, 'Слот для ядра / микрозвезды\')" onmouseout="hideTooltip()">
-      <area shape="rect" coords="240,80,260,220" onmouseover="showTooltip(event, 'Щкала сыщение энергией(сжатие шакала по ебучести шакалов)')" onmouseout="hideTooltip()">
-      <area shape="rect" coords="280,120,320,160" onmouseover="showTooltip(event, 'Слот для блоков звездной материи')" onmouseout="hideTooltip()">
-      <area shape="rect" coords="80,240,120,280" onmouseover="showTooltip(event, 'Слот для Улучшения: Термоизолятор')" onmouseout="hideTooltip()">
-    </map>
   </div>
-</div>
 
-<!-- Подсказка -->
-<div id="tooltip" class="tooltip" style="display: none;"></div>
+  <!-- Подсказка -->
+  <div id="tooltip"></div>
 
-<script>
-  // Функции
-  function showInventory(id) {
-    document.getElementById('inventoryModal').style.display = 'flex';
-  }
-
-  function closeInventory() {
-    document.getElementById('inventoryModal').style.display = 'none';
-  }
-
-  function showTooltip(event, text) {
-    const tooltip = document.getElementById('tooltip');
-    if (tooltip) {
-      tooltip.textContent = text.replace(/\\n/g, '\n');
-      tooltip.style.display = 'block';
-      tooltip.style.left = (event.pageX + 10) + 'px';
-      tooltip.style.top = (event.pageY + 10) + 'px';
-    }
-  }
-
-  function hideTooltip() {
-    const tooltip = document.getElementById('tooltip');
-    if (tooltip) {
-      tooltip.style.display = 'none';
-    }
-  }
-
-  // Обработчик кликов
-  document.addEventListener('click', (e) => {
-    const sidebar = document.getElementById('sidebar');
-    const menuBtn = document.getElementById('menu-btn');
-    const modal = document.getElementById('inventoryModal');
-
-    if (sidebar && !sidebar.contains(e.target) && e.target !== menuBtn) {
-      sidebar.classList.remove('open');
+  <script>
+    // Открыть инвентарь
+    function openInventory() {
+      document.getElementById('inventoryModal').style.display = 'flex';
     }
 
-    if (modal && modal.style.display === 'flex' && !modal.contains(e.target)) {
-      closeInventory();
+    // Закрыть
+    function closeInventory() {
+      document.getElementById('inventoryModal').style.display = 'none';
     }
-  });
 
-  // Анимация модели
-  const modelViewer = document.getElementById('myModel');
-  if (modelViewer) {
-    modelViewer.addEventListener('load', (e) => {
-      const mv = e.target;
-      if (mv.availableAnimations?.length > 3) {
-        mv.animationName = mv.availableAnimations[3];
-        mv.play();
+    // Закрытие по клику вне окна
+    document.addEventListener('click', (e) => {
+      const modal = document.getElementById('inventoryModal');
+      if (modal.style.display === 'flex' && !modal.contains(e.target)) {
+        closeInventory();
       }
     });
-  }
-</script>
+
+    // Подсказки
+    function showTip(event, text) {
+      const t = document.getElementById('tooltip');
+      t.textContent = text.replace(/\\n/g, '\n');
+      t.style.display = 'block';
+      t.style.left = (event.pageX + 10) + 'px';
+      t.style.top = (event.pageY + 10) + 'px';
+    }
+
+    function hideTip() {
+      document.getElementById('tooltip').style.display = 'none';
+    }
+  </script>
 </body>
 </html>
