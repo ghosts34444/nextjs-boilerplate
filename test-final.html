@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DarkGalaxy - LoliMagically</title>
+    <title>DarkGalaxy — Магические Гайды</title>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <style>
@@ -41,29 +41,7 @@
             text-shadow: 0 0 20px rgba(216, 180, 248, 0.6);
         }
 
-        /* === Текстовый блок (без механизма) === */
-        .text-guide {
-            background: #1a1a2e;
-            border: 1px solid #8b5cf6;
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 40px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        .text-guide h2 {
-            font-size: 1.8rem;
-            color: #d8b4f8;
-            margin-bottom: 16px;
-            text-align: center;
-        }
-
-        .text-guide p {
-            line-height: 1.6;
-            margin-bottom: 12px;
-        }
-
-        /* === Блок с механизмом === */
+        /* === Блок гайда (фрагмент) === */
         .mechanism-guide {
             background: #1a1a2e;
             border: 1px solid #8b5cf6;
@@ -80,10 +58,25 @@
             text-align: center;
         }
 
+        /* Секции */
+        .guide-section {
+            background: #16162a;
+            border: 1px solid #8b5cf6;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 20px;
+        }
+
+        .guide-section h3 {
+            color: #d8b4f8;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+
         .visual-block {
             display: flex;
             justify-content: center;
-            margin-bottom: 24px;
+            margin-top: 10px;
         }
 
         .visual-block model-viewer,
@@ -96,129 +89,255 @@
             max-width: 300px;
         }
 
-        .description-block {
-            margin-bottom: 24px;
+        /* Кнопка */
+        .upgrade-btn {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 6px 14px;
+            background: linear-gradient(45deg, #8b5cf6, #6366f1);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgba(139, 92, 246, 0.4);
         }
 
-        .description-block h3 {
+        .upgrade-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(139, 92, 246, 0.6);
+        }
+
+        /* Инвентарь — увеличен в 2 раза */
+        .inventory-image {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid #8b5cf6;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+            transform: scale(2);
+            transform-origin: top center;
+        }
+
+        /* Карточка автора в гайде */
+        .guide-author {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #8b5cf6;
+            display: flex;
+            justify-content: center;
+        }
+
+        .creator-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #16162a;
+            border: 1px solid #8b5cf6;
+            border-radius: 12px;
+            padding: 16px;
+            max-width: 300px;
+        }
+
+        .creator-card img {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #8b5cf6;
+            margin-bottom: 10px;
+        }
+
+        .creator-name {
+            font-weight: 600;
+            color: #e0e0ff;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .creator-role {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .creator-description {
+            font-size: 0.9rem;
             color: #a5b4fc;
-            margin: 18px 0 10px;
-            font-size: 1.3rem;
-        }
-
-        .description-block p,
-        .description-block ul {
-            line-height: 1.55;
-            margin-bottom: 12px;
-        }
-
-        .description-block ul {
-            padding-left: 20px;
-        }
-
-        .description-block li {
-            margin-bottom: 6px;
-        }
-
-        .inventory-section {
             text-align: center;
+            line-height: 1.4;
         }
-
-        .inventory-section h3 {
-            color: #a5b4fc;
-            margin-bottom: 16px;
-            font-size: 1.3rem;
-        }
-
-.inventory-image {
-  max-width: 100%;
-  height: auto;
-  border: 2px solid #8b5cf6;
-  border-radius: 8px;
-  box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
-  cursor: pointer; /* Показывает, что можно кликнуть */
-}
-
-/* При клике — увеличиваем изображение */
-.inventory-image:hover {
-  transform: scale(1.05);
-  transition: transform 0.3s ease;
-}
 
         @media (max-width: 768px) {
-            .visual-block {
-                justify-content: center;
-            }
-
-            .visual-block model-viewer,
-            .visual-block img {
-                max-width: 240px;
+            .inventory-image {
+                transform: scale(1.5);
             }
         }
-
-        .inline-item {
-  width: 32px;
-  height: 32px;
-  vertical-align: middle;
-  margin: 0 4px;
-  border: 1px solid #8b5cf6;
-  border-radius: 4px;
-  box-shadow: 0 0 6px rgba(139, 92, 246, 0.3);
-}
     </style>
 </head>
 <body>
 
     <div class="page-container">
         <div class="mod-header">
-            <h1>LoliMagically</h1>
+            <h1>Магические Гайды</h1>
         </div>
 
-        <!-- === Текстовый блок (без механизма) === -->
-        <div class="text-guide">
-            <h2>Общие правила магического производства</h2>
-            <p>Все устройства из мода <strong>LoliMagically</strong> работают на основе звёздной энергии и магических резонансов.</p>
-            <p>Перед использованием обязательно ознакомьтесь с совместимостью и требованиями по энергии.</p>
-            <p>Не оставляйте работающие синтезаторы без присмотра — возможен выброс магической энергии!</p>
-        </div>
-
-        <!-- === Блок с механизмом === -->
-        <div class="mechanism-guide">
+        <!-- === LoliMagically === -->
+        <section id="loli-magically" class="mechanism-guide">
             <h2 class="mechanism-title">Синтезатор магических слитков</h2>
 
-            <div class="visual-block">
-                <!-- Можно использовать 3D-модель -->
-                <model-viewer 
-                    src="models/alchemical_synthesizer.glb"
-                    environment-image="neutral"
-                    ar
-                    camera-controls
-                    style="width: 260px; height: 260px; background: transparent;">
-                    <div slot="progress-bar" style="display:none"></div>
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Crect width='260' height='260' fill='%231a1a2e'/%3E%3Ctext x='130' y='135' font-family='Exo 2' font-size='16' fill='%238b5cf6' text-anchor='middle'%3E?%3C/text%3E%3C/svg%3E" 
-                         slot="poster">
-                </model-viewer>
-
-                <!-- ИЛИ раскомментируй, чтобы использовать PNG -->
-                <!--
-                <img src="images/synthesizer.png" alt="Синтезатор магических слитков">
-                -->
+            <div class="guide-section model-section">
+                <h3>Внешний вид</h3>
+                <div class="visual-block">
+                    <model-viewer 
+                        src="models/alchemical_synthesizer.glb"
+                        environment-image="neutral"
+                        ar
+                        camera-controls
+                        style="width: 260px; height: 260px; background: transparent;">
+                        <div slot="progress-bar" style="display:none"></div>
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Crect width='260' height='260' fill='%231a1a2e'/%3E%3Ctext x='130' y='135' font-family='Exo 2' font-size='16' fill='%238b5cf6' text-anchor='middle'%3E?%3C/text%3E%3C/svg%3E" 
+                             slot="poster">
+                    </model-viewer>
+                </div>
             </div>
 
-            <div class="description-block">
-              <p>хз что тут писать, но например бр бр бр патамим</p>
-              <h3>!!!ШИЗА ПРОГРЕССИРУЕТ!!!</h3>
-              <p>Я тут посмотрел че надо сделать, чтобы все это работало, чуток приахуел, но потянем.</p>
-                <li><img src="images/bud_filled_sunflower_petals.png" alt="бутон подсолнуха" class="inline-item">Эльфийская анаша версия 3439528538352350325</li>
+            <div class="guide-section text-section">
+                <h3>Описание</h3>
+                <p>Это устройство позволяет создавать <strong>магические слитки</strong> из обычных руд и ингредиентов. Идеально подходит для автоматизации производства.</p>
+                <button class="upgrade-btn" onclick="alert('Улучшенная версия — в разработке!')">
+                  ➤ Улучшенная версия
+                </button>
             </div>
 
-            <!-- Инвентарь -->
-            <div class="inventory-section">
+            <div class="guide-section inventory-section">
                 <h3>Инвентарь устройства</h3>
-                <img src="images/heliospheric_charging_center.png" alt="Инвентарь синтезатора" class="inventory-image">
+                <img src="images/heliospheric_charging_center.png" alt="Инвентарь" class="inventory-image">
             </div>
-        </div>
+
+            <!-- Автор -->
+            <div class="guide-author" data-nickname="DoKFoReVe"></div>
+        </section>
+
+        <!-- === Blood Magic === -->
+        <section id="blood-magic" class="mechanism-guide">
+            <h2 class="mechanism-title">Алтари крови (Blood Magic)</h2>
+
+            <div class="guide-section text-section">
+                <h3>Основы</h3>
+                <p>Мод <strong>Blood Magic</strong> добавляет магию, основанную на жизненной энергии (LP — Life Essence).</p>
+                <p>Первым делом вам нужно построить <strong>алтарь крови</strong> — он будет накапливать вашу энергию при жертвоприношениях.</p>
+            </div>
+
+            <div class="guide-section text-section">
+                <h3>Жертвоприношения</h3>
+                <p>Вы можете приносить в жертву:</p>
+                <ul>
+                    <li>Животных — дают мало LP</li>
+                    <li>Монстров — дают больше LP</li>
+                    <li>Себя — наносит урон, но даёт много энергии</li>
+                </ul>
+            </div>
+
+            <div class="guide-section inventory-section">
+                <h3>Пример инвентаря</h3>
+                <img src="images/blood_altar_inventory.png" alt="Инвентарь алтаря" class="inventory-image">
+            </div>
+
+            <!-- Автор -->
+            <div class="guide-author" data-nickname="Xan241"></div>
+        </section>
     </div>
 
+    <script>
+        // === ОПИСАНИЯ И НАСТРОЙКИ ===
+        const DESCRIPTIONS = {
+            "ghosts34444": "Разработчик сайта и систем автоматизации. Отвечает за техническую поддержку и инфраструктуру проекта.",
+            "Xan241": "Куратор цен на варпах. Собирает, проверяет и публикует информацию о стоимости предметов в торговле.",
+            "Mrkgrshtraklar": "Главный гайдер по моду Galacticraft. Составляет и обновляет гайды для новичков и опытных игроков.",
+            "DoKFoReVe": "Активный модератор чата и варпов. Следит за соблюдением правил и помогает игрокам."
+        };
+
+        function translateRole(roleKey) {
+            const map = {
+                "junior_moderator": "Младший Модератор",
+                "senior_moderator": "Старший Модератор",
+                "moderator": "Модератор",
+                "junior_admin": "Младший Администратор",     
+                "admin": "Администратор",
+                "senior_admin": "Старший Администратор",
+                "chief_admin": "Главный Администратор",
+                "curator": "Куратор"
+            };
+            return map[roleKey] || "Участник";
+        }
+
+        const ROLE_COLORS = {
+            "Старший Модератор": "#e74c3c",
+            "Старший Администратор": "#e91e63",
+            "Модератор": "#f39c12",
+            "Администратор": "#2ecc71",
+            "Младший Модератор": "#3498db",
+            "Младший Администратор": "#8b5cf6", 
+            "Куратор": "#9b59b6"
+        };
+
+        function getRoleColor(role) {
+            return ROLE_COLORS[role] || '#e74c3c';
+        }
+
+        // === ЗАГРУЗКА АВТОРА ===
+        async function fetchAuthorCard(nickname, container) {
+            try {
+                const res = await fetch(`https://loliland.ru/apiv2/user/${nickname}`, {
+                    headers: { 'User-Agent': 'Mozilla/5.0 (compatible; DarkGalaxy/1.0)' }
+                });
+
+                let user = null;
+                let role = "Участник";
+                let avatar = 'https://cdn.discordapp.com/embed/avatars/0.png';
+
+                if (res.ok) {
+                    user = await res.json();
+                    // Попытка получить роль
+                    if (user.team?.dark_galaxy?.role) {
+                        role = translateRole(user.team.dark_galaxy.role);
+                    } else if (user.roles?.length) {
+                        role = translateRole(user.roles[0]);
+                    }
+                    // Аватар
+                    if (user.avatarOrSkin?.id && user.avatarOrSkin.extension) {
+                        avatar = `https://loliland.ru/apiv2/user/avatar/medium/${user.avatarOrSkin.id}.${user.avatarOrSkin.extension}`;
+                    }
+                }
+
+                const desc = DESCRIPTIONS[nickname] || "Автор гайда.";
+                const roleColor = getRoleColor(role);
+
+                container.innerHTML = `
+                    <div class="creator-card">
+                        <img src="${avatar}" alt="${nickname}" 
+                             onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+                        <div class="creator-name">${nickname}</div>
+                        <div class="creator-role" style="color:${roleColor}">${role}</div>
+                        <div class="creator-description">${desc}</div>
+                    </div>
+                `;
+            } catch (err) {
+                container.innerHTML = `<div class="creator-card"><div class="creator-name">${nickname}</div><div class="creator-role">Ошибка загрузки</div></div>`;
+            }
+        }
+
+        // === ЗАПУСК ПРИ ЗАГРУЗКЕ ===
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.guide-author').forEach(container => {
+                const nickname = container.dataset.nickname;
+                if (nickname) {
+                    fetchAuthorCard(nickname, container);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
