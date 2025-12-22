@@ -1,214 +1,223 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Инвентарь — масштабируемый</title>
-  <style>
-    body {
-      background: #1a1a2e;
-      color: white;
-      padding: 40px;
-      font-family: sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DarkGalaxy - LoliMagically</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .btn {
-      padding: 8px 16px;
-      background: #8b5cf6;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 14px;
-    }
+        body {
+            background: #1a1a2e;
+            color: #e0e0ff;
+            font-family: 'Exo 2', sans-serif;
+            min-height: 100vh;
+            padding: 40px 20px 30px;
+            position: relative;
+            overflow-x: hidden;
+        }
 
-    #inventory-modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      padding: 20px;
-    }
+        .page-container {
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+        }
 
-    .inventory-image-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+        .mod-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
-    .inventory-image-container img {
-      width: auto;
-      height: auto;
-      max-width: 90vw;
-      max-height: 80vh;
-      object-fit: contain;
-      box-shadow: none;
-      border: none;
-    }
+        .mod-header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #d8b4f8;
+            text-shadow: 0 0 20px rgba(216, 180, 248, 0.6);
+        }
 
-    #tooltip {
-      position: absolute;
-      background: #1a1a2e;
-      color: white;
-      padding: 6px 10px;
-      border-radius: 6px;
-      font-size: 13px;
-      font-family: 'Exo 2', sans-serif;
-      pointer-events: none;
-      z-index: 1001;
-      max-width: 250px;
-      word-wrap: break-word;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-      border: 1px solid #8b5cf6;
-      text-shadow: 0 0 2px black;
-    }
+        /* === Текстовый блок (без механизма) === */
+        .text-guide {
+            background: #1a1a2e;
+            border: 1px solid #8b5cf6;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
 
-    .controls {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      display: flex;
-      gap: 10px;
-      z-index: 1001;
-    }
-  </style>
+        .text-guide h2 {
+            font-size: 1.8rem;
+            color: #d8b4f8;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .text-guide p {
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        /* === Блок с механизмом === */
+        .mechanism-guide {
+            background: #1a1a2e;
+            border: 1px solid #8b5cf6;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .mechanism-title {
+            font-size: 1.8rem;
+            color: #d8b4f8;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .visual-block {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .visual-block model-viewer,
+        .visual-block img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            background: #16162a;
+            padding: 12px;
+            max-width: 300px;
+        }
+
+        .description-block {
+            margin-bottom: 24px;
+        }
+
+        .description-block h3 {
+            color: #a5b4fc;
+            margin: 18px 0 10px;
+            font-size: 1.3rem;
+        }
+
+        .description-block p,
+        .description-block ul {
+            line-height: 1.55;
+            margin-bottom: 12px;
+        }
+
+        .description-block ul {
+            padding-left: 20px;
+        }
+
+        .description-block li {
+            margin-bottom: 6px;
+        }
+
+        .inventory-section {
+            text-align: center;
+        }
+
+        .inventory-section h3 {
+            color: #a5b4fc;
+            margin-bottom: 16px;
+            font-size: 1.3rem;
+        }
+
+        .inventory-image {
+            max-width: 100%;
+            max-height: 500px;
+            border: 2px solid #8b5cf6;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .visual-block {
+                justify-content: center;
+            }
+
+            .visual-block model-viewer,
+            .visual-block img {
+                max-width: 240px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Кнопка -->
-  <button id="open-inventory" class="btn">Инвентарь</button>
+    <div class="page-container">
+        <div class="mod-header">
+            <h1>LoliMagically</h1>
+        </div>
 
-  <!-- Модальное окно -->
-  <div id="inventory-modal">
-    <div class="inventory-image-container">
-      <img 
-        id="inventory-image" 
-        src="images/heliospheric_charging_center.png" 
-        usemap="#inventory-map" 
-        alt="Схема инвентаря"
-      >
+        <!-- === Текстовый блок (без механизма) === -->
+        <div class="text-guide">
+            <h2>Общие правила магического производства</h2>
+            <p>Все устройства из мода <strong>LoliMagically</strong> работают на основе звёздной энергии и магических резонансов.</p>
+            <p>Перед использованием обязательно ознакомьтесь с совместимостью и требованиями по энергии.</p>
+            <p>Не оставляйте работающие синтезаторы без присмотра — возможен выброс магической энергии!</p>
+        </div>
+
+        <!-- === Блок с механизмом === -->
+        <div class="mechanism-guide">
+            <h2 class="mechanism-title">Синтезатор магических слитков</h2>
+
+            <div class="visual-block">
+                <!-- Можно использовать 3D-модель -->
+                <model-viewer 
+                    src="models/alchemical_synthesizer.glb"
+                    environment-image="neutral"
+                    ar
+                    camera-controls
+                    style="width: 260px; height: 260px; background: transparent;">
+                    <div slot="progress-bar" style="display:none"></div>
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Crect width='260' height='260' fill='%231a1a2e'/%3E%3Ctext x='130' y='135' font-family='Exo 2' font-size='16' fill='%238b5cf6' text-anchor='middle'%3E?%3C/text%3E%3C/svg%3E" 
+                         slot="poster">
+                </model-viewer>
+
+                <!-- ИЛИ раскомментируй, чтобы использовать PNG -->
+                <!--
+                <img src="images/synthesizer.png" alt="Синтезатор магических слитков">
+                -->
+            </div>
+
+            <div class="description-block">
+                <p>Это устройство позволяет создавать <strong>магические слитки</strong> из обычных руд и ингредиентов. Идеально подходит для автоматизации производства.</p>
+
+                <h3>Как работает автоматическая версия</h3>
+                <p>Автоматический синтезатор можно подключить к системам автотранспорта (например, Ender IO или AE2). Он будет:</p>
+                <ul>
+                    <li>Принимать сырьё через входной слот</li>
+                    <li>Выдавать готовый слиток в выходной слот</li>
+                    <li>Работать без участия игрока</li>
+                </ul>
+
+                <h3>Подключение</h3>
+                <p>Подключите синтезатор к энергетической сети (например, через LoliEnergistics или Redstone Flux). Устройство начнёт работать автоматически при наличии энергии и реагентов.</p>
+
+                <h3>Совместимость</h3>
+                <p>Синтезатор поддерживает большинство типов руд и слитков, включая:</p>
+                <ul>
+                    <li>Железо, золото, медь</li>
+                    <li>Алмаз, изумруд</li>
+                    <li>Магические кристаллы</li>
+                </ul>
+            </div>
+
+            <!-- Инвентарь -->
+            <div class="inventory-section">
+                <h3>Инвентарь устройства</h3>
+                <img src="images/heliospheric_charging_center.png" alt="Инвентарь синтезатора" class="inventory-image">
+            </div>
+        </div>
     </div>
-
-    <!-- Интерактивные зоны -->
-    <map name="inventory-map">
-      <!-- Бак слева -->
-      <area shape="rect" coords="50,100,100,200" 
-            data-original-coords="50,100,100,200"
-            data-tooltip="Бак для жидкости\nДля очистки бака нажмите: SHIFT+ПКМ">
-      
-      <!-- Шкала нагрева -->
-      <area shape="rect" coords="120,80,140,220" 
-            data-original-coords="120,80,140,220"
-            data-tooltip="Щкала нагрева ядра/звезды">
-      
-      <!-- Слот ядра -->
-      <area shape="rect" coords="160,100,220,180" 
-            data-original-coords="160,100,220,180"
-            data-tooltip="Слот для ядра / микрозвезды">
-      
-      <!-- Шкала насыщения -->
-      <area shape="rect" coords="240,80,260,220" 
-            data-original-coords="240,80,260,220"
-            data-tooltip="Щкала сыщение энергией\n(сжатие шакала по ебучести шакалов)">
-      
-      <!-- Слот звёздной материи -->
-      <area shape="rect" coords="280,120,320,160" 
-            data-original-coords="280,120,320,160"
-            data-tooltip="Слот для блоков звездной материи">
-      
-      <!-- Слот улучшения -->
-      <area shape="rect" coords="80,240,120,280" 
-            data-original-coords="80,240,120,280"
-            data-tooltip="Слот для Улучшения: Термоизолятор">
-    </map>
-  </div>
-
-  <!-- Подсказка -->
-  <div id="tooltip"></div>
-
-  <!-- Панель управления -->
-  <div class="controls">
-    <input type="number" id="scale-input" value="2.1" step="0.1" min="0.5" max="5" style="width: 60px;">
-    <button id="apply-scale">Применить масштаб</button>
-    <span id="current-scale">Текущий масштаб: 2.1</span>
-  </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const openBtn = document.getElementById('open-inventory');
-      const modal = document.getElementById('inventory-modal');
-      const tooltip = document.getElementById('tooltip');
-      const scaleInput = document.getElementById('scale-input');
-      const applyBtn = document.getElementById('apply-scale');
-      const currentScaleSpan = document.getElementById('current-scale');
-
-      if (!openBtn || !modal || !tooltip || !scaleInput || !applyBtn) {
-        console.error('❗ Элементы не найдены.');
-        return;
-      }
-
-      // Открытие
-      openBtn.addEventListener('click', () => {
-        modal.style.display = 'flex';
-        updateImageScale(parseFloat(scaleInput.value));
-      });
-
-      // Закрытие
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-          modal.style.display = 'none';
-          tooltip.style.display = 'none';
-        }
-      });
-
-      // Применение масштаба
-      applyBtn.addEventListener('click', () => {
-        const scale = parseFloat(scaleInput.value);
-        if (isNaN(scale) || scale <= 0) {
-          alert('Введите корректное число!');
-          return;
-        }
-        updateImageScale(scale);
-        currentScaleSpan.textContent = `Текущий масштаб: ${scale}`;
-      });
-
-      // Наведение на зоны
-      const areas = document.querySelectorAll('area[data-tooltip]');
-      areas.forEach(area => {
-        area.addEventListener('mouseenter', (e) => {
-          const text = area.dataset.tooltip;
-          tooltip.textContent = text.replace(/\\n/g, '\n');
-          tooltip.style.display = 'block';
-          tooltip.style.left = (e.pageX + 10) + 'px';
-          tooltip.style.top = (e.pageY + 10) + 'px';
-        });
-
-        area.addEventListener('mouseleave', () => {
-          tooltip.style.display = 'none';
-        });
-      });
-
-      // Функция обновления масштаба
-      function updateImageScale(scale) {
-        // Масштабируем изображение
-        const img = document.getElementById('inventory-image');
-        img.style.transform = `scale(${scale})`;
-        img.style.transformOrigin = 'center';
-
-        // Пересчитываем координаты зон
-        areas.forEach(area => {
-          const originalCoords = area.dataset.originalCoords.split(',').map(Number);
-          const newCoords = originalCoords.map(coord => Math.round(coord * scale));
-          area.coords = newCoords.join(',');
-        });
-      }
-
-      // При загрузке страницы применяем масштаб
-      updateImageScale(parseFloat(scaleInput.value));
-    });
-  </script>
 
 </body>
 </html>
