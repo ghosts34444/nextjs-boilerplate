@@ -130,13 +130,20 @@
             font-size: 1.3rem;
         }
 
-        .inventory-image {
-            max-width: 100%;
-            max-height: 500px;
-            border: 2px solid #8b5cf6;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
-        }
+.inventory-image {
+  max-width: 100%;
+  height: auto;
+  border: 2px solid #8b5cf6;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+  cursor: pointer; /* Показывает, что можно кликнуть */
+}
+
+/* При клике — увеличиваем изображение */
+.inventory-image:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
 
         @media (max-width: 768px) {
             .visual-block {
@@ -148,6 +155,16 @@
                 max-width: 240px;
             }
         }
+
+        .inline-item {
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
+  margin: 0 4px;
+  border: 1px solid #8b5cf6;
+  border-radius: 4px;
+  box-shadow: 0 0 6px rgba(139, 92, 246, 0.3);
+}
     </style>
 </head>
 <body>
@@ -189,26 +206,10 @@
             </div>
 
             <div class="description-block">
-                <p>Это устройство позволяет создавать <strong>магические слитки</strong> из обычных руд и ингредиентов. Идеально подходит для автоматизации производства.</p>
-
-                <h3>Как работает автоматическая версия</h3>
-                <p>Автоматический синтезатор можно подключить к системам автотранспорта (например, Ender IO или AE2). Он будет:</p>
-                <ul>
-                    <li>Принимать сырьё через входной слот</li>
-                    <li>Выдавать готовый слиток в выходной слот</li>
-                    <li>Работать без участия игрока</li>
-                </ul>
-
-                <h3>Подключение</h3>
-                <p>Подключите синтезатор к энергетической сети (например, через LoliEnergistics или Redstone Flux). Устройство начнёт работать автоматически при наличии энергии и реагентов.</p>
-
-                <h3>Совместимость</h3>
-                <p>Синтезатор поддерживает большинство типов руд и слитков, включая:</p>
-                <ul>
-                    <li>Железо, золото, медь</li>
-                    <li>Алмаз, изумруд</li>
-                    <li>Магические кристаллы</li>
-                </ul>
+              <p>хз что тут писать, но например бр бр бр патамим</p>
+              <h3>!!!ШИЗА ПРОГРЕССИРУЕТ!!!</h3>
+              <p>Я тут посмотрел че надо сделать, чтобы все это работало, чуток приахуел, но потянем.</p>
+                <li><img src="bud_filled_sunflower_petals.png" alt="бутон подсолнуха" class="inline-item">'Эльфийская анаша версия 3439528538352350325</li>
             </div>
 
             <!-- Инвентарь -->
