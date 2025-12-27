@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Тестовая страница — LoliLand</title>
+
+ <!-- Должно быть -->
+ <link rel="stylesheet" href="../../styles/common.css">
+ <link rel="stylesheet" href="../../styles/menu/menu.css">
+ <link rel="stylesheet" href="../../styles/stars/stars.css">
+
+  <!-- Для 3D-моделей -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+</head>
+<body>
+
+  <!-- Фон: звёзды -->
+  <div id="stars-container"></div>
+
+  <!-- Меню -->
+  <nav class="navbar" id="mainNav">
+    <div class="navbar-container">
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="index.html" class="nav-link active">ГЛАВНАЯ</a></li>
+        <li class="dropdown">
+        <li><a href="pages/services/services.html" class="nav-link">УСЛУГИ</a></li>
+        <li><a href="pages/warp-prices/warp-prices.html" class="nav-link">ЦЕНЫ ВАРПА</a></li>
+        <li class="dropdown">
+          <a href="#" class="nav-link dropdown-toggle">ГАЙДЫ</a>
+          <div class="dropdown-menu">
+            <div class="dropdown-columns">
+              <div class="column">
+                <a href="pages/guides/guides.html#magic">МАГИЯ</a>
+                <a href="pages/guides/guides.html#tech">ТЕХНОЛОГИИ</a>
+                <a href="pages/guides/guides.html#dimensions">АВТОМАТИЗАЦИЯ</a>
+                <a href="pages/guides/guides.html#dimensions">ПЧЕЛОВОДСТВО</a>
+                <a href="pages/guides/guides.html#dimensions">ИЗМЕРЕНИЕ ДРАКОНОВ</a>
+                <a href="pages/guides/guides.html#dimensions">GALACTICRAFT</a>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li><a href="pages/services/services.html" class="nav-link">УСЛУГИ</a></li>
+        <li><a href="pages/about-site/about-site.html" class="nav-link">О САЙТЕ</a></li>
+        <li><a href="pages/about-server/about-server.html" class="nav-link">О СЕРВЕРЕ</a></li>
+        <li><a href="pages/creators/creators.html" class="nav-link creators-link">СОЗДАТЕЛИ</a></li>
+      </ul>
+      <div class="menu-toggle" id="mobileMenuButton">
+        <span></span>
+        <span></span>
+        <span></span>
+       </div>
+    </div>
+  </nav>
+
+  <!-- Основной контент -->
+  <main>
+    <div class="content">
+
+      <h1>пупупупу</h1>
+
+      <div class="text-block">
+        <h2>Тест переименовки</h2>
+        <p>Этот блок проверяет центрирование, фон с блюром и читаемость текста на светлом фоне #F8F8FF.</p>
+        <a href="#" class="btn">Кнопка 1</a>
+        <a href="#" class="btn">Кнопка 2</a>
+      </div>
+
+      <div class="model-container">
+        <h3>3D-модель: Куб</h3>
+        <model-viewer
+          src="assets/models/helio.glb"
+          alt="Тестовый куб"
+          auto-rotate
+          camera-controls
+          shadow-intensity="1"
+          ar
+        ></model-viewer>
+      </div>
+
+      <div class="text-block">
+        <h2>Текстовый блок #2</h2>
+        <p>Здесь может быть описание предмета, мода или инструкция.</p>
+        <a href="#" class="btn" style="background:#ff6b6b;">Действие</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Скрипты -->
+  <script src="../../styles/stars/stars.js"></script>
+  <script src="../../styles/menu/menu.js"></script>
+
+</body>
+</html>/
