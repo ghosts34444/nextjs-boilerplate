@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DarkGalaxy — LoliLand</title>
+
+  <!-- Стили -->
+  <link rel="stylesheet" href="styles/common.css">
+  <link rel="stylesheet" href="styles/menu/menu.css">
+  <link rel="stylesheet" href="styles/stars/stars.css">
+  <link rel="stylesheet" href="wipe-wallpaper.css">
+
+  <!-- 3D -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+</head>
+<body>
+
+  <!-- Звёзды -->
+  <div id="stars-container"></div>
+
+  <!-- Герой -->
+  <div class="hero" id="hero">
+    <img id="hero-bg" src="" alt="" class="hero-bg" />
+    <div class="hero-gradient"></div>
+    <div class="hero-content">
+      <!-- Текст как на LoliLand -->
+      <h1 class="hero-title" id="hero-title">Загрузка...</h1>
+      <p class="hero-desc" id="hero-desc">Получение информации о последнем вайпе...</p>
+
+      <!-- Кнопки -->
+      <div class="hero-buttons">
+        <a href="https://loliland.ru/ru/stats" id="stats-button" class="hero-button stats" target="_blank" rel="noopener">
+          Статистика<br>
+          <span id="online-count">—</span> Текущий онлайн<br>
+          <span id="tps-value">—</span> TPS
+        </a>
+        <a href="https://loliland.ru/ru/start" class="hero-button start" target="_blank" rel="noopener">
+          Начать игру
+        </a>
+        <a href="#" id="wipe-button" class="hero-button update" target="_blank" rel="noopener">
+          Читать об обновлении
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Меню (как есть) -->
+  <nav class="navbar navbar--fixed" id="mainNav">
+    <div class="navbar-container">
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="index.html" class="nav-link active">ГЛАВНАЯ</a></li>
+        <li><a href="pages/warp-info/warp-info.html" class="nav-link">ЦЕНЫ ВАРПА</a></li>
+        <li><a href="pages/services/services.html" class="nav-link">УСЛУГИ</a></li>
+        <li class="dropdown">
+          <a href="#" class="nav-link dropdown-toggle">ГАЙДЫ</a>
+          <div class="dropdown-menu">
+            <div class="dropdown-columns">
+              <div class="column">
+                <a href="pages/guides/guides.html#magic">МАГИЯ</a>
+                <a href="pages/guides/guides.html#tech">ТЕХНОЛОГИИ</a>
+                <a href="pages/guides/guides.html#dimensions">АВТОМАТИЗАЦИЯ</a>
+                <a href="pages/guides/guides.html#dimensions">ПЧЕЛОВОДСТВО</a>
+                <a href="pages/guides/guides.html#dimensions">ИЗМЕРЕНИЕ ДРАКОНОВ</a>
+                <a href="pages/guides/guides.html#dimensions">GALACTICRAFT</a>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li><a href="pages/about-site/about-site.html" class="nav-link">О САЙТЕ</a></li>
+        <li><a href="pages/about-server/about-server.html" class="nav-link">О СЕРВЕРЕ</a></li>
+        <li><a href="pages/creators/creators.html" class="nav-link creators-link">СОЗДАТЕЛИ</a></li>
+      </ul>
+      <div class="menu-toggle" id="mobileMenuButton">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
+  <main><div class="content"></div></main>
+
+  <!-- Скрипты -->
+  <script src="styles/stars/stars.js"></script>
+  <script src="styles/menu/menu.js"></script>
+  <script src="wipe-wallpaper.js"></script>
+
+</body>
+</html>
