@@ -1,0 +1,104 @@
+    <div class="page-container">
+        <!-- Заголовок -->
+        <div class="mod-header">
+            <h1>LoliMagically</h1>
+        </div>
+
+        <!-- Гайд с 3D-моделью -->
+        <div class="guide-container">
+        <div class="model-column">
+        <model-viewer 
+        id="myModel"
+        src="models/helio.glb"
+        environment-image="neutral"
+        ar
+        camera-controls
+        style="width: 220px; height: 220px; background: transparent;">
+        <div slot="progress-bar" style="display:none"></div>
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Crect width='220' height='220' fill='%231a1a2e'/%3E%3Ctext x='110' y='115' font-family='Exo 2' font-size='14' fill='%238b5cf6' text-anchor='middle'%3E?%3C/text%3E%3C/svg%3E" 
+             slot="poster"
+        >
+        </model-viewer>
+        <button class="inventory-btn" onclick="showInventory('synthesizer')">Инвентарь</button>
+        </div>
+
+            <div class="text-column">
+                <div class="section">
+                    <h2>Синтезатор магических слитков</h2>
+                    <p>Это устройство позволяет создавать <strong>магические слитки</strong> из обычных руд и ингредиентов. Идеально подходит для автоматизации производства.</p>
+                </div>
+
+                <div class="section">
+                    <h2>Как работает автоматическая версия</h2>
+                    <p>Автоматический синтезатор можно подключить к системам автотранспорта (например, Ender IO или AE2). Он будет:</p>
+                    <ul>
+                        <li>Принимать сырьё через входной слот</li>
+                        <li>Выдавать готовый слиток в выходной слот</li>
+                        <li>Работать без участия игрока</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h2>Подключение</h2>
+                    <p>Подключите синтезатор к энергетической сети (например, через LoliEnergistics или Redstone Flux). Устройство начнёт работать автоматически при наличии энергии и реагентов.</p>
+                </div>
+
+                <div class="section">
+                    <h2>Совместимость</h2>
+                    <p>Синтезатор поддерживает большинство типов руд и слитков, включая:</p>
+                    <ul>
+                        <li>Железо, золото, медь</li>
+                        <li>Алмаз, изумруд</li>
+                        <li>Магические кристаллы</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+ <!-- Модальное окно -->
+  <div id="inventoryModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close" onclick="closeInventory()">&times;</span>
+
+    <!-- Изображение по центру, без белого фона -->
+    <div class="inventory-image-container">
+      <img src="images/heliospheric_charging_center.png" usemap="#synthesizerMap" alt="Инвентарь синтезатора">
+    </div>
+
+    <map name="synthesizerMap">
+      <!-- Бак слева (красный) -->
+      <area shape="rect" coords="50,100,100,200" 
+            onmouseover="showTooltip(event, 'Бак для жидкости\\nДля очистки бака нажмите: SHIFT+ПКМ')" 
+            onmouseout="hideTooltip()">
+      
+      <!-- Шкала нагрева (оранжевая) -->
+      <area shape="rect" coords="120,80,140,220" 
+            onmouseover="showTooltip(event, 'Щкала нагрева ядра/звезды')" 
+            onmouseout="hideTooltip()">
+      
+      <!-- Центральный слот (ядро/микрозвезда) -->
+      <area shape="rect" coords="160,100,220,180" 
+            onmouseover="showTooltip(event, 'Слот для ядра / микрозвезды\')" 
+            onmouseout="hideTooltip()">
+      
+      <!-- Шкала насыщения (зелёная) -->
+      <area shape="rect" coords="240,80,260,220" 
+            onmouseover="showTooltip(event, 'Щкала сыщение энергией(сжатие шакала по ебучести шакалов)')" 
+            onmouseout="hideTooltip()">
+      
+      <!-- Слот для блоков звездной материи (справа) -->
+      <area shape="rect" coords="280,120,320,160" 
+            onmouseover="showTooltip(event, 'Слот для блоков звездной материи')" 
+            onmouseout="hideTooltip()">
+      
+      <!-- Слот улучшения (внизу слева) -->
+      <area shape="rect" coords="80,240,120,280" 
+            onmouseover="showTooltip(event, 'Слот для Улучшения: Термоизолятор')" 
+            onmouseout="hideTooltip()">
+    </map>
+  </div>
+ </div>
+
+    <!-- Подсказка -->
+    <div id="tooltip" class="tooltip" style="display: none;"></div>
