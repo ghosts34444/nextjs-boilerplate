@@ -13,7 +13,6 @@ function cleanupMobileMenu() {
 }
 
 function createMobileMenu(linksHtml) {
-  // Удаляем старое меню
   cleanupMobileMenu();
 
   const mobileBtn = document.querySelector('.menu-toggle');
@@ -64,7 +63,7 @@ let linksHtml = isHomePage ? `
   <li><a href="pages/guids-galacticraft/guids-galacticraft.html">GALACTICRAFT</a></li>
 ` : `
   <li class="menu-group-title">Основное</li>
-  <li><a href="../../index.html">ГЛАВНАЯ</a></li>
+  <li><a href="../index.html">ГЛАВНАЯ</a></li>
   <li><a href="../warp-info/warp-info.html">ЦЕНЫ ВАРПА</a></li>
   <li><a href="../services/services.html">УСЛУГИ</a></li>
   <li><a href="../about-saut/about-saut.html">О САЙТЕ</a></li>
@@ -80,7 +79,6 @@ let linksHtml = isHomePage ? `
   <li><a href="../guids-galacticraft/guids-galacticraft.html">GALACTICRAFT</a></li>
 `;
 
-// Основной запуск
 function initMenu() {
   if (window.innerWidth <= 1199) {
     createMobileMenu(linksHtml);
@@ -89,12 +87,23 @@ function initMenu() {
   }
 }
 
-// Запуск при загрузке
-document.addEventListener('DOMContentLoaded', () => {
+// Основной запуск
+function run() {
+  // Удаляем всё при любом показе страницы (включая "Назад")
+  cleanupMobileMenu();
+  // Сбрасываем состояние
+  mobileMenuActive = false;
+  // Инициализируем заново
   initMenu();
-});
+}
 
-// Перезапуск при изменении размера
+// Запуск при полной загрузке
+document.addEventListener('DOMContentLoaded', run);
+
+// Запуск при каждом показе страницы (включая history.back)
+window.addEventListener('pageshow', run);
+
+// Обработка изменения размера
 window.addEventListener('resize', () => {
   clearTimeout(window.resizeTimer);
   window.resizeTimer = setTimeout(initMenu, 150);
