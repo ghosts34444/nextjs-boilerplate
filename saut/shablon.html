@@ -20,34 +20,38 @@
   <div id="stars-container"></div>
 
   <!-- Меню -->
-  <nav class="navbar" id="mainNav">
-    <div class="navbar-container">
-      <ul class="nav-menu" id="navMenu">
-        <!-- Основное -->
-        <li class="menu-group-title">Основное</li>
-        <li><a href="../../index.html" class="nav-link">ГЛАВНАЯ</a></li>
+<nav class="navbar" id="mainNav">
+  <div class="navbar-container">
+    <ul class="nav-menu" id="navMenu">
+            <li><a href="../../index.html" class="nav-link">ГЛАВНАЯ</a></li>
         <li><a href="../../pages/warp-info/warp-info.html" class="nav-link">ЦЕНЫ ВАРПА</a></li>
         <li><a href="../../pages/services/services.html" class="nav-link">УСЛУГИ</a></li>
+        <li class="dropdown">
+          <a href="#" class="nav-link dropdown-toggle active">ГАЙДЫ</a>
+          <div class="dropdown-menu">
+            <div class="dropdown-columns">
+              <div class="column">
+                <a href="../../pages/guids-magic/guids-magic.html">МАГИЯ</a>
+                <a href="../../pages/guids-tech/guids-tech.html">ТЕХНОЛОГИИ</a>
+                <a href="../../pages/guids-ae2/guids-ae2.html" class="nav-link active">АВТОМАТИЗАЦИЯ</a>
+                <a href="../../pages/guids-forestry/guids-forestry.html">ПЧЕЛОВОДСТВО</a>
+                <a href="../../pages/guids-dimension/guids-dimension.html">ИЗМЕРЕНИЕ ДРАКОНОВ</a>
+                <a href="../../pages/guids-galacticraft/guids-galacticraft.html">GALACTICRAFT</a>
+              </div>
+            </div>
+          </div>
+        </li>
         <li><a href="../../pages/about-saut/about-saut.html" class="nav-link">О САЙТЕ</a></li>
         <li><a href="../../pages/about-server/about-server.html" class="nav-link">О СЕРВЕРЕ</a></li>
         <li><a href="../../pages/creators/creators.html" class="nav-link creators-link">СОЗДАТЕЛИ</a></li>
-
-        <!-- Гайды -->
-        <li class="menu-group-title">Гайды</li>
-        <li><a href="../../pages/guids-magic/guids-magic.html">МАГИЯ</a></li>
-        <li><a href="../../pages/guids-tech/guids-tech.html">ТЕХНОЛОГИИ</a></li>
-        <li><a href="../../pages/guids-ae2/guids-ae2.html">АВТОМАТИЗАЦИЯ</a></li>
-        <li><a href="../../pages/guids-forestry/guids-forestry.html">ПЧЕЛОВОДСТВО</a></li>
-        <li><a href="../../pages/guids-dimension/guids-dimension.html">ИЗМЕРЕНИЕ ДРАКОНОВ</a></li>
-        <li><a href="../../pages/guids-galacticraft/guids-galacticraft.html" class="nav-link active">GALACTICRAFT</a></li>
-      </ul>
-      <div class="menu-toggle" id="mobileMenuButton">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+    </ul>
+    <div class="menu-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
-  </nav>
+  </div>
+</nav>
 
   <!-- Поиск -->
   <div class="guide-search-wrapper">
@@ -480,4 +484,5 @@
 
 </body>
 </html>
+
 
