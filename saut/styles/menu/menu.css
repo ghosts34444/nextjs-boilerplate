@@ -215,3 +215,35 @@
     display: none !important;
   }
 }
+
+/* === МОБИЛЬНАЯ КНОПКА МЕНЮ — ГАРАНТИРОВАННО РАБОТАЕТ === */
+@media (max-width: 768px) {
+  /* Скрываем ПК-меню */
+  .navbar {
+    display: none !important;
+  }
+
+  /* Кнопка меню */
+  .menu-toggle {
+    display: flex !important;
+    position: fixed !important;
+    top: 16px !important;
+    right: 16px !important;
+    z-index: 99999 !important;
+    flex-direction: column !important;
+    cursor: pointer !important;
+    background: transparent !important;
+    border: none !important;
+    width: 30px !important;
+    height: 24px !important;
+  }
+
+  .menu-toggle span {
+    display: block !important;
+    width: 100% !important;
+    height: 3px !important;
+    background-color: #e0e0ff !important;
+    margin: 3px 0 !important;
+    transition: none !important;
+  }
+}
