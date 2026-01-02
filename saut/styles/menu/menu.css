@@ -1,5 +1,4 @@
-/* styles/menu/menu.css */
-
+/* ========== ПК-МЕНЮ ========== */
 .navbar {
   position: fixed;
   top: 16px;
@@ -9,7 +8,6 @@
   max-width: 1750px;
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border: 2px solid rgba(80, 80, 120, 0.3);
   border-radius: 16px;
   z-index: 1000;
@@ -26,119 +24,86 @@
   padding: 0;
 }
 
-.nav-link {
-  color: #e0e0ff;
-  font-weight: 600;
-  text-decoration: none;
-  padding: 8px 14px;
-  border-radius: 10px;
-  transition: all 0.2s ease;
-}
-
-.nav-link:hover,
-.nav-link.active {
-  background: rgba(184, 182, 197, 0.2);
-  color: white;
-  box-shadow: 0px 0 10px rgba(195, 187, 243, 0.4);
-}
-
-.nav-link.active {
-  background: rgba(200, 195, 233, 0.3);
-  font-weight: bold;
-}
-
-.dropdown {
-  position: relative;
-}
-
-/* === ВЫПАДАЮЩЕЕ МЕНЮ НА ПК — С БЛЮРОМ === */
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  padding: 16px;
-  min-width: 220px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(12px);
-  transition: all 0.3s ease;
-  z-index: 1001;
-  color: #f0f0ff;
-}
-
-.dropdown:hover .dropdown-menu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.column a {
-  display: block;
-  padding: 8px 12px;
-  color: #e0e0ff;
-  text-decoration: none;
-  border-radius: 8px;
-  transition: background 0.2s;
-}
-
-.column a:hover {
-  background: rgba(106, 90, 205, 0.2);
-  color: white;
-}
-
-/* === МОБИЛЬНОЕ МЕНЮ === */
-.menu-toggle {
-  display: none;
-  flex-direction: column;
-  cursor: pointer;
-}
-.menu-toggle span {
-  width: 24px;
-  height: 3px;
-  background: #e0e0ff;
-  margin: 3px 0;
-  transition: 0.3s;
-}
-
+/* ========== МОБИЛЬНОЕ МЕНЮ — ПОЛНОЭКРАННЫЙ ОВЕРЛЕЙ ========== */
 @media (max-width: 768px) {
+  /* Скрываем ПК-меню полностью */
+  .navbar {
+    display: none;
+  }
+
+  /* Кнопка меню — в правом верхнем углу */
   .menu-toggle {
-    display: flex;
     position: fixed;
     top: 16px;
     right: 16px;
     z-index: 1002;
     background: none;
     border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+  }
+  .menu-toggle span {
+    width: 24px;
+    height: 3px;
+    background: #e0e0ff;
+    margin: 3px 0;
+    transition: 0.3s;
   }
 
-  .nav-menu {
+  /* Крестик */
+  .menu-toggle.open span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  .menu-toggle.open span:nth-child(2) {
+    opacity: 0;
+  }
+  .menu-toggle.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+  /* Мобильное меню — полноэкранный оверлей */
+  .mobile-menu-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background: #1a1a2e;
-    padding: 80px 20px 30px;
-    overflow-y: auto;
     z-index: 1001;
-    transform: translateX(100%);
-    transition: transform 0.4s ease;
+    padding: 30px 20px;
+    overflow-y: auto;
+    display: none;
+  }
+
+  .mobile-menu-overlay.active {
+    display: block;
+  }
+
+  .mobile-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
   }
 
-  .nav-menu.active {
-    transform: translateX(0);
+  .mobile-nav a,
+  .mobile-nav .menu-group-title {
+    color: #e0e0ff;
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    transition: background 0.2s;
+    display: block;
   }
 
-  /* Группы в меню */
+  .mobile-nav a:hover {
+    background: rgba(106, 90, 205, 0.2);
+  }
+
+  /* Заголовки групп */
   .menu-group-title {
     color: #8b5cf6;
     font-size: 0.9rem;
@@ -149,9 +114,15 @@
     pointer-events: none;
   }
 
+  /* Кнопка "Создатели" — внизу */
   .creators-link {
     position: absolute;
     bottom: 20px;
     left: 20px;
+  }
+
+  /* Убираем отступ у основного контента */
+  main {
+    padding-top: 0 !important;
   }
 }
