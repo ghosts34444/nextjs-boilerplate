@@ -63,7 +63,7 @@ let linksHtml = isHomePage ? `
   <li><a href="pages/guids-galacticraft/guids-galacticraft.html">GALACTICRAFT</a></li>
 ` : `
   <li class="menu-group-title">Основное</li>
-  <li><a href="../index.html">ГЛАВНАЯ</a></li>
+  <li><a href="../../index.html">ГЛАВНАЯ</a></li>
   <li><a href="../warp-info/warp-info.html">ЦЕНЫ ВАРПА</a></li>
   <li><a href="../services/services.html">УСЛУГИ</a></li>
   <li><a href="../about-saut/about-saut.html">О САЙТЕ</a></li>
