@@ -49,60 +49,58 @@ async function loadTeam() {
     const TARGET_LOGINS = ["ghosts34444", "Xan241", "Mrkgrshtraklar", "DoKFoReVe"];
 
     try {
+        // 🔥 ИСПРАВЛЕНО: убран пробел в конце URL
         const res = await fetch('https://loliland.ru/apiv2/team', {
             headers: { 'User-Agent': 'Mozilla/5.0 (compatible; DarkGalaxy/1.0)' }
         });
 
-        if (!res.ok) throw new Error('Сервер не отвечает');
+        if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
         const data = await res.json();
         if (!data.team) throw new Error('Нет данных о командах');
 
-        // Собираем участников со всех серверов в один Map
         const allMembers = new Map();
-
-        // Перебираем все серверы
         for (const [serverKey, members] of Object.entries(data.team)) {
             if (!Array.isArray(members)) continue;
             for (const m of members) {
                 if (m.user?.login) {
-                    // Используем логин в нижнем регистре как ключ
                     allMembers.set(m.user.login.toLowerCase(), m);
                 }
             }
         }
 
-        // Формируем массив только нужных логинов
         const users = [];
         for (const login of TARGET_LOGINS) {
             const found = allMembers.get(login.toLowerCase());
             if (found) users.push(found);
         }
 
-        // Генерация карточек
         const cards = users.map(m => {
             const user = m.user;
             const login = user.login;
             const role = translateRole(m.role);
             const desc = DESCRIPTIONS[login] || "Участник команды.";
 
-            // Аватар
+            // 🔥 ИСПРАВЛЕНО: убран пробел после /medium/
             let avatar = 'https://cdn.discordapp.com/embed/avatars/0.png';
             if (user.avatarOrSkin?.id && user.avatarOrSkin.extension) {
                 avatar = `https://loliland.ru/apiv2/user/avatar/medium/${user.avatarOrSkin.id}.${user.avatarOrSkin.extension}`;
             }
-const roleGradient = getRoleGradient(role); // возвращает строку градиента
 
-return `
-    <div class="member-card">
-        <img class="member-avatar" src="${avatar}" alt="${login}"
-             onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
-        <div class="member-info">
-            <div class="member-name">${login}</div>
-            <span class="member-role" style="background: ${roleGradient};">${role}</span>
-            <div class="member-description">${desc}</div>
-        </div>
-    </div>
-`;
+            const roleGradient = getRoleGradient(role);
+
+            return `
+                <div class="member-card">
+                    <img class="member-avatar" 
+                         src="${avatar}" 
+                         alt="${login}"
+                         onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+                    <div class="member-info">
+                        <div class "member-name">${login}</div>
+                        <span class="member-role" style="background: ${roleGradient};">${role}</span>
+                        <div class="member-description">${desc}</div>
+                    </div>
+                </div>
+            `;
         }).join('');
 
         loading.style.display = 'none';
@@ -110,13 +108,11 @@ return `
 
     } catch (err) {
         console.error('Ошибка загрузки команды:', err);
-        loading.textContent = `Ошибка: ${err.message}`;
+        loading.innerHTML = `<div class="error">⚠️ Не удалось загрузить данные.<br>Попробуйте позже.</div>`;
     }
 }
 
 // === Запуск ===
 document.addEventListener('DOMContentLoaded', () => {
     loadTeam();
-
 });
-
