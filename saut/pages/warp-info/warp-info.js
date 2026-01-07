@@ -13,14 +13,13 @@ const departments = {
   thaumcraft: { name: "Thaumcraft", items: [
     { name: "Ртуть | 4 шт", price: "12 Железных слитка" }
   ]},
-  // ... остальные отделы
 };
 
 let lastOpenedDeptKey = null;
 let tableWasVisible = false;
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Модальное окно
+
   const modsList = document.getElementById('mods-list');
   if (modsList) {
     Object.entries(departments).forEach(([key, dept]) => {
@@ -50,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
     tableWasVisible = false;
   });
 
-  // === ПОИСК ===
   const searchInput = document.getElementById('search-input');
   const searchClear = document.getElementById('search-clear');
   
