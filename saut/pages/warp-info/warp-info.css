@@ -1,4 +1,14 @@
-/* === ПОИСК: фиксированный под меню === */
+#content-wrapper {
+  padding-top: 130px;
+  transition: padding-top 0.3s;
+}
+
+@media (max-width: 768px) {
+  #content-wrapper {
+    padding-top: 110px;
+  }
+}
+
 .search-input-wrapper {
   position: fixed;
   top: 70px;
@@ -56,7 +66,17 @@
   }
 }
 
-/* === КНОПКА ВЫБРАТЬ ОТДЕЛ === */
+.content {
+  position: relative;
+  z-index: 2;
+  background: rgba(20, 20, 35, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
 .mods-btn {
   display: block;
   width: 240px;
@@ -79,12 +99,11 @@
   box-shadow: 0 0 12px rgba(106, 90, 205, 0.4);
 }
 
-/* === ТАБЛИЦА И РЕЗУЛЬТАТЫ === */
 .mod-table,
 .search-results {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(20, 20, 35, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: 2px solid rgba(80, 80, 120, 0.3);
   border-radius: 12px;
   padding: 20px;
@@ -104,7 +123,6 @@
   margin-bottom: 15px;
 }
 
-/* === ЗАГОЛОВКИ ТАБЛИЦ — ПРИГЛУШЁННЫЕ === */
 .mod-table th,
 .search-results th {
   background: rgba(30, 30, 50, 0.6);
@@ -128,7 +146,6 @@
   word-break: break-word;
 }
 
-/* === ЗАКРЫТИЕ ТАБЛИЦЫ === */
 .table-close {
   position: absolute;
   top: 12px;
@@ -147,7 +164,6 @@
   color: #ff6b9d;
 }
 
-/* === МОДАЛЬНОЕ ОКНО === */
 .modal {
   position: fixed;
   top: 0; left: 0;
@@ -163,9 +179,9 @@
 }
 
 .modal-content {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(20, 20, 35, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: 2px solid rgba(80, 80, 120, 0.3);
   border-radius: 16px;
   width: 90%;
@@ -190,10 +206,10 @@
   background: rgba(106, 90, 205, 0.2);
 }
 
-/* === ПРАВИЛА === */
 .rules {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(20, 20, 35, 0.7);
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: 2px solid rgba(80, 80, 120, 0.3);
   border-radius: 12px;
   padding: 20px;
