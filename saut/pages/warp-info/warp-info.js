@@ -1,27 +1,26 @@
-// pages/warp-prices/warp-info.js
 const departments = {
-  // твой объект departments (сокращён для краткости — вставь полный)
   vanilla: { name: "Vanilla", items: [
-   { name: "Тростник | 64 шт", price: "6 Железных слитка" },
-   { name: "Тростник | 64 шт", price: "6 Железных слитка" },
-   { name: "Тростник | 64 шт", price: "6 Железных слитка" },
-   { name: "Тростник | 64 шт", price: "6 Железных слитка" },
-   { name: "Тростник | 64 шт", price: "6 Железных слитка" },
-   { name: "Тростник | 64 шт", price: "6 Железных слитка" },
-   { name: "Тростник | 64 шт", price: "6 Железных слитка" },
-   { name: "Тростник | 64 шт", price: "6 Железных слитка" },
-   { name: "Тростник | 64 шт", price: "6 Железных слитка" }
-  ] },
+    { name: "Тростник | 64 шт", price: "6 Железных слитка" },
+    { name: "Тростник | 64 шт", price: "6 Железных слитка" },
+    { name: "Тростник | 64 шт", price: "6 Железных слитка" },
+    { name: "Тростник | 64 шт", price: "6 Железных слитка" },
+    { name: "Тростник | 64 шт", price: "6 Железных слитка" },
+    { name: "Тростник | 64 шт", price: "6 Железных слитка" },
+    { name: "Тростник | 64 шт", price: "6 Железных слитка" },
+    { name: "Тростник | 64 шт", price: "6 Железных слитка" },
+    { name: "Тростник | 64 шт", price: "6 Железных слитка" }
+  ]},
   thaumcraft: { name: "Thaumcraft", items: [
-   { name: "Ртуть | 4 шт", price: "12 Железных слитка" }] },
-  // ... остальные моды
+    { name: "Ртуть | 4 шт", price: "12 Железных слитка" }
+  ]},
+  // ... остальные отделы
 };
 
-let lastOpenedDeptKey = null;       // какая таблица была открыта последней
-let wasTableOpenBeforeSearch = false; // была ли таблица открыта ДО поиска
+let lastOpenedDeptKey = null;
+let tableWasVisible = false;
 
 document.addEventListener('DOMContentLoaded', () => {
-  // === Генерация модального окна ===
+  // Модальное окно
   const modsList = document.getElementById('mods-list');
   if (modsList) {
     Object.entries(departments).forEach(([key, dept]) => {
@@ -38,41 +37,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // === Открытие модального окна ===
   document.getElementById('open-mods-modal')?.addEventListener('click', () => {
     showModal('mods-modal');
   });
 
-  // === Закрытие модального окна ===
   document.getElementById('mods-modal')?.addEventListener('click', (e) => {
     if (e.target.id === 'mods-modal') closeModal('mods-modal');
   });
 
-  // === Закрытие таблицы (вручную) ===
   document.getElementById('close-table')?.addEventListener('click', () => {
     hideTable();
-    wasTableOpenBeforeSearch = false; // явное закрытие = не восстанавливать
+    tableWasVisible = false;
   });
 
-  // === Поиск ===
+  // === ПОИСК ===
   const searchInput = document.getElementById('search-input');
   const searchClear = document.getElementById('search-clear');
+  
   if (searchInput && searchClear) {
     searchInput.addEventListener('input', () => {
       const query = searchInput.value.trim();
       searchClear.style.display = query ? 'block' : 'none';
 
-      // Сохраняем, была ли таблица открыта ДО поиска
-      const table = document.getElementById('mod-table');
-      wasTableOpenBeforeSearch = table.classList.contains('visible');
-
-      if (query.length >= 3) {
+      if (query.length >= 1) {
         performSearch(query);
-        hideTable(); // скрываем таблицу при поиске
+        hideTable();
       } else {
         document.getElementById('search-results').style.display = 'none';
-        // Восстанавливаем таблицу ТОЛЬКО если она была открыта до поиска
-        if (wasTableOpenBeforeSearch && lastOpenedDeptKey) {
+        if (tableWasVisible && lastOpenedDeptKey) {
           showTable(lastOpenedDeptKey);
         }
       }
@@ -82,9 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
       searchInput.value = '';
       searchClear.style.display = 'none';
       document.getElementById('search-results').style.display = 'none';
-
-      // Восстанавливаем таблицу ТОЛЬКО если она была открыта до поиска
-      if (wasTableOpenBeforeSearch && lastOpenedDeptKey) {
+      if (tableWasVisible && lastOpenedDeptKey) {
         showTable(lastOpenedDeptKey);
       }
     });
@@ -118,9 +108,8 @@ function showTable(key) {
   if (!dept) return;
 
   lastOpenedDeptKey = key;
-  wasTableOpenBeforeSearch = true;
+  tableWasVisible = true;
 
-  // Обновляем заголовок и тело таблицы
   document.getElementById('table-title').textContent = dept.name;
   const tbody = document.getElementById('table-body');
   tbody.innerHTML = '';
