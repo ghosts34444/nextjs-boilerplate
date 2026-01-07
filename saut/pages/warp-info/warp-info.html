@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Цены варпа — LoliLand</title>
- <link rel="stylesheet" href="../../styles/common.css">
- <link rel="stylesheet" href="../../styles/menu/menu.css">
- <link rel="stylesheet" href="../../styles/stars/stars.css">
+  <link rel="stylesheet" href="../../styles/common.css">
+  <link rel="stylesheet" href="../../styles/menu/menu.css">
+  <link rel="stylesheet" href="../../styles/stars/stars.css">
   <link rel="stylesheet" href="warp-info.css" />
 </head>
 <body>
@@ -14,7 +14,8 @@
   <!-- Звёзды -->
   <div id="stars-container"></div>
 
- <nav class="navbar">
+  <!-- ПК-меню -->
+  <nav class="navbar">
     <div class="navbar-container">
       <ul class="nav-menu">
         <li><a href="../../index.html" class="nav-link active">ГЛАВНАЯ</a></li>
@@ -42,26 +43,32 @@
   </div>
 </nav>
 
+<!-- 🔸 ПОИСК — фиксированный под меню -->
+<div class="search-input-wrapper">
+  <input type="text" id="search-input" placeholder="Введите название предмета (от 1 буквы)" autocomplete="off">
+  <button class="search-clear" id="search-clear">×</button>
+</div>
+
 <!-- Кнопка меню (только для мобил) -->
 <div class="menu-toggle">
   <span></span>
 </div>
 
-  <!-- Контент -->
+<!-- Контент -->
 <main>
   <div class="content">
 
     <h1>Цены варпа</h1>
 
-        <div class="rules">
-            <h2>Правила создания варпа</h2>
-            <ul>
-                <li>Варп должен быть одобрен администрацией DarkGalaxy, для одобрения обратитесь в тикет</li>
-                <li>На варпе должно быть не менее 3 отделов и общие кол-во обменников 100 торговых аппаратов</li>
-                <li>Варп должен выглядеть презентабельно и быть безопасным для игроков</li>
-                <li>Если вы хотите добавить предмет в таблицу, то напишите тикет, указав примерную стоимость за то или иное кол-во предмета</li>
-            </ul>
-        </div>
+    <div class="rules">
+        <h2>Правила создания варпа</h2>
+        <ul>
+            <li>Варп должен быть одобрен администрацией DarkGalaxy, для одобрения обратитесь в тикет</li>
+            <li>На варпе должно быть не менее 3 отделов и общие кол-во обменников 100 торговых аппаратов</li>
+            <li>Варп должен выглядеть презентабельно и быть безопасным для игроков</li>
+            <li>Если вы хотите добавить предмет в таблицу, то напишите тикет, указав примерную стоимость за то или иное кол-во предмета</li>
+        </ul>
+    </div>
 
     <button class="mods-btn" id="open-mods-modal">Выбрать отдел</button>
 
@@ -75,22 +82,15 @@
       </table>
     </div>
 
-    <!-- Модальное окно (вне .content, но внутри main — нормально) -->
     <div id="mods-modal" class="modal">
       <div class="modal-content" id="mods-list"></div>
     </div>
 
-    <!-- Поле поиска — остаётся внутри main, но будет fixed -->
-    <div class="search-input-wrapper">
-      <input type="text" id="search-input" placeholder="Введите название предмета (от 3 букв)" autocomplete="off">
-      <button class="search-clear" id="search-clear">×</button>
-    </div>
-
   </div>
 </main>
-  <!-- Скрипты -->
-  <script src="../../styles/stars/stars.js"></script>
-  <script src="../../styles/menu/menu.js"></script>
-  <script src="warp-info.js"></script>
+
+<script src="../../styles/stars/stars.js"></script>
+<script src="../../styles/menu/menu.js"></script>
+<script src="warp-info.js"></script>
 </body>
-</html> 
+</html>
