@@ -3,18 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Цены варпа — LoliLand</title>
+  <title>Цены варпа — DarkGalaxy</title>
   <link rel="stylesheet" href="../../styles/common.css">
   <link rel="stylesheet" href="../../styles/menu/menu.css">
   <link rel="stylesheet" href="../../styles/stars/stars.css">
   <link rel="stylesheet" href="warp-info.css" />
 </head>
 <body>
-
-  <!-- Звёзды -->
   <div id="stars-container"></div>
 
-  <!-- ПК-меню -->
   <nav class="navbar">
     <div class="navbar-container">
       <ul class="nav-menu">
@@ -41,22 +38,17 @@
         <li><a href="../../pages/creators/creators.html" class="nav-link creators-link">СОЗДАТЕЛИ</a></li>
      </ul>
   </div>
-</nav>
+  </nav>
+  <div class="search-input-wrapper">
+    <input type="text" id="search-input" placeholder="Введите название предмета (от 1 буквы)" autocomplete="off">
+    <button class="search-clear" id="search-clear">×</button>
+  </div>
 
-<!-- 🔸 ПОИСК — фиксированный под меню -->
-<div class="search-input-wrapper">
-  <input type="text" id="search-input" placeholder="Введите название предмета (от 1 буквы)" autocomplete="off">
-  <button class="search-clear" id="search-clear">×</button>
-</div>
-
-<!-- Кнопка меню (только для мобил) -->
-<div class="menu-toggle">
+  <div class="menu-toggle">
   <span></span>
-</div>
-
-<!-- Контент -->
-<main>
-  <div class="content">
+  </div>
+<main id="content-wrapper">
+    <div class="content">
 
     <h1>Цены варпа</h1>
 
@@ -89,8 +81,8 @@
   </div>
 </main>
 
-<script src="../../styles/stars/stars.js"></script>
-<script src="../../styles/menu/menu.js"></script>
-<script src="warp-info.js"></script>
+  <script src="../../styles/stars/stars.js"></script>
+  <script src="../../styles/menu/menu.js"></script>
+  <script src="warp-info.js"></script>
 </body>
 </html>
