@@ -4,9 +4,12 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!container) return;
 
   // Символы для разнообразия
-  const symbols = ['•', '✧', '★', '☆'];
+  const symbols = ['•', '✦', '✧', '✨', '★', '☆'];
   let starCount = 0;
   const MAX_STARS = 25;
+
+  // Высота "запретной зоны" (меню + поиск)
+  const TOP_OFFSET = 140; // ← подстрой под свой сайт
 
   // Добавляем CSS-анимации
   const style = document.createElement('style');
@@ -17,12 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     @keyframes fall {
       0% {
-        transform: translateY(-20px) rotate(0deg);
+        transform: translateY(0) rotate(0deg);
         opacity: 0.7;
         filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.7));
       }
       100% {
-        transform: translateY(${window.innerHeight * 1.2}px) rotate(${Math.random() * 720}deg);
+        transform: translateY(${window.innerHeight}px) rotate(${Math.random() * 720}deg);
         opacity: 0;
         filter: none;
       }
@@ -40,9 +43,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const symbol = symbols[Math.floor(Math.random() * symbols.length)];
     star.textContent = symbol;
 
-    // Позиция
+    // Позиция: только ниже TOP_OFFSET
+    const safeHeight = window.innerHeight - TOP_OFFSET;
     star.style.left = Math.random() * 100 + 'vw';
-    star.style.top = '0';
+    star.style.top = (TOP_OFFSET + Math.random() * safeHeight) + 'px';
 
     // Размер и цвет
     const size = 0.6 + Math.random() * 0.8;
@@ -52,10 +56,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Тип анимации
     if (Math.random() > 0.7) {
       // Падающая звезда
-      const duration = 4 + Math.random() * 4; // 4-8 сек
+      const duration = 4 + Math.random() * 4;
       star.style.animation = `fall ${duration}s linear forwards`;
       
-      // Удаляем после анимации
       setTimeout(() => {
         star.remove();
         starCount--;
@@ -64,7 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
       // Мерцающая звезда
       star.style.animation = `twinkle ${2 + Math.random() * 3}s infinite alternate`;
       
-      // Удаляем через 30 сек
       setTimeout(() => {
         if (star.parentNode) {
           star.remove();
