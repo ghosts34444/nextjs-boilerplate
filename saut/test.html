@@ -8,15 +8,18 @@
     :root {
       --text-color: #e0e0ff;
     }
+body {
+  background: linear-gradient( #000000, #2c1c41, #000000);
+  background-attachment: fixed; /* ← ключевое свойство */
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #e0e0ff;
+  font-family: 'Exo 2', sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
 
-    body {
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(135deg, #1a1a2e, #16213e);
-      color: var(--text-color);
-      font-family: 'Exo 2', sans-serif;
-      min-height: 100vh;
-    }
 
     #stars-container {
       position: fixed;
