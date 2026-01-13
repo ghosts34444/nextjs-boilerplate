@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Тест оптимизации</title>
+  <style>
+    /* === ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ === */
+    :root {
+      --frosted-glass: rgba(30, 30, 50, 0.75);
+      --frosted-border: rgba(80, 80, 120, 0.3);
+      --text-color: #e0e0ff;
+    }
+
+    /* === ФОН === */
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      color: var(--text-color);
+      font-family: 'Exo 2', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* === ЗВЁЗДЫ === */
+    #stars-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 99999;
+    }
+    .star {
+      position: absolute;
+      color: white;
+      font-size: 1em;
+      opacity: 0.6;
+    }
+
+    /* === МЕНЮ (с блюром) === */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 16px 0;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 2px solid var(--frosted-border);
+      z-index: 997;
+    }
+    .nav-title {
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+
+    /* === ПОИСК (с блюром) === */
+    .search-input-wrapper {
+      position: fixed;
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 500px;
+      z-index: 996;
+    }
+    #search-input {
+      width: 100%;
+      padding: 12px 40px 12px 20px;
+      border: none;
+      outline: none;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: var(--text-color);
+      font-size: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    #search-input::placeholder {
+      color: #a0a0c0;
+    }
+
+    /* === КОНТЕНТ === */
+    #content-wrapper {
+      padding-top: 120px;
+      padding-bottom: 40px;
+    }
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* === ТЕКСТОВЫЙ БЛОК (без блюра!) === */
+    .section-box {
+      background: var(--frosted-glass); /* ← НЕТ backdrop-filter! */
+      border: 2px solid var(--frosted-border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 25px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Звёзды -->
+  <div id="stars-container"></div>
+
+  <!-- Меню (с блюром) -->
+  <nav class="navbar">
+    <div class="nav-title">ТЕСТ ОПТИМИЗАЦИИ</div>
+  </nav>
+
+  <!-- Поиск (с блюром) -->
+  <div class="search-input-wrapper">
+    <input type="text" id="search-input" placeholder="Поиск...">
+  </div>
+
+  <!-- Контент -->
+  <main id="content-wrapper">
+    <div class="content">
+      <h1>Матовое стекло без блюра</h1>
+
+      <div class="section-box">
+        <p>Этот блок использует <strong>статичный фон</strong> (<code>rgba(30, 30, 50, 0.75)</code>), а не <code>backdrop-filter: blur()</code>.</p>
+        <p>✅ Работает мгновенно на слабых устройствах,<br>
+           ✅ Сохраняет стиль сайта,<br>
+           ✅ Не грузит GPU.</p>
+      </div>
+
+      <div class="section-box">
+        <p><strong>Фиксированные элементы</strong> (меню и поиск) — единственные, у кого остался настоящий блюр.</p>
+        <p>Звёзды отображаются <strong>поверх всего</strong>, благодаря <code>z-index: 99999</code>.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Простые звёзды для теста -->
+  <script>
+    const stars = document.getElementById('stars-container');
+    for (let i = 0; i < 50; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.textContent = '✧';
+      star.style.left = Math.random() * 100 + 'vw';
+      star.style.top = Math.random() * 100 + 'vh';
+      star.style.opacity = 0.3 + Math.random() * 0.5;
+      star.style.fontSize = (0.5 + Math.random() * 0.8) + 'em';
+      stars.appendChild(star);
+    }
+  </script>
+</body>
+</html>
