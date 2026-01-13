@@ -133,7 +133,19 @@ body {
         <p>Этот блок использует <strong>градиентный фон</strong>, идентичный меню.</p>
         <p>✅ Нет <code>backdrop-filter</code> → нет лагов,<br>
            ✅ Внешний вид — как у меню,<br>
-           ✅ Работает на слабых устройствах.</p>
+           ✅ Работает на слабых устройствах.
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+         тьрр</p>
       </div>
 
       <div class="section-box">
@@ -143,18 +155,6 @@ body {
     </div>
   </main>
 
-  <script>
-    const stars = document.getElementById('stars-container');
-    for (let i = 0; i < 50; i++) {
-      const star = document.createElement('div');
-      star.className = 'star';
-      star.textContent = '✧';
-      star.style.left = Math.random() * 100 + 'vw';
-      star.style.top = Math.random() * 100 + 'vh';
-      star.style.opacity = 0.3 + Math.random() * 0.5;
-      star.style.fontSize = (0.5 + Math.random() * 0.8) + 'em';
-      stars.appendChild(star);
-    }
-  </script>
+  <script src="styles/stars/stars.js"></script>
 </body>
 </html>
