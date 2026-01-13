@@ -50,7 +50,7 @@ async function loadTeam() {
 
     try {
         // 🔥 ИСПРАВЛЕНО: убран пробел в конце URL
-        const res = await fetch('https://loliland.ru/apiv2/team', {
+        const res = await fetch('https://loliland.net/apiv2/team', {
             headers: { 'User-Agent': 'Mozilla/5.0 (compatible; DarkGalaxy/1.0)' }
         });
 
@@ -116,3 +116,4 @@ async function loadTeam() {
 document.addEventListener('DOMContentLoaded', () => {
     loadTeam();
 });
+
