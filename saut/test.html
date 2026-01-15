@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Тест оптимизации</title>
+    <link rel="stylesheet" href="styles/stars/stars.css">
+  <style>
+    :root {
+      --text-color: #e0e0ff;
+    }
+body {
+  background: linear-gradient( #000000, #2c1c41, #000000);
+  background-attachment: fixed; /* ← ключевое свойство */
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #e0e0ff;
+  font-family: 'Exo 2', sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+    /* МЕНЮ (с блюром) */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 16px 0;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 2px solid rgba(80, 80, 120, 0.3);
+      z-index: 997;
+    }
+    .nav-title {
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+
+    /* ПОИСК (с блюром) */
+    .search-input-wrapper {
+      position: fixed;
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 500px;
+      z-index: 996;
+    }
+    #search-input {
+      width: 100%;
+      padding: 12px 40px 12px 20px;
+      border: none;
+      outline: none;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: var(--text-color);
+      font-size: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    #search-input::placeholder {
+      color: #a0a0c0;
+    }
+
+    #content-wrapper {
+      padding-top: 120px;
+      padding-bottom: 40px;
+    }
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ТЕКСТОВЫЙ БЛОК — КАК МЕНЮ */
+    .section-box {
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.08),
+        rgba(200, 200, 230, 0.05)
+      );
+      border: 2px solid rgba(80, 80, 120, 0.3);
+      border-radius: 16px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+      padding: 24px;
+      margin-bottom: 25px;
+      position: relative;
+  z-index: 2;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="stars-container"></div>
+
+  <nav class="navbar">
+    <div class="nav-title">ТЕСТ ОПТИМИЗАЦИИ</div>
+  </nav>
+
+  <div class="search-input-wrapper">
+    <input type="text" id="search-input" placeholder="Поиск...">
+  </div>
+
+  <main id="content-wrapper">
+    <div class="content">
+      <h1>Блоки как меню (без блюра)</h1>
+
+      <div class="section-box">
+        <p>Этот блок использует <strong>градиентный фон</strong>, идентичный меню.</p>
+        <p>✅ Нет <code>backdrop-filter</code> → нет лагов,<br>
+           ✅ Внешний вид — как у меню,<br>
+           ✅ Работает на слабых устройствах.
+         ол
+        ооооти
+        инопарооо
+        огшппро
+        ьоо
+        ооолло
+        ьь
+        топроо
+        ллдд
+        ббб
+        ььлдлоио
+         тьрр</p>
+      </div>
+
+      <div class="section-box">
+        <p>Меню и поиск — единственные элементы с настоящим блюром.</p>
+        <p>Звёзды отображаются поверх всего благодаря высокому <code>z-index</code>.</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="styles/stars/stars.js"></script>
+</body>
+</html>
