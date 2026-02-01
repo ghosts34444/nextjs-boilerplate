@@ -1,7 +1,7 @@
 // === Описания участников (включая Beex) ===
 const DESCRIPTIONS = {
     "ghosts34444": "Я устал, я сделал все что смог....",
-    "Mrkgrshtraklar": "Девочка с сюрпризом?",
+    "Mrkgrshtraklar": "Девушка с сюрпризом — в глазах искра, в руках фейерверк...",
     "DoKFoReVe": "Документация",
     "Lormunty": "Пописал против ветра"
 };
@@ -115,4 +115,5 @@ async function loadTeam() {
 document.addEventListener('DOMContentLoaded', () => {
     loadTeam();
 });
+
 
