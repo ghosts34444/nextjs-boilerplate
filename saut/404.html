@@ -91,7 +91,7 @@
       opacity: 1;
     }
 
-    .backgroundpng {
+    .background-png {
       position: fixed;
       top: 0;
       left: 0;
@@ -103,12 +103,12 @@
       z-index: 999;
     }
 
-    .backgroundpng {
+    .background-png {
       opacity: 0.1;
       transition: opacity 2.2s ease;
     }
 
-    .backgroundpng.loaded {
+    .background-png.loaded {
       opacity: 0.2;
     }
   </style>
@@ -180,7 +180,7 @@ function applyRandomBackground() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const ambientLight = document.querySelector('.background-png');  
+    const backgroundpng = document.querySelector('.background-png');  
     if (backgroundpng) {
         backgroundpng.style.background = 'rgba(30, 30, 50, 0.3)';
         preloadBackgrounds().then(() => {
