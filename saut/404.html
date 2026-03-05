@@ -180,7 +180,7 @@ function applyRandomBackground() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const ambientLight = document.querySelector('.ambient-light');  
+    const ambientLight = document.querySelector('.background-png');  
     if (backgroundpng) {
         backgroundpng.style.background = 'rgba(30, 30, 50, 0.3)';
         preloadBackgrounds().then(() => {
