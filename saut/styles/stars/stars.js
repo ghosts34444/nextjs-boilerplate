@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // === НАСТРОЙКИ ===
-    const STAR_COUNT = 50;
+    const STAR_COUNT = 25;
     const TOP_OFFSET = 100;  // Запретная зона сверху (меню + поиск)
     const SYMBOLS = ['✦', '✧', '★', '•'];
 
