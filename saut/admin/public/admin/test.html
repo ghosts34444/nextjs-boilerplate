@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DarkGalaxy — Тест Палитры</title>
+    <style>
+        /* ========================================
+           🎨 ЦВЕТОВАЯ ПАЛИТРА (из арта)
+           ======================================== */
+        :root {
+            --bg-deep: #0a0514;
+            --bg-wave: #1a0f2e;
+            --panel-glass: rgba(26, 16, 51, 0.65);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.5);
+            
+            --gold: #ff9f1c;
+            --gold-light: #ffd166;
+            --cyan: #00b4d8;
+            --cyan-light: #90e0ef;
+            --pink: #d63384;
+            --pink-light: #e879a8;
+            
+            --text-main: #f0e6ff;
+            --text-muted: #b8a9d4;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ========================================
+           🌌 ВОЛНИСТЫЙ ФОН + ЗВЁЗДЫ
+           ======================================== */
+        .cosmic-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            background: linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-wave) 100%);
+        }
+
+        /* Вертикальные волны */
+        .wave {
+            position: absolute; width: 100%; height: 200%;
+            background-size: 100% 50%;
+            animation: waveFlow 15s infinite linear;
+            opacity: 0.15;
+            filter: blur(40px); /* Размытие только для фона, не для UI */
+        }
+        .wave-1 { background: linear-gradient(180deg, transparent 0%, var(--gold) 50%, transparent 100%); animation-duration: 18s; top: -50%; }
+        .wave-2 { background: linear-gradient(180deg, transparent 0%, var(--cyan) 50%, transparent 100%); animation-duration: 22s; top: -30%; left: 20%; }
+        .wave-3 { background: linear-gradient(180deg, transparent 0%, var(--pink) 50%, transparent 100%); animation-duration: 25s; top: -70%; left: -10%; }
+
+        @keyframes waveFlow {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); }
+        }
+
+        /* Звёзды */
+        .stars-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 0 4px currentColor;
+            animation: pulse 3s infinite ease-in-out;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* ========================================
+           🧭 НАВБАР
+           ======================================== */
+        .navbar {
+            background: var(--panel-glass);
+            border-bottom: 1px solid var(--border-glass);
+            box-shadow: var(--shadow-glass);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 100;
+        }
+        .logo {
+            font-size: 1.5rem; font-weight: 700;
+            background: linear-gradient(90deg, var(--gold), var(--pink));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links a {
+            color: var(--text-muted); text-decoration: none; font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--gold-light); }
+
+        /* ========================================
+           📦 КОНТЕНТ
+           ======================================== */
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
+        
+        h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        h2 { font-size: 1.8rem; margin: 2rem 0 1rem; color: var(--gold-light); }
+        p { color: var(--text-muted); line-height: 1.6; margin-bottom: 1rem; }
+
+        .glass-card {
+            background: var(--panel-glass);
+            border: 1px solid var(--border-glass);
+            box-shadow: var(--shadow-glass);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .glass-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ========================================
+           🔘 КНОПКИ
+           ======================================== */
+        .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0; }
+        .btn {
+            padding: 0.75rem 1.5rem; border: none; border-radius: 10px;
+            font-weight: 600; cursor: pointer; transition: all 0.2s;
+            text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.5px;
+        }
+        .btn-gold { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: #0a0514; }
+        .btn-gold:hover { box-shadow: 0 0 20px rgba(255, 159, 28, 0.4); transform: translateY(-2px); }
+        
+        .btn-cyan { background: linear-gradient(135deg, var(--cyan), var(--cyan-light)); color: #0a0514; }
+        .btn-cyan:hover { box-shadow: 0 0 20px rgba(0, 180, 216, 0.4); transform: translateY(-2px); }
+        
+        .btn-pink { background: linear-gradient(135deg, var(--pink), var(--pink-light)); color: #fff; }
+        .btn-pink:hover { box-shadow: 0 0 20px rgba(214, 51, 132, 0.4); transform: translateY(-2px); }
+        
+        .btn-outline {
+            background: transparent; border: 2px solid var(--gold); color: var(--gold);
+        }
+        .btn-outline:hover { background: rgba(255, 159, 28, 0.1); }
+
+        /* ========================================
+           📝 ФОРМЫ
+           ======================================== */
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+        .input-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        .input-group label { font-size: 0.9rem; color: var(--text-muted); }
+        .input-group input, .input-group select {
+            padding: 0.8rem; border-radius: 8px;
+            background: rgba(0,0,0,0.3); border: 1px solid var(--border-glass);
+            color: var(--text-main); outline: none; transition: border-color 0.2s;
+        }
+        .input-group input:focus, .input-group select:focus {
+            border-color: var(--cyan);
+        }
+
+        /* Адаптив */
+        @media (max-width: 768px) {
+            .navbar { flex-direction: column; gap: 1rem; }
+            .btn-group { flex-direction: column; }
+            h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Фон -->
+    <div class="cosmic-bg">
+        <div class="wave wave-1"></div>
+        <div class="wave wave-2"></div>
+        <div class="wave wave-3"></div>
+    </div>
+    <div class="stars-container" id="stars"></div>
+
+    <!-- Навбар -->
+    <nav class="navbar">
+        <div class="logo">🌌 DarkGalaxy</div>
+        <div class="nav-links">
+            <a href="#">Консоль</a>
+            <a href="#">Админы</a>
+            <a href="#">Роли</a>
+            <a href="#" style="color: var(--pink-light);">Выход</a>
+        </div>
+    </nav>
+
+    <!-- Контент -->
+    <main class="container">
+        <h1>Новая Палитра</h1>
+        <p>Тестовая страница на основе арта. Волны движутся сверху вниз, звёзды повторяют цвета акцентов. Эффект стекла реализован через прозрачность + тени (без blur).</p>
+
+        <div class="glass-card">
+            <h2>📄 Текстовые блоки</h2>
+            <p>Золотой акцент используется для заголовков и важных элементов. Циан и розовый — для интерактивных состояний и предупреждений. Тёмный фон сохраняет контраст и не утомляет глаза при долгой работе.</p>
+            <p>Все элементы используют CSS-переменные. Чтобы сменить тему, достаточно поменять значения в <code>:root</code>.</p>
+        </div>
+
+        <div class="glass-card">
+            <h2>🔘 Кнопки</h2>
+            <div class="btn-group">
+                <button class="btn btn-gold">Золото (Основная)</button>
+                <button class="btn btn-cyan">Циан (Инфо)</button>
+                <button class="btn btn-pink">Розовый (Внимание)</button>
+                <button class="btn btn-outline">Контурная</button>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <h2>📝 Элементы форм</h2>
+            <div class="form-grid">
+                <div class="input-group">
+                    <label>Логин</label>
+                    <input type="text" placeholder="ghosts34444">
+                </div>
+                <div class="input-group">
+                    <label>Роль</label>
+                    <select>
+                        <option>Owner</option>
+                        <option>Moderator</option>
+                        <option>Helper</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Пароль</label>
+                    <input type="password" placeholder="••••••••">
+                </div>
+            </div>
+            <button class="btn btn-gold" style="width: 100%; margin-top: 1rem;">Сохранить изменения</button>
+        </div>
+    </main>
+
+    <script>
+        // Генерация звёзд с цветами из палитры
+        const starsContainer = document.getElementById('stars');
+        const starColors = ['#ffffff', '#ffd166', '#00b4d8', '#d63384', '#c77dff'];
+        const starCount = 120;
+
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            
+            // Случайные параметры
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            const size = Math.random() * 3 + 1;
+            const color = starColors[Math.floor(Math.random() * starColors.length)];
+            const delay = Math.random() * 3;
+            const duration = Math.random() * 2 + 2;
+
+            star.style.left = `${x}%`;
+            star.style.top = `${y}%`;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.color = color;
+            star.style.animationDelay = `${delay}s`;
+            star.style.animationDuration = `${duration}s`;
+
+            starsContainer.appendChild(star);
+        }
+    </script>
+</body>
+</html>

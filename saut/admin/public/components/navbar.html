@@ -1,0 +1,85 @@
+<nav class="navbar">
+    <!-- Логотип -->
+    <div class="navbar-logo" onclick="window.location.href='/console'">
+        🌌 DarkGalaxy
+    </div>
+    
+    <!-- Навигация слева -->
+    <ul class="navbar-nav" id="navbar-nav"></ul>
+    
+    <!-- Профиль справа -->
+    <div class="navbar-profile">
+        <div class="profile-trigger" onclick="toggleDropdown()">
+            <img src="/assets/default-avatar.png" alt="Avatar" class="profile-avatar" id="profile-avatar">
+            <div>
+                <div class="profile-name" id="profile-name">Загрузка...</div>
+                <span class="profile-role" id="profile-role">Админ</span>
+            </div>
+        </div>
+        
+        <!-- Выпадающее меню -->
+        <div class="profile-dropdown" id="profile-dropdown">
+            <!-- Шапка dropdown - ВАЖНО: правильные ID! -->
+            <div class="dropdown-header">
+                <img src="/assets/default-avatar.png" alt="Avatar" class="dropdown-avatar" id="dropdown-avatar">
+                <div class="dropdown-info">
+                    <h4 id="dropdown-name">Загрузка...</h4>
+                    <div class="dropdown-roles" id="dropdown-roles">
+                        <!-- Роли добавляются через JS -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Баланс (УДАЛИ ЭТОТ БЛОК если не нужен) -->
+            <!-- 
+            <div class="dropdown-balance">
+                <div class="balance-row">
+                    <span class="balance-label">💰 Монеты</span>
+                    <span class="balance-value">0 🟡</span>
+                </div>
+            </div>
+            -->
+            
+            <!-- Кнопки -->
+            <div class="dropdown-buttons">
+                <a href="#" class="dropdown-btn primary">👤 Личный кабинет</a>
+                <button class="dropdown-btn" onclick="openPasswordModal()">🔑 Сменить пароль</button>
+                <a href="#" class="dropdown-btn">⚙️ Настройки</a>
+            </div>
+            
+            <div class="dropdown-divider"></div>
+            
+            <!-- Тема -->
+            <div class="dropdown-theme">
+                <span class="theme-name">🎨 Тема: Галактика</span>
+                <span class="theme-change" onclick="alert('Скоро!')">Изменить</span>
+            </div>
+            
+            <!-- Выход -->
+            <button class="dropdown-logout" onclick="logout()">🚪 Выйти</button>
+        </div>
+    </div>
+</nav>
+
+<!-- Модальное окно смены пароля -->
+<div class="modal-overlay" id="password-modal">
+    <div class="modal-box">
+        <h3>🔑 Смена пароля</h3>
+        <div class="form-group">
+            <label>Старый пароль</label>
+            <input type="password" id="old-password" placeholder="Введите старый пароль">
+        </div>
+        <div class="form-group">
+            <label>Новый пароль</label>
+            <input type="password" id="new-password" placeholder="Введите новый пароль">
+        </div>
+        <div class="form-group">
+            <label>Подтвердите пароль</label>
+            <input type="password" id="confirm-password" placeholder="Повторите новый пароль">
+        </div>
+        <div class="modal-buttons">
+            <button class="modal-btn cancel" onclick="closePasswordModal()">Отмена</button>
+            <button class="modal-btn save" onclick="changePassword()">Сохранить</button>
+        </div>
+    </div>
+</div>

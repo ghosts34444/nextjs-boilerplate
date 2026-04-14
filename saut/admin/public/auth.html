@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход - DarkGalaxy Admin</title>
+    <link rel="stylesheet" href="/admin/styles/auth.css">
+    <link rel="stylesheet" href="/admin/styles/console.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Вход в админку</h1>
+        <div class="error" id="error"></div>
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Логин</label>
+                <input type="text" id="username" required placeholder="Введите логин">
+            </div>
+            <div class="form-group">
+                <label>Пароль</label>
+                <input type="password" id="password" required placeholder="Введите пароль">
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="rememberMe">
+                <label for="rememberMe">Запомнить меня</label>
+            </div>
+            <button type="submit" id="submitBtn">Войти</button>
+        </form>
+        <div class="loading" id="loading">Проверка сессии...</div>
+    </div>
+
+    <script src="/admin/scripts/auth.js?v=<?php echo time(); ?>"></script>
+</body>
+</html>
